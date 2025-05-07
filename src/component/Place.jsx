@@ -2,6 +2,7 @@ import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from './Navbar';
+import myImage from './imgs/jeju.jpg';
 
 
 const Place = () => {
@@ -63,10 +64,10 @@ const Place = () => {
             <div className="col">
               <div className="card shadow-sm">
                                   <img
-                      src="/imgs/image_readtop_2022_589210_16570008355097198.jpg"
+                     src={myImage}
                       alt="제주도 돌하르방"
                       className="card-img-top"
-                      style={{ width: '100%', height: '500px', objectFit: 'cover' }}
+                      style={{ width: '70%', height: '500px', objectFit: 'cover' }}
                     />
 
                 <div className="card-body">

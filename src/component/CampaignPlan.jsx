@@ -27,7 +27,7 @@ const CampaignPlan = () => {
             <option value="재구매">재구매</option>
           </select>
         </div>
-
+    
         <div className="mb-3">
           <label className="form-label">캠페인 명</label>
           <input type="text" className="form-control" value={campaignName} onChange={e => setCampaignName(e.target.value)} />
@@ -83,7 +83,7 @@ const CampaignPlan = () => {
           <input type="file" className="form-control" onChange={e => setFile(e.target.files[0])} />
         </div>
 
-        <button className="btn btn-primary">저장하기</button>
+        <a class="btn btn-primary" href="/component/admnpage">저장하기</a>
       </div>
       <p className="float-end mb-1">  
             <a type="button" href="/component/admnpage">관리자 페이지</a>
