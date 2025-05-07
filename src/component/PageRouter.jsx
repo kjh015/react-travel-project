@@ -5,7 +5,7 @@ import Signup from "./Signup";
 import MainPage from "./MainPage";
 import Place from "./Place";
 import AdmnPage from "./AdmnPage";
-import SseSubscriber from "../service/SseSubscriber";
+import SseSubscriber from "../sse/components/SseSubscriber";
 import MyPage from "./MyPage";
 import CampaignPlan from "./CampaignPlan"
 
