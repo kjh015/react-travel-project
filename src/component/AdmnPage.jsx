@@ -101,6 +101,13 @@ const AdmnPage = () => {
                 Year-end sale
               </a>
             </li>
+
+            <li class="nav-item">
+              <a class="nav-link d-flex align-items-center gap-2" href="/component/campaignplan">
+
+                캠페인 기획
+              </a>
+            </li>
           </ul>
 
           <hr class="my-3"/>
@@ -255,7 +262,7 @@ const AdmnPage = () => {
             <footer className="text-body-secondary py-5">
         <div className="container">
           <p className="float-end mb-1">  
-            <a type="button" href="http://localhost:3000/">Back to Top</a>
+            <a type="button" href="/">Back to Top</a>
           </p>
           <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
           <p className="mb-0">

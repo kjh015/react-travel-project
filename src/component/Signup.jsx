@@ -1,10 +1,14 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Navbar from './Navbar';
 
 const Signup = () => {
     return (
+        
         <div className="container">
             <main>
+            <Navbar />
+
                 <div className="py-5 text-center">
                     <img
                         className="d-block mx-auto mb-4"
@@ -90,7 +94,7 @@ const Signup = () => {
                         </div>
                         
                         <div class="d-grid gap-2">
-                        <a class="btn btn-primary" href="http://localhost:3000/">회원가입 완료</a>
+                        <a class="btn btn-primary" href="/">회원가입 완료</a>
                         </div>
                     </form>
                 </div>
