@@ -7,7 +7,7 @@ const AdmnPage = () => {
         <div>
           
           <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="#">관리자 페이지</a>
+             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/component/admnpage">관리자 페이지</a>
             </header>
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
