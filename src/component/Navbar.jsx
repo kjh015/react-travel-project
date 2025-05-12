@@ -48,6 +48,9 @@ const Navbar = () => {
             <li className="nav-item">
               <a className="nav-link" href="/component/admnpage">관리자 페이지</a>
             </li>
+            <li className="nav-item">
+            <a className="nav-link" href="board/returnboard">게시판</a>
+            </li>
           </ul>
 
           {/* 오른쪽 로그인 & 검색 */}

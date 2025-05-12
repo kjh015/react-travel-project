@@ -3,12 +3,12 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 
 const AdmnPage = () => {
-    return (
-        <div>
-          
-          <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
-             <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/component/admnpage">관리자 페이지</a>
-            </header>
+  return (
+    <div>
+
+      <header class="navbar sticky-top bg-dark flex-md-nowrap p-0 shadow" data-bs-theme="dark">
+        <a class="navbar-brand col-md-3 col-lg-2 me-0 px-3 fs-6 text-white" href="/component/admnpage  ">관리자 페이지</a>
+      </header>
 
       <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
         <h1 class="h2"></h1>
@@ -26,111 +26,127 @@ const AdmnPage = () => {
 
 
       <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
-      <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
-        <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
-          <ul class="nav flex-column">
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
+        <div class="offcanvas-md offcanvas-end bg-body-tertiary" tabindex="-1" id="sidebarMenu" aria-labelledby="sidebarMenuLabel">
+          <div class="offcanvas-header">
+            <h5 class="offcanvas-title" id="sidebarMenuLabel">Company name</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#sidebarMenu" aria-label="Close"></button>
+          </div>
+          <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
+            <ul class="nav flex-column">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2 active" aria-current="page" href="#">
 
-                Dashboard
+                  Dashboard
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+
+                  Orders
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+
+                  Products
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+
+                  Customers
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+
+                  Reports
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  Integrations
+                </a>
+              </li>
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+              <span>Saved reports</span>
+              <a class="link-secondary" href="#" aria-label="Add a new report">
+
               </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+            </h6>
+            <ul class="nav flex-column mb-auto">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Orders
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  Current month
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Products
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  Last quarter
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Customers
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  Social engagement
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Reports
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
-                Integrations
-              </a>
-            </li>
-          </ul>
+                  Year-end sale
+                </a>
+              </li>
 
-          <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-            <span>Saved reports</span>
-            <a class="link-secondary" href="#" aria-label="Add a new report">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/component/campaignplan">
 
-            </a>
-          </h6>
-          <ul class="nav flex-column mb-auto">
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  캠페인 기획
+                </a>
+              </li>
 
-                Current month
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/component/processadmn">
 
-                Last quarter
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  프로세스 관리
+                </a>
+              </li>
 
-                Social engagement
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Year-end sale
-              </a>
-            </li>
 
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="/component/campaignplan">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/component/dataformat2">
 
-                캠페인 기획
-              </a>
-            </li>
-          </ul>
+                  데이터 포맷
+                </a>
+              </li>
+            </ul>
 
-          <hr class="my-3"/>
+            <hr class="my-3" />
 
-          <ul class="nav flex-column mb-auto">
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+            <ul class="nav flex-column mb-auto">
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Settings
-              </a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link d-flex align-items-center gap-2" href="#">
+                  Settings
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                Sign out
-              </a>
-            </li>
-          </ul>
+                  Sign out
+                </a>
+              </li>
+            </ul>
+          </div>
         </div>
       </div>
-    </div>
 
-    <h2>Section title</h2>
+      <h2>Section title</h2>
       <div class="table-responsive small">
         <table class="table table-striped table-sm">
           <thead>
@@ -259,9 +275,9 @@ const AdmnPage = () => {
         </table>
       </div>
 
-            <footer className="text-body-secondary py-5">
+      <footer className="text-body-secondary py-5">
         <div className="container">
-          <p className="float-end mb-1">  
+          <p className="float-end mb-1">
             <a type="button" href="/">Back to Top</a>
           </p>
           <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
@@ -269,11 +285,11 @@ const AdmnPage = () => {
             New to Bootstrap? <a href="/">Visit the homepage</a> or read the{" "}
             <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.
           </p>
-          </div>
-      </footer>
         </div>
+      </footer>
+    </div>
 
-    );
+  );
 }
 
 export default AdmnPage;
