@@ -8,22 +8,26 @@ import AdmnPage from "./AdmnPage";
 import SseSubscriber from "../sse/components/SseSubscriber";
 import MyPage from "./MyPage";
 import CampaignPlan from "./CampaignPlan"
+import FormatManagement from "../log/components/FormatManagement";
+import ProcessManagement from "../log/components/ProcessManagement";
 
 const PageRouter = () => {
     return (
         <BrowserRouter>
-            <Routes>    
+            <Routes>
                 <Route index path="/" element={<MainPage />}></Route>
                 <Route index path="/component/signup" element={<Signup />}></Route>
                 <Route index path="/component/place" element={<Place />}></Route>
-                <Route index path="/component/admnpage" element={<AdmnPage />}></Route>                
+                <Route index path="/component/admnpage" element={<AdmnPage />}></Route>
                 <Route index path="/component/mypage" element={<MyPage />}></Route>
                 <Route index path="/component/campaignplan" element={<CampaignPlan />}></Route>
                 <Route index path="/service/sse" element={<SseSubscriber />}></Route>
+                <Route index path="/log/format" element={<FormatManagement />}></Route>
+                <Route index path="/log/process" element={<ProcessManagement />}></Route>
             </Routes>
         </BrowserRouter>
 
-        
+
     );
 }
 
