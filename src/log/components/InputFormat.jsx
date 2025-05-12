@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import FormatApiClient from '../service/FormatApiClient';
 
-const InputFormat = ({onClose, processId}) => {
+const InputFormat = ({ onClose, processId }) => {
     const [entries, setEntries] = useState([{ key: '', value: '' }]);
     const [name, setName] = useState('');
 
@@ -48,20 +48,20 @@ const InputFormat = ({onClose, processId}) => {
             <h2>Format 추가 화면</h2>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>추가할 Format</label><br/>
+                    <label>추가할 Format</label><br />
                     Format Name: <input type="text" placeholder="format name" value={name} onChange={e => setName(e.target.value)}></input>
                     {entries.map((entry, index) => (
                         <div key={index} >
                             <input type="text" placeholder="Key" value={entry.key} onChange={(e) => handleEntryChange(index, 'key', e.target.value)} />
                             <input type="text" placeholder="Value" value={entry.value} onChange={(e) => handleEntryChange(index, 'value', e.target.value)} />
-                            <button type="button" onClick={() => removeEntry(index)}>✕</button>
+                            <button class="btn btn-danger" type="button" onClick={() => removeEntry(index)}>✕</button>
                         </div>
                     ))}
-                    <button type="button" onClick={addEntry}> + 항목 추가</button>
+                    <button class="btn btn-primary" type="button" onClick={addEntry}> + 항목 추가</button>
                 </div>
-                <button type="submit">포맷 전송</button>                
+                <button class="btn btn-primary" type="submit">포맷 전송</button>
             </form>
-            <button onClick={onClose}>❌</button>
+            <button class="btn btn-light" onClick={onClose}>❌</button>
 
         </div>
     );

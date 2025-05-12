@@ -3,6 +3,8 @@ import ProcessApiClient from '../service/ProcessApiClient';
 import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
 import { Link } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const ProcessManagement = () => {
     const [processList, setProcessList] = useState([]);
@@ -28,7 +30,7 @@ const ProcessManagement = () => {
     }
     useEffect(() => {
         getProcesses();
-        
+
     }, [inputComp, editComp]);
 
     const handleInputComp = () => {
@@ -44,13 +46,13 @@ const ProcessManagement = () => {
                 {processList.map(process => (
                     <div key={process.id}>
                         <Link to={`/log/format?processId=${process.id}`}>{process.id} : {process.name}</Link>
-                        <button onClick={() => setEditComp(process.id)}>수정</button>
-                        {editComp == process.id && <EditProcess onClose={handleEditComp} processId={process.id} _name={process.name}/>}
+                        <button btn btn-outline-primary onClick={() => setEditComp(process.id)}>수정</button>
+                        {editComp == process.id && <EditProcess onClose={handleEditComp} processId={process.id} _name={process.name} />}
                     </div>
                 ))}
             </div>
             <button onClick={() => setInputComp(true)}>프로세스 추가</button>
-            {inputComp && <InputProcess onClose={handleInputComp}/>}
+            {inputComp && <InputProcess onClose={handleInputComp} />}
 
 
         </div>

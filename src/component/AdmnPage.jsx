@@ -110,7 +110,7 @@ const AdmnPage = () => {
               </li>
 
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/component/processadmn">
+                <a class="nav-link d-flex align-items-center gap-2" href="/log/process">
 
                   프로세스 관리
                 </a>
@@ -119,7 +119,7 @@ const AdmnPage = () => {
 
 
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/component/dataformat2">
+                <a class="nav-link d-flex align-items-center gap-2" href="/log/format">
 
                   데이터 포맷
                 </a>

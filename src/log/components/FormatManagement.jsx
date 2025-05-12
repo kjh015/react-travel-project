@@ -3,6 +3,8 @@ import { Link, useSearchParams } from 'react-router-dom';
 import FormatApiClient from '../service/FormatApiClient';
 import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const FormatManagement = () => {
     const [params] = useSearchParams();
@@ -46,11 +48,11 @@ const FormatManagement = () => {
                 {formatList.map(format => (
                     <div key={format.id}>
                         <span className="text-primary text-decoration-underline" role="button" onClick={() => setDetailComp(format.id)}>{format.id} : {format.name}</span>
-                        {detailComp == format.id && <DetailFormat onClose={handleDetailComp} formatId={format.id}/>}
+                        {detailComp == format.id && <DetailFormat onClose={handleDetailComp} formatId={format.id} />}
                     </div>
                 ))}
             </div>
-            <button onClick={() => setInputComp(true)}>포맷 추가</button>
+            <button class="btn btn-primary" onClick={() => setInputComp(true)}>포맷 추가</button>
             {inputComp && <InputFormat onClose={handleInputComp} processId={processId} />}
 
 
