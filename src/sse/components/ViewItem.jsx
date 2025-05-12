@@ -22,7 +22,7 @@ const ViewItem = ({ query, onClose }) => {
     for (const [key, value] of params.entries()) {
         parsed[key] = value;
     }
-    const sendBtn = () => {
+    const handleSend = () => {
         ItemApiClient.sendItem(parsed).then(
             res => {
                 if(res.ok){
@@ -44,7 +44,7 @@ const ViewItem = ({ query, onClose }) => {
                     <p key={k}><strong>{k}:</strong> {v}</p>
                 ))}
                 <button onClick={onClose}>닫기</button>
-                <button onClick={sendBtn}>Send</button>
+                <button onClick={handleSend}>Send</button>
             </div>
         </div>
     );
