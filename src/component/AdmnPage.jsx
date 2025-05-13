@@ -124,6 +124,20 @@ const AdmnPage = () => {
                   데이터 포맷
                 </a>
               </li>
+
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/component/ProcessAdmn">
+
+                  프로세스 관리2
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/component/DataFormat2">
+
+                  데이터 포맷2
+                </a>
+              </li>
             </ul>
 
             <hr class="my-3" />
