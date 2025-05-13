@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import FormatApiClient from '../service/FormatApiClient';
+import FormatApiClient from '../../service/FormatApiClient';
 import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
 
@@ -10,6 +10,7 @@ const FormatManagement = () => {
     const [formatList, setFormatList] = useState([]);
     const [inputComp, setInputComp] = useState(false);
     const [detailComp, setDetailComp] = useState(0);
+    
 
 
     const getFormats = () => {
@@ -31,6 +32,8 @@ const FormatManagement = () => {
     }
     useEffect(() => {
         getFormats();
+        console.log(formatList);
+
     }, [inputComp, detailComp]);
 
     const handleInputComp = () => {
@@ -44,8 +47,8 @@ const FormatManagement = () => {
         <div>
             <div>
                 {formatList.map(format => (
-                    <div key={format.id}>
-                        <span className="text-primary text-decoration-underline" role="button" onClick={() => setDetailComp(format.id)}>{format.id} : {format.name}</span>
+                    <div key={format.id}>                        
+                        <span className="text-primary text-decoration-underline" role="button" onClick={() => setDetailComp(format.id)}>{format.id} : {format.name} / 활성화: {format.active ? "On" : "Off"}</span>
                         {detailComp == format.id && <DetailFormat onClose={handleDetailComp} formatId={format.id}/>}
                     </div>
                 ))}

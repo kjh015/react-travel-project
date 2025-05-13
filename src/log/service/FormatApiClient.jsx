@@ -13,25 +13,27 @@ class FormatApiClient {
         return fetch(FormatApiClient.SERVER_URL + FormatApiClient.GET_VIEW + "?formatId=" + formatId);
     }
     
-    static addFormat(processId, name, formatJson) {
-        return fetch(FormatApiClient.SERVER_URL + FormatApiClient.POST_ADD + "?processId=" + processId + "&name=" + name, {
+    static addFormat(processId, name, active, formatJson, defaultJson) {
+        return fetch(FormatApiClient.SERVER_URL + FormatApiClient.POST_ADD + "?processId=" + processId + "&name=" + name + "&active=" + active, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                format: JSON.parse(formatJson),
+                formatInfo: JSON.parse(formatJson),
+                defaultInfo: JSON.parse(defaultJson)
             })
         });
     }
-    static updateFormat(formatId, name, formatJson) {
-        return fetch(FormatApiClient.SERVER_URL + FormatApiClient.POST_UPDATE + "?formatId=" + formatId + "&name=" + name, {
+    static updateFormat(formatId, name, active, formatJson, defaultJson) {
+        return fetch(FormatApiClient.SERVER_URL + FormatApiClient.POST_UPDATE + "?formatId=" + formatId + "&name=" + name + "&active=" + active, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                format: JSON.parse(formatJson),
+                formatInfo: JSON.parse(formatJson),
+                defaultInfo: JSON.parse(defaultJson)
             })
         });
     }

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ProcessApiClient from '../service/ProcessApiClient';
+import ProcessApiClient from '../../service/ProcessApiClient';
 
 const EditProcess = ({ onClose, processId, _name }) => {
     const [name, setName] = useState(_name);
