@@ -5,15 +5,24 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const InputProcess = ({ onClose }) => {
     const [name, setName] = useState("");
+    const [alertMessage, setAlertMessage] = useState(null);
+
+
 
     const addProcess = () => {
         ProcessApiClient.addProcess(name).then(
             res => {
                 if (res.ok) {
                     console.log("add success");
-                    onClose();
+
+                    setAlertMessage({ type: 'success', text: '프로세스 삭제 성공!' });   // ✅ 경고창 추가
+                    setTimeout(() => {
+                        setAlertMessage(null);
+                        onClose();
+                    }, 1500);
                 } else {
                     console.log("add fail");
+                    setAlertMessage({ type: 'secondary', text: '프로세스 삭제 실패!' });
                 }
             }
         );

@@ -10,8 +10,8 @@ import CampaignPlan from "./CampaignPlan";
 import ReturnBoard from "../board/ReturnBoard";
 import ProcessAdmn from "./ProcessAdmn";
 import DataFormat2 from "./DataFormat2";
-import FormatManagement from "../log/components/FormatManagement";
-import ProcessManagement from "../log/components/ProcessManagement";
+import FormatManagement from "../log/components/format/FormatManagement";
+import ProcessManagement from "../log/components/process/ProcessManagement";
 
 
 const PageRouter = () => {

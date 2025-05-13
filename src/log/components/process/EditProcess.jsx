@@ -27,15 +27,24 @@ const EditProcess = ({ onClose, processId, _name }) => {
 
 
 
+
+
     const removeProcess = () => {
-        ProcessApiClient.removeProcess(processId).then(res => {
-            if (res.ok) {
-                console.log("remove success");
-                onClose();
-            } else {
-                console.log("remove fail");
+        ProcessApiClient.removeProcess(processId, name).then(
+            res => {
+                if (res.ok) {
+                    console.log("remove success");
+                    setAlertMessage({ type: 'success', text: '프로세스 삭제 성공!' });   // ✅ 경고창 추가
+                    setTimeout(() => {
+                        setAlertMessage(null);
+                        onClose();
+                    }, 1500);
+                } else {
+                    console.log("remove fail");
+                    setAlertMessage({ type: 'danger', text: '프로세스 삭제 실패!' });
+                }
             }
-        });
+        );
     };
 
     return (
