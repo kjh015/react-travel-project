@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProcessApiClient from '../service/ProcessApiClient';
+import ProcessApiClient from '../../service/ProcessApiClient';
 import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
 import { Link } from 'react-router-dom';
@@ -40,6 +40,7 @@ const ProcessManagement = () => {
 
     return (
         <div>
+            <h2>Process 관리 화면</h2>
             <div>
                 {processList.map(process => (
                     <div key={process.id}>
