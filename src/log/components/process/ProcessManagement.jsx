@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ProcessApiClient from '../service/ProcessApiClient';
+import ProcessApiClient from '../../service/ProcessApiClient';
 import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
 import { Link } from 'react-router-dom';

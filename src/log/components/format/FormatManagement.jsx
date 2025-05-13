@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
-import FormatApiClient from '../service/FormatApiClient';
+import FormatApiClient from '../../service/FormatApiClient';
 import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Footers from '../../component/Footers';
+import Footers from '../../../component/Footers';
 
 const FormatManagement = () => {
     const [params] = useSearchParams();
