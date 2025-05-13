@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import FormatApiClient from '../../service/FormatApiClient';
-import { useSearchParams } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const DetailFormat = ({ onClose, formatId }) => {
     const [defaultEntry, setDefaultEntry] = useState([{ key: '', value: '' }]);
@@ -86,23 +87,24 @@ const DetailFormat = ({ onClose, formatId }) => {
     }, []);
 
     return (
-        <div>
+        <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', maxWidth: '600px', margin: '20px auto' }}>
             <h2>Format 상세 화면</h2>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label>Format Name:</label><br />
+                <div style={{ marginBottom: '15px' }}>
+                    <label style={{ fontWeight: 'bold' }}>Format Name</label><br />
                     <input
                         type="text"
                         placeholder="format name"
                         value={name}
                         onChange={e => setName(e.target.value)}
+                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                     />
                 </div>
 
                 <div>
                     <h4>Default Entry</h4>
                     {defaultEntry.map((entry, index) => (
-                        <div key={`default-${index}`}>
+                        <div key={`default-${index}`} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                             <input
                                 type="text"
                                 placeholder="Key"
@@ -110,6 +112,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 onChange={e =>
                                     handleEntryChange(setDefaultEntry, defaultEntry, index, 'key', e.target.value)
                                 }
+                                style={{ flex: '1', marginRight: '5px', padding: '6px' }}
                             />
                             <input
                                 type="text"
@@ -118,6 +121,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 onChange={e =>
                                     handleEntryChange(setDefaultEntry, defaultEntry, index, 'value', e.target.value)
                                 }
+                                style={{ flex: '2', marginRight: '5px', padding: '6px' }}
                             />
                             <button type="button" onClick={() => removeEntry(setDefaultEntry, defaultEntry, index)}>✕</button>
                         </div>
@@ -128,7 +132,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                 <div>
                     <h4>Format Entry</h4>
                     {formatEntry.map((entry, index) => (
-                        <div key={`format-${index}`}>
+                        <div key={`format-${index}`} style={{ display: 'flex', alignItems: 'center', marginBottom: '10px' }}>
                             <input
                                 type="text"
                                 placeholder="Key"
@@ -136,6 +140,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 onChange={e =>
                                     handleEntryChange(setFormatEntry, formatEntry, index, 'key', e.target.value)
                                 }
+                                style={{ flex: '1', marginRight: '5px', padding: '6px' }}
                             />
                             <input
                                 type="text"
@@ -144,11 +149,12 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 onChange={e =>
                                     handleEntryChange(setFormatEntry, formatEntry, index, 'value', e.target.value)
                                 }
+                                style={{ flex: '2', marginRight: '5px', padding: '6px' }}
                             />
-                            <button type="button" onClick={() => removeEntry(setFormatEntry, formatEntry, index)}>✕</button>
+                            <button type="button" onClick={() => removeEntry(setFormatEntry, formatEntry, index)} style={{ padding: '6px 10px' }}>✕</button>
                         </div>
                     ))}
-                    <button type="button" onClick={() => addEntry(setFormatEntry, formatEntry)}>+ 항목 추가</button>
+                    <button type="button" onClick={() => addEntry(setFormatEntry, formatEntry)} style={{ marginBottom: '15px' }}>+ 항목 추가</button>
                 </div>
 
                 <div style={{ marginTop: '10px' }}>
@@ -158,13 +164,12 @@ const DetailFormat = ({ onClose, formatId }) => {
                     <p>현재 Active 상태: <strong>{active ? "true" : "false"}</strong></p>
                 </div>
 
-                <button type="submit">수정</button>
+                <button type="submit" style={{ marginRight: '10px' }}>수정</button>
             </form>
 
-            <button onClick={removeFormat}>삭제</button>
+            <button onClick={removeFormat} style={{ marginRight: '10px' }}>삭제</button>
             <button onClick={onClose}>닫기</button>
         </div>
     );
 };
-
 export default DetailFormat;
