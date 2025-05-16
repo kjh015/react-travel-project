@@ -15,6 +15,7 @@ const ReturnBoard = () => {
       const data = await response.json();
       console.log("서버 응답:", data);
 
+      // 서버 응답이 객체 형태일 경우 배열로 변환
       const boardList = Object.entries(data).map(([id, item]) => ({
         board_id: id,
         title: item.title ?? "제목 없음",
@@ -22,6 +23,7 @@ const ReturnBoard = () => {
         date: item.regDate ?? "날짜 없음"
       }));
 
+      console.log("변환된 boardList:", boardList);
       setBoards(boardList);
     } catch (e) {
       setError(e);
@@ -38,49 +40,43 @@ const ReturnBoard = () => {
   if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
 
   return (
-    // ✅ 전체 화면 높이를 채우고 세로 배치
-    <div className="d-flex flex-column min-vh-100">
-      {/* ✅ 메인 콘텐츠 영역 */}
-      <div className="container mt-4 flex-grow-1">
-        <div className="d-flex justify-content-between align-items-center mb-3">
-          <h4>게시판 목록</h4>
-          <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
-        </div>
-
-        <table className="table table-hover">
-          <thead className="table-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">제목</th>
-              <th scope="col">작성자</th>
-              <th scope="col">날짜</th>
-              <th scope="col">수정</th>
-            </tr>
-          </thead>
-          <tbody>
-            {boards.map((board, idx) => (
-              <tr key={board.board_id}>
-                <td>{idx + 1}</td>
-                <td>
-                  <Link to={`/component/place/${board.board_id}`} className="text-decoration-none">
-                    {board.title}
-                  </Link>
-                </td>
-                <td>{board.writer}</td>
-                <td>{board.date}</td>
-                <td>
-                  <Link to="/component/page/change" className="btn btn-sm btn-outline-primary">
-                    수정
-                  </Link>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className="container mt-4">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h4>게시판 목록</h4>
+        <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
       </div>
 
-      {/* ✅ 항상 하단에 고정되는 푸터 */}
-      <footer className="text-body-secondary py-4 bg-light mt-auto">
+      <table className="table table-hover">
+        <thead className="table-light">
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">제목</th>
+            <th scope="col">작성자</th>
+            <th scope="col">날짜</th>
+            <th scope="col">수정</th> {/* 수정 열 추가 */}
+          </tr>
+        </thead>
+        <tbody>
+          {boards.map((board, idx) => (
+            <tr key={board.board_id}>
+              <td>{idx + 1}</td>
+              <td>
+                <Link to={`/component/place/${board.board_id}`} className="text-decoration-none">
+                  {board.title}
+                </Link>
+              </td>
+              <td>{board.writer}</td>
+              <td>{board.date}</td>
+              <td>
+                <Link to="/component/page/change" className="btn btn-sm btn-outline-primary">
+                  수정
+                </Link>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <footer className="text-body-secondary py-4 bg-light">
         <div className="container">
           <p className="float-end mb-1">
             <a href="/">Back to Top</a>
