@@ -8,8 +8,8 @@ const DetailFormat = ({ onClose, formatId }) => {
     const [formatEntry, setFormatEntry] = useState([{ key: '', value: '' }]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    
-     const handleEntryChange = (setter, entries, index, field, value) => {
+
+    const handleEntryChange = (setter, entries, index, field, value) => {
         const newEntries = [...entries];
         newEntries[index][field] = value;
         setter(newEntries);
@@ -41,17 +41,17 @@ const DetailFormat = ({ onClose, formatId }) => {
             }
         )
     }
-    
+
     const removeFormat = () => {
         FormatApiClient.removeFormat(formatId).then(res => {
-                if(res.ok){
-                    console.log("remove success");
-                    onClose();
-                }
-                else{
-                    console.log("remove fail");
-                }
+            if (res.ok) {
+                console.log("remove success");
+                onClose();
             }
+            else {
+                console.log("remove fail");
+            }
+        }
         )
     }
 
@@ -97,7 +97,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                         placeholder="format name"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                     />
                 </div>
 

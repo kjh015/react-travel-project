@@ -13,7 +13,7 @@ const FormatManagement = () => {
     const [formatList, setFormatList] = useState([]);
     const [inputComp, setInputComp] = useState(false);
     const [detailComp, setDetailComp] = useState(0);
-    
+
 
     const getFormats = () => {
         FormatApiClient.getFormatList(processId).then(
@@ -79,6 +79,9 @@ const FormatManagement = () => {
                         <InputFormat onClose={handleInputComp} processId={processId} />
                     </div>
                 )}
+                <Link to={`/log/filter?processId=${processId}`} className="btn btn-secondary mt-3">
+                    필터링 관리
+                </Link>
             </div>
 
             {/* ⭐ Footer 항상 페이지 맨 아래 ⭐ */}

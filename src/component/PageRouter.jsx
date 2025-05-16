@@ -12,6 +12,8 @@ import ProcessAdmn from "./ProcessAdmn";
 import DataFormat2 from "./DataFormat2";
 import FormatManagement from "../log/components/format/FormatManagement";
 import ProcessManagement from "../log/components/process/ProcessManagement";
+import FilterManagement from "../log/components/filter/FilterManagement";
+import ConditionBuilder from "../log/components/filter/ConditionBuilder";
 
 
 const PageRouter = () => {
@@ -30,6 +32,7 @@ const PageRouter = () => {
                 <Route index path="/service/sse" element={<SseSubscriber />}></Route>
                 <Route index path="/log/format" element={<FormatManagement />}></Route>
                 <Route index path="/log/process" element={<ProcessManagement />}></Route>
+                <Route index path="/log/filter" element={<FilterManagement />}></Route>
             </Routes>
         </BrowserRouter>
     );
