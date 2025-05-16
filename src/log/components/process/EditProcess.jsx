@@ -39,6 +39,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
     };
 
     return (
+
         <div className="card mt-4 p-4 mx-auto" style={{ maxWidth: '400px' }}>
             <h4 className="mb-3">Process 수정</h4>
 
@@ -48,6 +49,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
                     {alertMessage.text}
                 </div>
             )}
+
 
             <input
                 type='text'
@@ -62,6 +64,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
                 <button className="btn btn-secondary" onClick={onClose}>닫기</button>
             </div>
         </div>
+
     );
 };
 

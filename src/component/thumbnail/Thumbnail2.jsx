@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import trainImg from './imgs/train.jpg';
+import trainImg from '../imgs/train.jpg';
 
 const Thumbnail2 = () => {
   return (
@@ -8,12 +8,12 @@ const Thumbnail2 = () => {
       <div className='row'>
         <div className="col">
           <div className="card shadow-sm">
-          <img
-                     src={trainImg}
-                      alt="view"
-                      className="card-img-top"
-                      style={{ width: '70%', height: '500px', objectFit: 'cover' }}
-                    />
+            <img
+              src={trainImg}
+              alt="view"
+              className="card-img-top"
+              style={{ width: '70%', height: '500px', objectFit: 'cover' }}
+            />
             <div className="card-body">
               <p className="card-text">
                 This is a wider card with supporting text below as a natural lead-in to additional content.
@@ -31,7 +31,7 @@ const Thumbnail2 = () => {
         </div>
       </div>
     </div>
-    
+
   );
 };
 

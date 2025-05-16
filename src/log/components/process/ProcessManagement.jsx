@@ -38,16 +38,20 @@ const ProcessManagement = () => {
             <h3 className="mb-4">Process 관리</h3>
             <div className="list-group">
                 {processList.map(process => (
-                    <div key={process.id} className="list-group-item d-flex justify-content-between align-items-center">
-                        <Link to={`/log/format?processId=${process.id}`} className="text-decoration-none">
-                            {process.id} : {process.name}
-                        </Link>
-                        <button
-                            className="btn btn-outline-primary btn-sm"
-                            onClick={() => setEditComp(process.id)}
-                        >
-                            수정
-                        </button>
+                    <div key={process.id}>
+                        <div className="list-group-item d-flex justify-content-between align-items-center">
+
+                            <Link to={`/log/format?processId=${process.id}`} className="text-decoration-none">
+                                {process.id} : {process.name}
+                            </Link>
+                            <button
+                                className="btn btn-outline-primary btn-sm"
+                                onClick={() => setEditComp(process.id)}
+                            >
+                                수정
+                            </button>
+
+                        </div>
                         {editComp === process.id && (
                             <EditProcess
                                 onClose={handleEditComp}
@@ -56,6 +60,7 @@ const ProcessManagement = () => {
                             />
                         )}
                     </div>
+
                 ))}
             </div>
 

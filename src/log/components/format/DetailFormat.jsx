@@ -8,8 +8,8 @@ const DetailFormat = ({ onClose, formatId }) => {
     const [formatEntry, setFormatEntry] = useState([{ key: '', value: '' }]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    
-     const handleEntryChange = (setter, entries, index, field, value) => {
+
+    const handleEntryChange = (setter, entries, index, field, value) => {
         const newEntries = [...entries];
         newEntries[index][field] = value;
         setter(newEntries);
@@ -41,17 +41,17 @@ const DetailFormat = ({ onClose, formatId }) => {
             }
         )
     }
-    
+
     const removeFormat = () => {
         FormatApiClient.removeFormat(formatId).then(res => {
-                if(res.ok){
-                    console.log("remove success");
-                    onClose();
-                }
-                else{
-                    console.log("remove fail");
-                }
+            if (res.ok) {
+                console.log("remove success");
+                onClose();
             }
+            else {
+                console.log("remove fail");
+            }
+        }
         )
     }
 
@@ -97,7 +97,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                         placeholder="format name"
                         value={name}
                         onChange={e => setName(e.target.value)}
-                    style={{ width: '100%', padding: '8px', marginTop: '5px' }}
+                        style={{ width: '100%', padding: '8px', marginTop: '5px' }}
                     />
                 </div>
 
@@ -123,10 +123,10 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 }
                                 style={{ flex: '2', marginRight: '5px', padding: '6px' }}
                             />
-                            <button type="button" onClick={() => removeEntry(setDefaultEntry, defaultEntry, index)}>✕</button>
+                            <button class="btn btn-danger" onClick={() => removeEntry(setDefaultEntry, defaultEntry, index)}>✕</button>
                         </div>
                     ))}
-                    <button type="button" onClick={() => addEntry(setDefaultEntry, defaultEntry)}>+ 항목 추가</button>
+                    <button type="button" onClick={() => addEntry(setDefaultEntry, defaultEntry)} class="btn btn-outline-success">+ 항목 추가</button>
                 </div>
 
                 <div>
@@ -151,24 +151,24 @@ const DetailFormat = ({ onClose, formatId }) => {
                                 }
                                 style={{ flex: '2', marginRight: '5px', padding: '6px' }}
                             />
-                            <button type="button" onClick={() => removeEntry(setFormatEntry, formatEntry, index)} style={{ padding: '6px 10px' }}>✕</button>
+                            <button class="btn btn-danger" onClick={() => removeEntry(setFormatEntry, formatEntry, index)} style={{ padding: '6px 10px' }}>✕</button>
                         </div>
                     ))}
-                    <button type="button" onClick={() => addEntry(setFormatEntry, formatEntry)} style={{ marginBottom: '15px' }}>+ 항목 추가</button>
+                    <button type="button" onClick={() => addEntry(setFormatEntry, formatEntry)} style={{ marginBottom: '15px' }} class="btn btn-outline-success">+ 항목 추가</button>
                 </div>
 
                 <div style={{ marginTop: '10px' }}>
-                    <button type="button" onClick={() => setActive(prev => !prev)}>
+                    <button type="button" onClick={() => setActive(prev => !prev)} class="btn btn-info">
                         Active 상태 전환
                     </button>
                     <p>현재 Active 상태: <strong>{active ? "true" : "false"}</strong></p>
                 </div>
 
-                <button type="submit" style={{ marginRight: '10px' }}>수정</button>
-            </form>
 
-            <button onClick={removeFormat} style={{ marginRight: '10px' }}>삭제</button>
-            <button onClick={onClose}>닫기</button>
+            </form>
+            <button type="submit" style={{ marginRight: '10px' }} class="btn btn-outline-dark">수정</button>
+            <button onClick={removeFormat} style={{ marginRight: '10px' }} class="btn btn-outline-warning">삭제</button>
+            <button onClick={onClose} class="btn btn-outline-danger">닫기</button>
         </div>
     );
 };
