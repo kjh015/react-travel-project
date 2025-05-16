@@ -5,7 +5,8 @@ import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Footers from '../../../component/Footers';
+import Footers from '../../../component/page/Footers';
+import ManageNav from './ManageNav';
 
 const FormatManagement = () => {
     const [params] = useSearchParams();
@@ -37,21 +38,7 @@ const FormatManagement = () => {
     return (
         <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
             {/* Header */}
-            <nav className="navbar navbar-expand-lg navbar-dark bg-primary fixed-top" aria-label="Main navbar">
-                <div className="container-fluid">
-                    <span className="navbar-brand">Format Management</span>
-                    <div className="collapse navbar-collapse">
-                        <ul className="navbar-nav ms-auto">
-                            <li className="nav-item">
-                                <a className="nav-link" href="/component/admnpage">관리자 페이지</a>
-                            </li>
-                            <li className="nav-item">
-                                <a className="nav-link" href="./process">프로세스 관리</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
+            <ManageNav />
 
             {/* Main content */}
             <div style={{ flex: 1, marginTop: '70px', padding: '20px' }}>

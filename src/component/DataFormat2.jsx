@@ -1,8 +1,7 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './DataFormat2.css';
-
+import './css/DataFormat2.css';
 const DataFormat2 = () => {
     return (
         <div>

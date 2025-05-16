@@ -1,12 +1,18 @@
-
+import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from './Navbar';
-const MyPage = () => {
-    return (
-        <div>
-                <>
-        <Navbar />
+import Navbar from '../Navbar';
+import myImage from '../imgs/jeju.jpg';
+import Comment from './Comment';
+
+
+const Place = () => {
+
+
+  return (
+
+    <>
+      <Navbar />
 
       <div className="container d-flex justify-content-between align-items-center py-3">
         <a href="#" className="navbar-brand d-flex align-items-center">
@@ -26,7 +32,7 @@ const MyPage = () => {
             <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
             <circle cx="12" cy="13" r="4"></circle>
           </svg>
-          <strong>My Page</strong>
+          <strong>Place</strong>
         </a>
         <button
           className="navbar-toggler"
@@ -46,16 +52,17 @@ const MyPage = () => {
           <div className="container">
             <div className="col">
               <div className="card shadow-sm">
-                                  <img
-                      src=""
-                      alt="나의 여행지"
-                      className="card-img-top"
-                      style={{ width: '100%', height: '500px', objectFit: 'cover' }}
-                    />
+                <img
+                  src={myImage}
+                  alt="제주도 돌하르방"
+                  className="card-img-top"
+                  style={{ width: '70%', height: '500px', objectFit: 'cover' }}
+                />
 
                 <div className="card-body">
                   <p className="card-text">
-                    나의 여행지 소개
+                    This is a wider card with supporting text below as a natural lead-in to
+                    additional content. 😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎😎 ☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠
                   </p>
                   <div className="d-flex justify-content-between align-items-center">
                     <div className="btn-group">
@@ -71,16 +78,13 @@ const MyPage = () => {
         </div>
       </main>
 
-      
 
-          
 
-           
-      
+      <Comment />
 
-        <footer className="text-body-secondary py-5">
+      <footer className="text-body-secondary py-5">
         <div className="container">
-          <p className="float-end mb-1">  
+          <p className="float-end mb-1">
             <a type="button" href="/">Back to Top</a>
           </p>
           <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
@@ -88,12 +92,10 @@ const MyPage = () => {
             New to Bootstrap? <a href="/">Visit the homepage</a> or read the{" "}
             <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.
           </p>
-          </div>
+        </div>
       </footer>
     </>
-
-        </div>
-    );
+  );
 };
 
-export default MyPage;
+export default Place;
