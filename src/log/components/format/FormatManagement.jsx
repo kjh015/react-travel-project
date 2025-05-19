@@ -5,7 +5,7 @@ import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Footers from '../../../common/Footers';
+
 import ManageNav from './ManageNav';
 
 const FormatManagement = () => {
@@ -72,7 +72,10 @@ const FormatManagement = () => {
             </div>
 
             {/* ⭐ Footer 항상 페이지 맨 아래 ⭐ */}
-            <Footers />
+
+            <p className="float-end mb-1">
+                <a type="button" href="/component/admnpage">관리자 페이지</a>
+            </p>
         </div>
     );
 };

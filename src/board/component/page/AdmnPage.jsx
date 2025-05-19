@@ -7,7 +7,7 @@ const AdmnPage = () => {
   return (
     <div>
 
-      <header>
+      <header style={{ marginTop: '80px' }}>        {/* 간격조정 */}
         <Navbar />
       </header>
 
@@ -23,20 +23,15 @@ const AdmnPage = () => {
           <div class="offcanvas-body d-md-flex flex-column p-0 pt-lg-3 overflow-y-auto">
 
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
-              <span>Saved reports</span>
+            <h5 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-body-secondary text-uppercase">
+              <span>관리자 메뉴</span>
               <a class="link-secondary" href="#" aria-label="Add a new report">
 
               </a>
-            </h6>
+            </h5>
             <ul class="nav flex-column mb-auto">
 
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="#">
 
-                  Year-end sale
-                </a>
-              </li>
 
               <li class="nav-item">
                 <a class="nav-link d-flex align-items-center gap-2" href="/component/campaignplan">
@@ -61,19 +56,8 @@ const AdmnPage = () => {
                 </a>
               </li>
 
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/component/ProcessAdmn">
 
-                  프로세스 관리2
-                </a>
-              </li>
 
-              <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/component/DataFormat2">
-
-                  데이터 포맷2
-                </a>
-              </li>
             </ul>
 
             <hr class="my-3" />
