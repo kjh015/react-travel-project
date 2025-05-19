@@ -45,7 +45,7 @@ const InputFormatModal = ({ onClose, processId }) => {
                     setTimeout(() => {
                         setAlertMessage(null);
                         onClose();
-                    }, 1500);
+                    }, 1000);
                 } else {
                     setAlertMessage({ type: 'danger', text: '포맷 추가 실패!' });
                 }
