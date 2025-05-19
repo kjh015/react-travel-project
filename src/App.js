@@ -1,9 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './component/css/App.css';
+import './board/component/css/App.css';
 
-
-import PageRouter from './component/PageRouter';
+import PageRouter from './common/PageRouter';
 
 function App() {
   return (

@@ -1,6 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+//프로세스 관리 페이지
 const ProcessAdmn = () => {
     return (
         <div>

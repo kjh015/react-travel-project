@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const CheckMyArt = () => {
+//작성한 댓글 파일
+const ChckMyCom = () => {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -15,7 +16,7 @@ const CheckMyArt = () => {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <h4>작성글 목록</h4>
+                <h4>작성댓글 목록</h4>
 
             </div>
 
@@ -65,4 +66,4 @@ const CheckMyArt = () => {
     );
 };
 
-export default CheckMyArt;
+export default ChckMyCom;

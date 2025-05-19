@@ -4,8 +4,8 @@ import { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-
-const Comment = () => {
+//댓글 쓰는 파일
+const WriteComment = () => {
 
     const [comments, setComments] = useState([]);
     const [name, setName] = useState('');
@@ -71,4 +71,4 @@ const Comment = () => {
     );
 }
 
-export default Comment;
+export default WriteComment;

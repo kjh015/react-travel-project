@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ReturnBoard = () => {
+const BoardList = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -92,4 +92,4 @@ const ReturnBoard = () => {
   );
 };
 
-export default ReturnBoard;
+export default BoardList;

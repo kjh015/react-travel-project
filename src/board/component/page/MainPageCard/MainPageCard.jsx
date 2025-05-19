@@ -1,15 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import trainImg from '../imgs/train.jpg';
+import viewImage from '../../imgs/view.jpg';
 
-const Thumbnail2 = () => {
+//MainPage에 있는 사진들어간 카드 부분을 나타낸 파일
+const MainPageCard = () => {
   return (
     <div className='container'>
       <div className='row'>
         <div className="col">
           <div className="card shadow-sm">
             <img
-              src={trainImg}
+              src={viewImage}
               alt="view"
               className="card-img-top"
               style={{ width: '70%', height: '500px', objectFit: 'cover' }}
@@ -35,4 +36,4 @@ const Thumbnail2 = () => {
   );
 };
 
-export default Thumbnail2;
+export default MainPageCard;

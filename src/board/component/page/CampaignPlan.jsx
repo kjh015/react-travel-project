@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
+//캠페인 파일
 const CampaignPlan = () => {
   const [campaignType, setCampaignType] = useState('');
   const [campaignName, setCampaignName] = useState('');
@@ -27,7 +28,7 @@ const CampaignPlan = () => {
             <option value="재구매">재구매</option>
           </select>
         </div>
-    
+
         <div className="mb-3">
           <label className="form-label">캠페인 명</label>
           <input type="text" className="form-control" value={campaignName} onChange={e => setCampaignName(e.target.value)} />
@@ -85,9 +86,9 @@ const CampaignPlan = () => {
 
         <a class="btn btn-primary" href="/component/admnpage">저장하기</a>
       </div>
-      <p className="float-end mb-1">  
-            <a type="button" href="/component/admnpage">관리자 페이지</a>
-          </p>
+      <p className="float-end mb-1">
+        <a type="button" href="/component/admnpage">관리자 페이지</a>
+      </p>
     </div>
   );
 };

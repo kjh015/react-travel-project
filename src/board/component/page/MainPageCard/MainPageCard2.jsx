@@ -1,15 +1,16 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import viewImage from '../imgs/view.jpg';
+import trainImg from '../../imgs/train.jpg';
 
-const Thumbnail = () => {
+
+const MainPageCard2 = () => {
   return (
     <div className='container'>
       <div className='row'>
         <div className="col">
           <div className="card shadow-sm">
             <img
-              src={viewImage}
+              src={trainImg}
               alt="view"
               className="card-img-top"
               style={{ width: '70%', height: '500px', objectFit: 'cover' }}
@@ -35,4 +36,4 @@ const Thumbnail = () => {
   );
 };
 
-export default Thumbnail;
+export default MainPageCard2;

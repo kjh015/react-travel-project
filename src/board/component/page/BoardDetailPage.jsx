@@ -1,12 +1,13 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../Navbar';
+import Navbar from '../../../common/Navbar';
 import myImage from '../imgs/jeju.jpg';
-import Comment from './Comment';
+import WriteComment from '../../../comment/component/WriteComment';
 
 
-const Place = () => {
+//상세보기 파일
+const BoardDetailPage = () => {
 
 
   return (
@@ -80,7 +81,7 @@ const Place = () => {
 
 
 
-      <Comment />
+      <WriteComment />
 
       <footer className="text-body-secondary py-5">
         <div className="container">
@@ -98,4 +99,4 @@ const Place = () => {
   );
 };
 
-export default Place;
+export default BoardDetailPage;

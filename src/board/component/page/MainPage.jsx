@@ -2,12 +2,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 
-import Thumbnail from '../thumbnail/Thumbnail';
-import Thumbnail2 from '../thumbnail/Thumbnail2';
+import MainPageCard from './MainPageCard/MainPageCard';
+import MainPageCard2 from './MainPageCard/MainPageCard2';
 
 
-import Footers from "./Footers";
-import Navbar from "../Navbar";
+import Footers from '../../../common/Footers';
+import Navbar from "../../../common/Navbar";
 // 로그인 Form 컴포넌트를 분리해도 좋음
 
 const MainPage = () => {
@@ -18,8 +18,8 @@ const MainPage = () => {
 
       {/* 본문 영역 */}
       <div style={{ marginTop: "80px" }}>
-        <Thumbnail />
-        <Thumbnail2 />
+        <MainPageCard />
+        <MainPageCard2 />
 
         <Footers />
 

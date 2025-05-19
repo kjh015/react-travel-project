@@ -1,9 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../Navbar';
+import Navbar from '../../common/Navbar';
 import { Link } from 'react-router-dom';
 
-const SignupChange = () => {
+const SignUpdatePage = () => {
     return (
 
         <div className="container">
@@ -111,4 +111,4 @@ const SignupChange = () => {
     );
 };
 
-export default SignupChange;
+export default SignUpdatePage;

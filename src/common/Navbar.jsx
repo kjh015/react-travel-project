@@ -1,5 +1,8 @@
 import { useState } from "react";
+import { Link } from 'react-router-dom';
+import SignUpPage from '../sign/component/SignUpPage';
 
+//네비게이션 바 파일
 const Navbar = () => {
   const [id, setid] = useState('');
   const [password, setPassword] = useState('');
@@ -35,8 +38,7 @@ const Navbar = () => {
 
         <div className="collapse navbar-collapse" id="navbarNav">
           <ul className="navbar-nav me-auto mb-2 mb-lg-0">
-            <li className="nav-item"><a className="nav-link active" href="#">Home</a></li>
-            <li className="nav-item"><a className="nav-link" href="#">Link</a></li>
+
             <li className="nav-item"><a className="nav-link" href="/component/admnpage">관리자 페이지</a></li>
             <li className="nav-item"><a className="nav-link" href="/board/returnboard">게시판</a></li>
           </ul>
@@ -67,8 +69,12 @@ const Navbar = () => {
             )}
 
             {/* 추가 버튼들 */}
-            <a className="btn btn-success" href="/component/signup">Sign up</a>
-            <a className="btn btn-danger" href="/component/place">상세보기</a>
+            <Link to="/sign/component/SignUpPage" className="btn btn-success">
+              Sign up
+            </Link>
+            <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
+              상세보기
+            </Link>
 
             {/* 검색 폼 */}
             <form className="d-flex">

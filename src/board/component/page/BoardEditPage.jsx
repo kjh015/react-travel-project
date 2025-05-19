@@ -1,9 +1,10 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link } from 'react-router-dom';
-import RadioPage from './RadioPage';
+import RadioPage from './RegionRadioComp';
 
-const Change = () => {
+//글 수정파일
+const BoardEditPage = () => {
     return (
         <div className="container mt-5" style={{ maxWidth: '1000px' }}>
             <h1 className="mb-5">글 수정</h1>
@@ -77,4 +78,4 @@ const Change = () => {
     );
 };
 
-export default Change;
+export default BoardEditPage;

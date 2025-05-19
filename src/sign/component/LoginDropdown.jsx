@@ -2,7 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState } from 'react';
 
-const Dropdown = () => {
+//로그인 버튼 누르면 드롭아웃으로 바뀜
+const LoginDropdown = () => {
     return (
         <div className="dropdown">
             <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -17,5 +18,5 @@ const Dropdown = () => {
     );
 }
 
-export default Dropdown;
+export default LoginDropdown;
 

@@ -1,8 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../Navbar';
-
-const Signup = () => {
+import Navbar from '../../common/Navbar';
+const SignUpPage = () => {
     return (
 
         <div className="container">
@@ -110,4 +109,4 @@ const Signup = () => {
     );
 };
 
-export default Signup;
+export default SignUpPage;
