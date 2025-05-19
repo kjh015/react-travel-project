@@ -47,7 +47,7 @@ const PageRouter = () => {
 
                 {/* sign */}
                 <Route index path="/component/login" element={<LogIn />}></Route>
-                <Route path="/page/signupdatepage" element={<SignUpdatePage />} />
+                <Route path="/sign/component/signupdatepage" element={<SignUpdatePage />} />
                 <Route path="/sign/component/SignUpPage" element={<SignUpPage />} />
 
 

@@ -69,6 +69,9 @@ const ProcessManagement = () => {
             </div>
 
             {inputComp && <InputProcess onClose={handleInputComp} />}
+            <p className="float-end mb-1">
+                <a type="button" href="/component/admnpage">관리자 페이지</a>
+            </p>
         </div>
     );
 };

@@ -43,7 +43,7 @@ const BoardList = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4>게시판 목록</h4>
-        <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
+        <Link to="/board/BoardWritePage" className="btn btn-primary">글쓰기</Link>
       </div>
 
       <table className="table table-hover">
@@ -68,7 +68,7 @@ const BoardList = () => {
               <td>{board.writer}</td>
               <td>{board.date}</td>
               <td>
-                <Link to="/component/page/change" className="btn btn-sm btn-outline-primary">
+                <Link to="/component/page/BoardEditPage" className="btn btn-sm btn-outline-primary">
                   수정
                 </Link>
               </td>

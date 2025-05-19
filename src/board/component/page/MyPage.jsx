@@ -61,7 +61,7 @@ const MyPage = () => {
 
                   {/* 회원 정보 수정 버튼 */}
                   <div className="mb-3">
-                    <Link to="/page/signupchange" className="btn btn-primary">
+                    <Link to="/sign/component/SignUpdatePage" className="btn btn-primary">
                       회원 정보 수정
                     </Link>
                   </div>
