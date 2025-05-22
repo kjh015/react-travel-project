@@ -192,11 +192,22 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
 
     return (
         <div className="container mt-4 text-center" style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h5>필터 수정</h5>
-            <div className="mb-3">
+            <h5 className="text-center">필터 수정</h5>
+
+            <div className="mb-3 text-center">
                 <label className="form-label">Filter Name</label>
-                <input type="text" className="form-control" placeholder="filter name" value={name} onChange={e => setName(e.target.value)} />
+                <div className="d-flex justify-content-center">
+                    <input
+                        type="text"
+                        className="form-control"
+                        style={{ width: '150px' }}
+                        placeholder="filter name"
+                        value={name}
+                        onChange={e => setName(e.target.value)}
+                    />
+                </div>
             </div>
+
 
 
             {/* 조건/괄호 추가 버튼 */}
@@ -327,11 +338,11 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                     </div>
                 );
             })}
-            <button className="btn btn-secondary me-2" onClick={() => setActive(!active)}>
+            <button className="btn btn-success me-2" onClick={() => setActive(!active)}>
                 활성화: {active ? "On" : "Off"}
             </button>
             <button className="btn btn-primary" onClick={handleSubmit}>수정</button>
-            <button onClick={removeFilter} style={{ marginRight: '10px' }}>삭제</button>
+            <button className="btn btn-danger" onClick={removeFilter} style={{ marginRight: '10px' }}>삭제</button>
             <button className="btn btn-outline-dark" onClick={onClose}>닫기</button>
         </div>
     );
@@ -360,10 +371,10 @@ function inferValueType(value, operator) {
     if (value === 'true' || value === 'false') {
         return 'boolean';
     }
-    if (/^-?\d+$/.test(value)) {         
+    if (/^-?\d+$/.test(value)) {
         return 'int';
     }
-    if (/^-?\d*\.\d+$/.test(value)) {   
+    if (/^-?\d*\.\d+$/.test(value)) {
         return 'double';
     }
     return 'String';

@@ -5,6 +5,7 @@ import EditProcess from './EditProcess';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import Navbar from '../../../common/Navbar';
 
 const ProcessManagement = () => {
     const [processList, setProcessList] = useState([]);
@@ -34,7 +35,11 @@ const ProcessManagement = () => {
     const handleEditComp = () => setEditComp(0);
 
     return (
+
         <div className="container mt-5">
+
+            <Navbar />
+            <div style={{ marginTop: '80px' }}></div>
             <h3 className="mb-4">Process 관리</h3>
             <div className="list-group">
                 {processList.map(process => (
