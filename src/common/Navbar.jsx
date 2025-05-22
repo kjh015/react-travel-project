@@ -109,7 +109,7 @@ const Navbar = () => {
                 <Link className="nav-link" to="/board/returnboard">게시판</Link>
               </li>
             </ul>
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex flex-column align-items-center gap-2 my-3">
               <Link to={"/sign/component/SignInPage"} className="btn btn-primary"> 로그인 </Link>
               
 
