@@ -166,7 +166,7 @@ const DetailFormat = ({ onClose, formatId }) => {
 
 
             </form>
-            <button type="submit" style={{ marginRight: '10px' }} class="btn btn-outline-dark">수정</button>
+            <button onClick={handleSubmit} type="submit" style={{ marginRight: '10px' }} class="btn btn-outline-dark">수정</button>
             <button onClick={removeFormat} style={{ marginRight: '10px' }} class="btn btn-outline-warning">삭제</button>
             <button onClick={onClose} class="btn btn-outline-danger">닫기</button>
         </div>
