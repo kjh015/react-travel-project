@@ -5,7 +5,7 @@ import EditProcess from './EditProcess';
 import { Link } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../../common/Navbar';
+import AdmnMenu from '../../../board/component/page/AdmnMenu';
 
 const ProcessManagement = () => {
     const [processList, setProcessList] = useState([]);
@@ -35,49 +35,51 @@ const ProcessManagement = () => {
     const handleEditComp = () => setEditComp(0);
 
     return (
-
         <div className="container mt-5">
-
-            <Navbar />
-            <div style={{ marginTop: '80px' }}></div>
-            <h3 className="mb-4">Process 관리</h3>
-            <div className="list-group">
-                {processList.map(process => (
-                    <div key={process.id}>
-                        <div className="list-group-item d-flex justify-content-between align-items-center">
-
-                            <Link to={`/log/format?processId=${process.id}`} className="text-decoration-none">
-                                {process.id} : {process.name}
-                            </Link>
-                            <button
-                                className="btn btn-outline-primary btn-sm"
-                                onClick={() => setEditComp(process.id)}
-                            >
-                                수정
-                            </button>
-
-                        </div>
-                        {editComp === process.id && (
-                            <EditProcess
-                                onClose={handleEditComp}
-                                processId={process.id}
-                                _name={process.name}
-                            />
-                        )}
+            <div className="row">
+                {/* 왼쪽: 관리자 메뉴 */}
+                <div className="col-md-3 col-lg-2 p-0 border-end">
+                    <AdmnMenu />
+                </div>
+                {/* 오른쪽: 메인 */}
+                <div className="col-md-9 col-lg-10">
+                    <div style={{ marginTop: '80px' }}></div>
+                    <h3 className="mb-4">Process 관리</h3>
+                    <div className="list-group">
+                        {processList.map(process => (
+                            <div key={process.id}>
+                                <div className="list-group-item d-flex justify-content-between align-items-center">
+                                    <Link to={`/log/format?processId=${process.id}`} className="text-decoration-none">
+                                        {process.id} : {process.name}
+                                    </Link>
+                                    <button
+                                        className="btn btn-outline-primary btn-sm"
+                                        onClick={() => setEditComp(process.id)}
+                                    >
+                                        수정
+                                    </button>
+                                </div>
+                                {editComp === process.id && (
+                                    <EditProcess
+                                        onClose={handleEditComp}
+                                        processId={process.id}
+                                        _name={process.name}
+                                    />
+                                )}
+                            </div>
+                        ))}
                     </div>
-
-                ))}
+                    <div className="mt-4">
+                        <button className="btn btn-success" onClick={() => setInputComp(true)}>프로세스 추가</button>
+                    </div>
+                    {inputComp && <InputProcess onClose={handleInputComp} />}
+                    <p className="float-end mb-1">
+                        <a type="button" href="/component/admnpage">관리자 페이지</a>
+                    </p>
+                </div>
             </div>
-
-            <div className="mt-4">
-                <button className="btn btn-success" onClick={() => setInputComp(true)}>프로세스 추가</button>
-            </div>
-
-            {inputComp && <InputProcess onClose={handleInputComp} />}
-            <p className="float-end mb-1">
-                <a type="button" href="/component/admnpage">관리자 페이지</a>
-            </p>
         </div>
+
     );
 };
 
