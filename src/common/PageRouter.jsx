@@ -14,8 +14,7 @@ import MyPage from "../board/component/page/MyPage";
 import CampaignPlan from "../board/component/page/CampaignPlan";
 import BoardWritePage from "../board/component/page/BoardWritePage";
 import BoardEditPage from "../board/component/page/BoardEditPage";
-import DataFormat2 from "../notUse/DataFormat2";
-import ProcessAdmn from "../notUse/ProcessAdmn";
+
 import CheckMyArt from "../board/component/page/CheckMyArt";
 
 //comment
@@ -28,6 +27,7 @@ import FormatManagement from "../log/components/format/FormatManagement";
 import ProcessManagement from "../log/components/process/ProcessManagement";
 import FilterManagement from "../log/components/filter/FilterManagement";
 import LogManagement from "../log/components/db/LogManagement";
+import AdmnBoard from "../board/component/page/AdmnBoard";
 
 
 
@@ -63,7 +63,7 @@ const PageRouter = () => {
                 <Route path="/board/component/page/BoardDetailPage" element={<BoardDetailPage />} />
 
                 <Route index path="/component/campaignplan" element={<CampaignPlan />}        ></Route>
-
+                <Route index path="/component/admnboard" element={<AdmnBoard />}></Route>
 
 
                 <Route path="page/checkmyart" element={<CheckMyArt />} />

@@ -8,7 +8,7 @@ import WriteComment from '../../../comment/component/WriteComment';
 
 //상세보기 파일
 const BoardDetailPage = () => {
-
+  let [like, setLike] = useState(0);
 
   return (
 

@@ -1,12 +1,12 @@
+
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
 import SignUpPage from '../sign/component/SignUpPage';
 import SignApiClient from "../sign/service/SignApiClient";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-//네비게이션 바 파일
 const Navbar = () => {
-  const [id, setid] = useState('');
-  const [password, setPassword] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [curUser, setCurUser] = useState('');
 
@@ -36,7 +36,7 @@ const Navbar = () => {
           window.location.href = '/';
           alert("로그아웃 성공");
         }
-        else{
+        else {
           alert("로그아웃 실패");
 
         }
@@ -75,77 +75,76 @@ const Navbar = () => {
   }, []);
 
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
-        <a className="navbar-brand" href="/">Travel React</a>
+        <Link className="navbar-brand" to="/">Travel React</Link>
 
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarNav"
-          aria-controls="navbarNav"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
         >
           <span className="navbar-toggler-icon" />
         </button>
 
-        <div className="collapse navbar-collapse" id="navbarNav">
-          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+        <div
+          className="offcanvas offcanvas-end text-bg-dark"
+          tabIndex="-1"
+          id="offcanvasNavbar"
+          aria-labelledby="offcanvasNavbarLabel"
+        >
+          <div className="offcanvas-header">
+            <h5 className="offcanvas-title" id="offcanvasNavbarLabel">메뉴</h5>
+            <button
+              type="button"
+              className="btn-close btn-close-white"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
 
-            <li className="nav-item"><a className="nav-link" href="/component/admnpage">관리자 페이지</a></li>
-            <li className="nav-item"><a className="nav-link" href="/board/returnboard">게시판</a></li>
-          </ul>
-
-          <div className="d-flex align-items-center gap-3">
-            {!isLoggedIn ? (
-              // 로그인 버튼: 상태 변경만 수행
+          <div className="offcanvas-body">
+            <ul className="navbar-nav justify-content-end flex-grow-1 pe-3">
+              <li className="nav-item">
+                <Link className="nav-link" to="/component/admnpage">관리자 메뉴</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="/board/returnboard">게시판</Link>
+              </li>
+            </ul>
+            <div className="d-flex align-items-center gap-3">
               <Link to={"/sign/component/SignInPage"} className="btn btn-primary"> 로그인 </Link>
+              
 
-            ) : (
-              // 로그인 상태: 드롭다운 메뉴
-              <div className="dropdown">
+              {/* 추가 버튼들 */}
+              <Link to="/sign/component/SignUpPage" className="btn btn-success">
+                Sign up
+              </Link>
+              <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
+                상세보기
+              </Link>
+              <button onClick={handleTest}>AccessToken Test</button>
+              <button onClick={handleLogout}>로그아웃</button>
+              <button>ID: {curUser}</button>
+
+
+              {/* 검색 폼 */}
+              <form className="d-flex mt-3 justify-content-center" role="search">
+                <input
+                  className="form-control me-2"
+                  type="search"
+                  placeholder="검색"
+                  aria-label="검색"
+                />
                 <button
-                  className="btn btn-secondary dropdown-toggle"
-                  type="button"
-                  data-bs-toggle="dropdown"
-                  aria-expanded="false"
+                  className="btn btn-outline-light"
+                  type="submit"
+                  style={{ whiteSpace: 'nowrap', padding: '0.375rem 0.75rem' }}
                 >
-                  UserName
+                  검색
                 </button>
-                <ul className="dropdown-menu">
-                  <li><a className="dropdown-item" href="/component/mypage">마이페이지</a></li>
-                  <li><button onClick={handleLogout} className="dropdown-item">로그아웃</button></li>
-                  <li><a className="dropdown-item" href="#">기타</a></li>
-                </ul>
-              </div>
-            )}
-
-            {/* 추가 버튼들 */}
-            <Link to="/sign/component/SignUpPage" className="btn btn-success">
-              Sign up
-            </Link>
-            <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
-              상세보기
-            </Link>
-            <button onClick={handleTest}>AccessToken Test</button>
-            <button onClick={handleLogout}>로그아웃</button>
-            <button>ID: {curUser}</button>
-
-            {/* 검색 폼 */}
-            <form className="d-flex">
-              <input
-                className="form-control me-2"
-                type="search"
-                placeholder="검색"
-                style={{ width: '150px', height: '40px' }}
-              />
-              <button type="submit" className="btn btn-primary">검색</button>
-            </form>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
+        </div>
     </nav>
   );
 };

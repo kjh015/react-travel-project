@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import Navbar from "../../common/Navbar";
 
 const BoardList = () => {
   const [boards, setBoards] = useState([]);
@@ -41,8 +42,9 @@ const BoardList = () => {
 
   return (
     <div className="container mt-4">
+      <Navbar />
       <div className="d-flex justify-content-between align-items-center mb-3">
-        <h4>게시판 목록</h4>
+        <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
         <Link to="/board/BoardWritePage" className="btn btn-primary">글쓰기</Link>
       </div>
 

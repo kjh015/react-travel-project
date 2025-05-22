@@ -161,7 +161,7 @@ const ConditionBuilder = ({ onClose, processId }) => {
     };
 
     return (
-        <div className="container mt-4 text-center" style={{ maxWidth: '800px', margin: '0 auto' }}>
+        <div className="container mt-4 text-center" style={{ maxWidth: '400px', margin: '0 auto' }}>
             <h5>필터 추가</h5>
             <div className="mb-3">
                 <label className="form-label">Filter Name</label>
@@ -179,7 +179,9 @@ const ConditionBuilder = ({ onClose, processId }) => {
 
             {/* 현재 표현식 출력 */}
             <div className="mt-4">
+
                 <strong>현재 표현식: </strong>
+                <div style={{ marginTop: '10px' }}></div>
                 <code>{buildExpression()}</code>
             </div>
 
@@ -300,7 +302,7 @@ const ConditionBuilder = ({ onClose, processId }) => {
             <button className="btn btn-secondary me-2" onClick={() => setActive(!active)}>
                 활성화: {active ? "On" : "Off"}
             </button>
-            <button className="btn btn-primary" onClick={handleSubmit}>전송</button>
+            <button className="btn btn-primary me-2" onClick={handleSubmit}>전송</button>
             <button className="btn btn-outline-dark" onClick={onClose}>닫기</button>
         </div>
     );
@@ -329,10 +331,10 @@ function inferValueType(value, operator) {
     if (value === 'true' || value === 'false') {
         return 'boolean';
     }
-    if (/^-?\d+$/.test(value)) {         
+    if (/^-?\d+$/.test(value)) {
         return 'int';
     }
-    if (/^-?\d*\.\d+$/.test(value)) {   
+    if (/^-?\d*\.\d+$/.test(value)) {
         return 'double';
     }
     return 'String';

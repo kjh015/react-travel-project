@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import FormatApiClient from '../../service/FormatApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';// ✅ 상위 폴더로 나가서 format 폴더로 이동
+
+
 
 const DetailFormat = ({ onClose, formatId }) => {
     const [defaultEntry, setDefaultEntry] = useState([{ key: '', value: '' }]);
@@ -87,7 +89,7 @@ const DetailFormat = ({ onClose, formatId }) => {
     }, []);
 
     return (
-        <div style={{ padding: '20px', border: '1px solid #ccc', borderRadius: '8px', maxWidth: '600px', margin: '20px auto' }}>
+        <div style={{ padding: '20px', borderRadius: '8px', maxWidth: '600px', margin: '20px auto' }}>
             <h2>Format 상세 화면</h2>
             <form onSubmit={handleSubmit}>
                 <div style={{ marginBottom: '15px' }}>
