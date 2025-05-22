@@ -50,9 +50,15 @@ const AdmnPage = () => {
 
 
               <li class="nav-item">
-                <a class="nav-link d-flex align-items-center gap-2" href="/log/format">
+                <a class="nav-link d-flex align-items-center gap-2" href="/log/format?processId=1">
 
                   데이터 포맷
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link d-flex align-items-center gap-2" href="/log/db">
+
+                  로그 DB
                 </a>
               </li>
 

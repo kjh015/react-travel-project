@@ -4,13 +4,12 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignUpPage from '../sign/component/SignUpPage';
 import SignUpdatePage from "../sign/component/SignUpdatePage";
 import LogIn from "../notUse/LogIn";
-//sign
+import SignInPage from "../sign/component/SignInPage";
 
 //board
 import MainPage from '../board/component/page/MainPage';
 import AdmnPage from "../board/component/page/AdmnPage";
 import BoardDetailPage from '../board/component/page/BoardDetailPage';
-
 import MyPage from "../board/component/page/MyPage";
 import CampaignPlan from "../board/component/page/CampaignPlan";
 import BoardWritePage from "../board/component/page/BoardWritePage";
@@ -18,11 +17,9 @@ import BoardEditPage from "../board/component/page/BoardEditPage";
 import DataFormat2 from "../notUse/DataFormat2";
 import ProcessAdmn from "../notUse/ProcessAdmn";
 import CheckMyArt from "../board/component/page/CheckMyArt";
-//board
 
 //comment
 import ChckMyCom from '../comment/component/ChckMyCom';
-//comment
 
 //others
 import SseSubscriber from "../sse/components/SseSubscriber";
@@ -30,7 +27,7 @@ import ReturnBoard from "../board/service/BoardList";
 import FormatManagement from "../log/components/format/FormatManagement";
 import ProcessManagement from "../log/components/process/ProcessManagement";
 import FilterManagement from "../log/components/filter/FilterManagement";
-//others
+import LogManagement from "../log/components/db/LogManagement";
 
 
 
@@ -39,16 +36,18 @@ const PageRouter = () => {
         <BrowserRouter>
             <Routes>
 
-                <Route index path="/board/returnboard" element={<ReturnBoard />}        ></Route>
+                <Route index path="/board/returnboard" element={<ReturnBoard />}></Route>
                 <Route index path="/service/sse" element={<SseSubscriber />}></Route>
                 <Route index path="/log/format" element={<FormatManagement />}></Route>
                 <Route index path="/log/process" element={<ProcessManagement />}></Route>
                 <Route index path="/log/filter" element={<FilterManagement />}></Route>
+                <Route index path="/log/db" element={<LogManagement />}></Route>
 
                 {/* sign */}
                 <Route index path="/component/login" element={<LogIn />}></Route>
                 <Route path="/sign/component/signupdatepage" element={<SignUpdatePage />} />
                 <Route path="/sign/component/SignUpPage" element={<SignUpPage />} />
+                <Route path="/sign/component/SignInPage" element={<SignInPage />} />
 
 
                 {/* //comment */}
