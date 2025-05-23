@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../../common/Navbar';
+
 import myImage from '../imgs/jeju.jpg';
 import WriteComment from '../../../comment/component/WriteComment';
 
@@ -11,10 +11,12 @@ const BoardDetailPage = () => {
 
   return (
     <>
-      <Navbar />
+
 
       {/* 상단 네비 스타일 */}
-      <div className="container d-flex justify-content-between align-items-center py-3">
+      <div
+
+        className="container d-flex justify-content-between align-items-center py-3">
         <a href="#" className="navbar-brand d-flex align-items-center">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -48,7 +50,16 @@ const BoardDetailPage = () => {
       </div>
 
       <main>
-        <div className="album py-5 bg-body-tertiary">
+        <div className="album py-5 bg-body-tertiary"
+          style={{
+            minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
+            width: "100vw",               // 가로폭: 브라우저 창 전체
+            overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+            background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+            position: "relative"          // 하위 요소 레이아웃 보호
+          }}
+
+        >
           <div className="container">
             <div className="row justify-content-center">
               <div className="col-md-8"> {/* 카드 크기 조정 */}

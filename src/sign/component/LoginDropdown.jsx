@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { useState } from 'react';
 
 //로그인 버튼 누르면 드롭아웃으로 바뀜
 const LoginDropdown = () => {

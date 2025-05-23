@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from './Navbar';
+
 
 //mypage파일
 const MyPage = () => {
@@ -17,7 +17,6 @@ const MyPage = () => {
 
   return (
     <div style={{ backgroundColor: '#eaf4fc', minHeight: '100vh' }}>
-      <Navbar />
 
       <div className="container d-flex justify-content-between align-items-center py-3">
         <a href="#" className="navbar-brand d-flex align-items-center text-primary">

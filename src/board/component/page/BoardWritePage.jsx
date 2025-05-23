@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useNavigate } from 'react-router-dom';
 import RadioPage from './RegionRadioComp';
-import Navbar from '../../../common/Navbar';
+
 import BoardApiClient from '../../service/BoardApiClient';
 import { useState } from 'react';
 
@@ -85,7 +85,7 @@ const BoardWritePage = () => {
 
     return (
         <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
-            <Navbar />
+
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 text-center fw-bold" style={{ letterSpacing: '2px' }}>글 작성</h2>

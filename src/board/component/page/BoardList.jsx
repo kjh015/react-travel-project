@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "../../../common/Navbar";
+
 import BoardApiClient from "../../service/BoardApiClient";
 
 const BoardList = () => {
@@ -39,8 +39,19 @@ const BoardList = () => {
   if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
 
   return (
-    <div className="container mt-4">
-      <Navbar />
+    <div
+
+
+      style={{
+        minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
+        width: "100vw",               // 가로폭: 브라우저 창 전체
+        overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+        background: "linear-gradient(135deg, #f0f8ff 0%, #e0c3fc 100%)",
+        position: "relative"          // 하위 요소 레이아웃 보호
+      }}
+
+      className="container mt-4">
+
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
         <Link to="/board/write" className="btn btn-primary">글쓰기</Link>

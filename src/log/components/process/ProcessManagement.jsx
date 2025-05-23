@@ -5,7 +5,6 @@ import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import AdmnMenu from '../../../common/AdmnMenu';
 
 const ProcessManagement = ({ setPID, onMenuClick }) => {
     const [processList, setProcessList] = useState([]);

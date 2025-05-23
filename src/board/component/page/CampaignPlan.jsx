@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import AdmnMenu from '../../../common/AdmnMenu';
 
 const CampaignPlan = () => {
   const [campaignType, setCampaignType] = useState('');

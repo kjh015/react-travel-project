@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../common/Navbar';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
 
@@ -8,7 +7,7 @@ const SignUpPage = () => {
     const [formData, setFormData] = useState({
         loginId: '',
         password: '',
-        email: '',        
+        email: '',
         nickname: '',
         gender: '',
         role: 'user'
@@ -41,8 +40,12 @@ const SignUpPage = () => {
     }, []);
 
     return (
-        <div className="min-vh-100 d-flex flex-column">
-            <Navbar />
+        <div
+
+
+
+            className="min-vh-100 d-flex flex-column">
+
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
                 <div className="col-md-6 col-lg-5">
                     <div className="card shadow-sm">

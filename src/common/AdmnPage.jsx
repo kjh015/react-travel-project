@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from './Navbar';
+
 import AdmnMenu from './AdmnMenu';
 import CampaignPlan from '../board/component/page/CampaignPlan';
 import FormatManagement from '../log/components/format/FormatManagement';
@@ -43,7 +43,7 @@ const AdmnPage = () => {
 
   return (
     <div style={{ marginTop: '60px' }} className="container-fluid">
-      <Navbar />
+
       <div className="row">
         {/* 왼쪽: 메뉴 (props로 onMenuClick 전달) */}
         <div className="col-md-3 col-lg-2 p-0 border-end bg-body-tertiary min-vh-100">

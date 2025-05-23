@@ -1,14 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../common/Navbar';
-import { Link } from 'react-router-dom';
 
 const SignUpdatePage = () => {
     return (
 
         <div className="container">
             <main>
-                <Navbar />
 
                 <div style={{ flex: 1, marginTop: '70px', padding: '20px' }} className="py-5 text-center">
                     <a className="btn btn-secondary" href="/">Travel React</a>

@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../common/Navbar';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
 
@@ -39,8 +38,15 @@ const SignInPage = () => {
     }, []);
 
     return (
-        <div className="min-vh-100 d-flex flex-column">
-            <Navbar />
+        <div
+            style={{
+                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
+                width: "100vw",               // 가로폭: 브라우저 창 전체
+                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+                background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+                position: "relative"          // 하위 요소 레이아웃 보호
+            }}
+            className="min-vh-100 d-flex flex-column">
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
                 <div className="col-md-5 col-lg-4">
                     <div className="card shadow-sm">

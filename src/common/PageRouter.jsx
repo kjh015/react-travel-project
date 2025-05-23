@@ -21,28 +21,27 @@ import CheckMyArt from "../board/component/page/CheckMyArt";
 import ChckMyCom from '../comment/component/ChckMyCom';
 
 //others
-import SseSubscriber from "../sse/components/SseSubscriber";
 import BoardList from "../board/component/page/BoardList";
 import FormatManagement from "../log/components/format/FormatManagement";
 import ProcessManagement from "../log/components/process/ProcessManagement";
 import FilterManagement from "../log/components/filter/FilterManagement";
 import LogManagement from "../log/components/db/LogManagement";
-import AdmnBoard from "../board/component/page/AdmnBoard";
-
-
+import Navbar from "./Navbar";
 
 const PageRouter = () => {
     return (
         <BrowserRouter>
+            <Navbar />
             <Routes>
-                {/* common */}                
+                {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
                 <Route index path="/component/admnpage" element={<AdmnPage />}></Route>
                 <Route index path="/component/mypage" element={<MyPage />}></Route>
 
                 {/* board */}
                 <Route path="/board/list" element={<BoardList />} />
-                <Route path="/board/detail" element={<BoardDetailPage />} />
+                <Route path="/board/component/page/BoardDetailPage" element={<BoardDetailPage />} />
+
                 <Route path="/board/write" element={<BoardWritePage />} />
                 <Route path="/board/edit" element={<BoardEditPage />} />
 
@@ -58,20 +57,15 @@ const PageRouter = () => {
                 <Route index path="/log/filter" element={<FilterManagement />}></Route>
                 <Route index path="/log/db" element={<LogManagement />}></Route>
 
-                
-
-
                 {/* comment */}
                 <Route path="page/chckmycom" element={<ChckMyCom />} />
 
-
-                
-                
 
                 <Route index path="/component/campaignplan" element={<CampaignPlan />}></Route>
 
 
                 <Route path="page/checkmyart" element={<CheckMyArt />} />
+                <Route path="/mypage" element={<MyPage />} />
             </Routes>
         </BrowserRouter>
     );
