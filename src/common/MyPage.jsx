@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
-import Navbar from "../../../common/Navbar";
+import Navbar from './Navbar';
 
 //mypage파일
 const MyPage = () => {

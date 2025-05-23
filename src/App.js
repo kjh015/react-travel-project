@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import './board/component/css/App.css';
+import './css/index.css';
 
 import PageRouter from './common/PageRouter';
 import { useEffect } from 'react';

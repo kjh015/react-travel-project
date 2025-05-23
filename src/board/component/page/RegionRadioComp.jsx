@@ -1,42 +1,50 @@
-import { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-//글쓰기 페이지에 들어가는 라디오버튼 파일
-const RegionRadioComp = () => {
-    const cities = ["전체", "서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기"];
-    const [selectedCity, setSelectedCity] = useState("서울"); // 기본값: 서울
+const RegionRadioComp = ({ selectedRegion, setRegion }) => {
+    const cities = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기"];
 
     const handleChange = (e) => {
-        setSelectedCity(e.target.value);
-        console.log("선택한 지역:", e.target.value);
+        setRegion(e.target.value);
     };
 
-
     return (
-        <div className="radiopage container mt-4">
-            <h3>지역 선택</h3>
-            <div style={{ flex: 1, marginTop: '30px', padding: '20px' }}></div>
-            <div className="mb-4">
+        <div
+            className="radiopage rounded-4 p-4"
+            style={{
+                background: "#f4f8fc",
+                boxShadow: "0 4px 20px rgba(40,100,200,0.08)",
+                minWidth: 220
+            }}
+        >
+            <h5 className="fw-bold mb-3 text-primary" style={{ letterSpacing: '1px' }}>지역 선택</h5>
+            <div className="row row-cols-3 g-2">
                 {cities.map((city, index) => (
-                    <div className="form-check" key={index}>
+                    <div className="col" key={index}>
                         <input
-                            className="form-check-input"
                             type="radio"
+                            className="btn-check"
                             name="radioDefault"
                             id={`radioDefault${index + 1}`}
                             value={city}
-                            checked={selectedCity === city}
+                            checked={selectedRegion === city}
                             onChange={handleChange}
+                            autoComplete="off"
                         />
-                        <label className="form-check-label" htmlFor={`radioDefault${index + 1}`}>
+                        <label
+                            className={`btn w-100 fw-semibold border-0 rounded-3 py-2 px-0 ${selectedRegion === city ? 'btn-primary shadow-sm' : 'btn-outline-primary'}`}
+                            htmlFor={`radioDefault${index + 1}`}
+                            style={{
+                                fontSize: '1.05rem',
+                                letterSpacing: '0.5px',
+                                transition: 'all 0.18s'
+                            }}
+                        >
                             {city}
                         </label>
                     </div>
                 ))}
             </div>
-
-
         </div>
     );
 };

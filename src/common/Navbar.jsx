@@ -72,6 +72,8 @@ const Navbar = () => {
   }
   useEffect(() => {
     setCurUser(getUserIdFromToken());
+    document.body.style.overflow = 'auto';
+    document.body.classList.remove('offcanvas-backdrop');
   }, []);
 
   return (
@@ -106,12 +108,12 @@ const Navbar = () => {
                 <Link className="nav-link" to="/component/admnpage">관리자 메뉴</Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/board/returnboard">게시판</Link>
+                <Link className="nav-link" to="/board/list">게시판</Link>
               </li>
             </ul>
             <div className="d-flex flex-column align-items-center gap-2 my-3">
               <Link to={"/sign/component/SignInPage"} className="btn btn-primary"> 로그인 </Link>
-              
+
 
               {/* 추가 버튼들 */}
               <Link to="/sign/component/SignUpPage" className="btn btn-success">
@@ -144,7 +146,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </nav>
   );
 };

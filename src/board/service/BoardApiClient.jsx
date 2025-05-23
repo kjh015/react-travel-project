@@ -13,17 +13,7 @@ class BoardApiClient {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_VIEW + "?no=" + no);
 
     }
-    static addBoard({ title, content, memberId, address, placeName, categorName, regionName }) {
-        const payload = {
-            title,
-            content,
-            memberId,
-            address,
-            placeName,
-            categorName,
-            regionName
-        };
-
+    static addBoard(payload) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_ADD, {
             method: 'POST',
             headers: {
