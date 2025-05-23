@@ -38,7 +38,7 @@ const AdmnPage = () => {
   }
 
   return (
-    <div style={{ marginTop: '80px' }} className="container-fluid">
+    <div style={{ marginTop: '60px' }} className="container-fluid">
       <Navbar />
       <div className="row">
         {/* 왼쪽: 메뉴 (props로 onMenuClick 전달) */}
