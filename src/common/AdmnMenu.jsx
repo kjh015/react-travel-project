@@ -14,6 +14,9 @@ const AdmnMenu = ({ onMenuClick }) => {
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('board')}>
                 게시판 관리 페이지
             </button>
+            <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('log')}>
+                로그 DB
+            </button>
         </div>
     );
 };

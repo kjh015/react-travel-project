@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import LogDBApiClient from '../../service/LogDBApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const LogManagement = () => {
+const LogManagement = ({onMenuClick}) => {
     const [successList, setSuccessList] = useState([]);
     const [failList, setFailList] = useState([]);
     const [expandedSuccessRowId, setExpandedSuccessRowId] = useState(null);

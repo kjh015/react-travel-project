@@ -5,7 +5,7 @@ import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import AdmnMenu from '../../../board/component/page/AdmnMenu'; // 네비게이션 메뉴 import
+import AdmnMenu from '../../../common/AdmnMenu';
 
 const ProcessManagement = ({ setPID, onMenuClick }) => {
     const [processList, setProcessList] = useState([]);

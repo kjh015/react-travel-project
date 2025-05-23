@@ -3,13 +3,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from './Navbar';
 import AdmnMenu from './AdmnMenu';
-import CampaignPlan from './CampaignPlan';
-import FormatManagement from '../../../log/components/format/FormatManagement';
-import ProcessManagement from '../../../log/components/process/ProcessManagement';
-import FilterManagement from '../../../log/components/filter/FilterManagement';
+import CampaignPlan from '../board/component/page/CampaignPlan';
+import FormatManagement from '../log/components/format/FormatManagement';
+import ProcessManagement from '../log/components/process/ProcessManagement';
+import FilterManagement from '../log/components/filter/FilterManagement';
+import LogManagement from '../log/components/db/LogManagement';
 
 
-import AdmnBoard from './AdmnBoard';
+import AdmnBoard from '../board/component/page/AdmnBoard';
 
 const AdmnPage = () => {
   const [activeMenu, setActiveMenu] = useState('campaign');
@@ -28,6 +29,8 @@ const AdmnPage = () => {
         return <FormatManagement processId={processId} onMenuClick={setActiveMenu} />
       case 'filter':
         return <FilterManagement processId={processId} onMenuClick={setActiveMenu} />
+      case 'log':
+        return <LogManagement onMenuClick={setActiveMenu} />
 
       default:
         return <div>선택된 메뉴가 없습니다.</div>;
