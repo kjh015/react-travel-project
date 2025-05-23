@@ -1,36 +1,58 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../../common/Navbar';
+// AdmnPage.jsx
+import React, { useState } from 'react';
 import AdmnMenu from './AdmnMenu';
+import CampaignPlan from './CampaignPlan';
+import FormatManagement from '../../../log/components/format/FormatManagement';
+import ProcessManagement from '../../../log/components/process/ProcessManagement';
+import Navbar from '../../../common/Navbar';
+import FilterManagement from '../../../log/components/filter/FilterManagement';
 
-//관리자 페이지
+
+import AdmnBoard from './AdmnBoard';
+
 const AdmnPage = () => {
-  return (<div>
-    <div>
+  const [activeMenu, setActiveMenu] = useState('campaign');
+  const [processId, setProcessId] = useState('processId');
 
-      <header style={{ marginTop: '80px' }}>        {/* 간격조정 */}
-        <Navbar />
-      </header>
+  // 렌더링할 컴포넌트 결정
+  const renderContent = () => {
+    switch (activeMenu) {
+      case 'campaign':
+        return <CampaignPlan />;
+      case 'process':
+        return <ProcessManagement setPID={setProcessId} onMenuClick={setActiveMenu} />;
+      case 'board':
+        return <AdmnBoard />;
+      case 'format':
+        return <FormatManagement processId={processId} onMenuClick={setActiveMenu} />
+      case 'filter':
+        return <FilterManagement processId={processId} onMenuClick={setActiveMenu} />
 
-      <AdmnMenu />
+      default:
+        return <div>선택된 메뉴가 없습니다.</div>;
+    }
+  };
 
+  const renderProcessId = () => {
+    return processId;
+  }
 
-
-      <footer className="text-body-secondary py-5">
-        <div className="container">
-          <p className="float-end mb-1">
-            <a type="button" href="/">Back to Top</a>
-          </p>
-          <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
-          <p className="mb-0">
-            New to Bootstrap? <a href="/">Visit the homepage</a> or read the{" "}
-            <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.
-          </p>
+  return (
+    <div style={{ marginTop: '80px' }} className="container-fluid">
+      <Navbar />
+      <div className="row">
+        {/* 왼쪽: 메뉴 (props로 onMenuClick 전달) */}
+        <div className="col-md-3 col-lg-2 p-0 border-end bg-body-tertiary min-vh-100">
+          <AdmnMenu onMenuClick={setActiveMenu} />
         </div>
-      </footer>
+
+        {/* 오른쪽: 본문 */}
+        <div className="col-md-9 col-lg-10 p-4">
+          {renderContent()}
+        </div>
+      </div>
     </div>
-  </div>
   );
-}
+};
 
 export default AdmnPage;

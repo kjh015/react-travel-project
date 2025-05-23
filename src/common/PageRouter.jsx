@@ -37,10 +37,7 @@ const PageRouter = () => {
             <Routes>
 
                 <Route index path="/board/returnboard" element={<ReturnBoard />}></Route>
-                <Route index path="/service/sse" element={<SseSubscriber />}></Route>
-                <Route index path="/log/format" element={<FormatManagement />}></Route>
                 <Route index path="/log/process" element={<ProcessManagement />}></Route>
-                <Route index path="/log/filter" element={<FilterManagement />}></Route>
                 <Route index path="/log/db" element={<LogManagement />}></Route>
 
                 {/* sign */}

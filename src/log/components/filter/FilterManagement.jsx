@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import FilterApiClient from '../../service/FilterApiClient';
 import DetailFilter from './DetailFilter';
-import { useSearchParams, Link } from 'react-router-dom';
-import ConditionBuilder from './ConditionBuilder';
-import Navbar from '../../../common/Navbar';
 
-const FilterManagement = () => {
-    const [params] = useSearchParams();
-    const [processId, setProcessId] = useState(params.get('processId'));
+import ConditionBuilder from './ConditionBuilder';
+
+const FilterManagement = ({ processId, onMenuClick }) => {
     const [filterList, setFilterList] = useState([]);
     const [detailComp, setDetailComp] = useState(0);
     const [builderComp, setBuilderComp] = useState(false);
+    const [formatComp, setFormatComp] = useState();
 
     const getFilters = () => {
         FilterApiClient.getFilterList(processId).then(res => {
@@ -70,7 +68,6 @@ const FilterManagement = () => {
 
     return (
         <div>
-            <Navbar />
             <div className="d-flex justify-content-center" style={{ marginTop: '120px' }}>
                 <div className="w-100" style={{ maxWidth: '1200px' }}>
                     {/* 제목 */}
@@ -81,9 +78,10 @@ const FilterManagement = () => {
                         <button className="btn btn-primary me-2" onClick={() => setBuilderComp(true)}>
                             필터 추가
                         </button>
-                        <Link to={`/log/format?processId=${processId}`} className="btn btn-secondary">
+                        <button className="btn btn-secondary" onClick={() => onMenuClick('format')}>
                             포맷 관리
-                        </Link>
+                        </button>
+
                     </div>
                     <table className="table table-bordered text-center align-middle">
                         <thead className="table-light">

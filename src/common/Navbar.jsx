@@ -109,9 +109,9 @@ const Navbar = () => {
                 <Link className="nav-link" to="/board/returnboard">게시판</Link>
               </li>
             </ul>
-            <div className="d-flex align-items-center gap-3">
+            <div className="d-flex flex-column align-items-center gap-2 my-3">
               <Link to={"/sign/component/SignInPage"} className="btn btn-primary"> 로그인 </Link>
-              
+
 
               {/* 추가 버튼들 */}
               <Link to="/sign/component/SignUpPage" className="btn btn-success">
@@ -120,9 +120,9 @@ const Navbar = () => {
               <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
                 상세보기
               </Link>
-              <button onClick={handleTest}>AccessToken Test</button>
-              <button onClick={handleLogout}>로그아웃</button>
-              <button>ID: {curUser}</button>
+              <button class="btn btn-warning" onClick={handleTest}>AccessToken Test</button>
+              <button class="btn btn-outline-danger" onClick={handleLogout}>로그아웃</button>
+              <button class="btn btn-outline-success">ID: {curUser}</button>
 
 
               {/* 검색 폼 */}
@@ -144,7 +144,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-        </div>
+      </div>
     </nav>
   );
 };

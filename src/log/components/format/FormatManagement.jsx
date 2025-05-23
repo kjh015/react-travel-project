@@ -5,11 +5,8 @@ import InputFormat from './InputFormat';
 import DetailFormat from './DetailFormat';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../../common/Navbar';
 
-const FormatManagement = () => {
-    const [params] = useSearchParams();
-    const [processId, setProcessId] = useState(params.get('processId'));
+const FormatManagement = ({ processId, onMenuClick }) => {
     const [formatList, setFormatList] = useState([]);
     const [inputComp, setInputComp] = useState(false);
     const [detailComp, setDetailComp] = useState(0);
@@ -55,15 +52,14 @@ const FormatManagement = () => {
 
     return (
         <div>
-            <Navbar />
 
             <div className="container" style={{ marginTop: '80px' }}>
                 <h4 className="mb-4 fw-bold">포맷 목록</h4>
 
                 {/* 상단 우측 버튼 영역 */}
                 <div className="d-flex justify-content-end mb-3">
-                    <button className="btn btn-primary me-2" onClick={() => setInputComp(true)} v>포맷 추가</button>
-                    <Link to={`/log/filter?processId=${processId}`} className="btn btn-secondary" >필터링 관리</Link>
+                    <button className="btn btn-primary me-2" onClick={() => setInputComp(true)}>포맷 추가</button>
+                    <button className="btn btn-secondary" onClick={() => onMenuClick('filter')}>필터링 관리</button>
                 </div>
 
                 {/* 포맷 테이블 */}
