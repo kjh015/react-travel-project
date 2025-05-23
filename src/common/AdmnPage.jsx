@@ -1,6 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import Navbar from '../../../common/Navbar';
+import Navbar from './Navbar';
 import AdmnMenu from './AdmnMenu';
 
 //관리자 페이지
