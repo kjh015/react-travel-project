@@ -122,9 +122,9 @@ const Navbar = () => {
               <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
                 상세보기
               </Link>
-              <button onClick={handleTest}>AccessToken Test</button>
-              <button onClick={handleLogout}>로그아웃</button>
-              <button>ID: {curUser}</button>
+              <button class="btn btn-warning" onClick={handleTest}>AccessToken Test</button>
+              <button class="btn btn-outline-danger" onClick={handleLogout}>로그아웃</button>
+              <button class="btn btn-outline-success">ID: {curUser}</button>
 
 
               {/* 검색 폼 */}

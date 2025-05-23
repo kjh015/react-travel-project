@@ -45,8 +45,6 @@ const PageRouter = () => {
                 <Route path="/board/detail" element={<BoardDetailPage />} />
                 <Route path="/board/write" element={<BoardWritePage />} />
                 <Route path="/board/edit" element={<BoardEditPage />} />
-                
-                
 
                 {/* sign */}
                 <Route index path="/component/login" element={<LogIn />}></Route>
@@ -71,7 +69,6 @@ const PageRouter = () => {
                 
 
                 <Route index path="/component/campaignplan" element={<CampaignPlan />}></Route>
-                <Route index path="/component/admnboard" element={<AdmnBoard />}></Route>
 
 
                 <Route path="page/checkmyart" element={<CheckMyArt />} />

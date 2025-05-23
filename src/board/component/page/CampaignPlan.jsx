@@ -17,9 +17,7 @@ const CampaignPlan = () => {
     <div className="container-fluid mt-5">
       <div className="row">
         {/* 왼쪽: 사이드 메뉴 */}
-        <div className="col-md-3 col-lg-2 p-0 border-end bg-body-tertiary min-vh-100">
-          <AdmnMenu />
-        </div>
+
         {/* 오른쪽: 본문 */}
         <div className="col-md-9 col-lg-10 p-4">
           <h4 className="mb-4 fw-bold">캠페인 기획</h4>
