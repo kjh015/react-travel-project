@@ -1,5 +1,10 @@
 export async function authFetch(url, options = {}) {
     let token = localStorage.getItem('accessToken');
+    if(token == null){
+        alert("로그인이 필요합니다.");
+        window.location.href = '/sign/component/SignInPage';
+        return null;
+    }
 
     const res = await fetch(url, {
         ...options,
@@ -7,7 +12,6 @@ export async function authFetch(url, options = {}) {
             ...(options.headers || {}),
             Authorization: `Bearer ${token}`,
         },
-        credentials: 'include',
     });
 
     if (res.status === 401) {
@@ -28,7 +32,6 @@ export async function authFetch(url, options = {}) {
                     ...(options.headers || {}),
                     Authorization: `Bearer ${data.accessToken}`,
                 },
-                credentials: 'include',
             });
             return retryRes;
         } else {

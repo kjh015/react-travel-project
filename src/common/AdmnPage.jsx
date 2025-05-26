@@ -13,7 +13,7 @@ import LogManagement from '../log/components/db/LogManagement';
 import AdmnBoard from '../board/component/page/AdmnBoard';
 
 const AdmnPage = () => {
-  const [activeMenu, setActiveMenu] = useState('campaign');
+  const [activeMenu, setActiveMenu] = useState('process');
   const [processId, setProcessId] = useState('processId');
 
   // 렌더링할 컴포넌트 결정
@@ -42,8 +42,7 @@ const AdmnPage = () => {
   }
 
   return (
-    <div style={{ marginTop: '60px' }} className="container-fluid">
-
+    <div className="container-fluid">
       <div className="row">
         {/* 왼쪽: 메뉴 (props로 onMenuClick 전달) */}
         <div className="col-md-3 col-lg-2 p-0 border-end bg-body-tertiary min-vh-100">

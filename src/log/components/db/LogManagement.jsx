@@ -193,6 +193,7 @@ const LogManagement = ({onMenuClick}) => {
                     </div>
                 </div>
             </div>
+            <p>Test용 p태그</p>
         </div>
     );
 };

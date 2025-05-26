@@ -26,8 +26,36 @@ const Navbar = () => {
       navigate(path);
     }
   };
+  const handleLogout = () => {
+    SignApiClient.signOut().then(
+      res => {
+        if (res.ok) {
+          localStorage.removeItem('accessToken');
+          window.location.href = '/';
+          alert("로그아웃 성공");
+        }
+        else {
+          alert("로그아웃 실패");
+        }
+      }
+    )
+  };
+  const handleTest = () => {
+    SignApiClient.test().then(
+      res => {
+        if (res.ok) {
+          res.text().then(
+            data =>
+              alert(data)
+          )
+        }
+        else {
+          alert("실패");
+        }
+      }
+    )
+  }
 
-  // JWT 토큰에서 유저ID 추출
   const getUserIdFromToken = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return null;
@@ -51,32 +79,7 @@ const Navbar = () => {
     }
   }, []);
 
-  // 로그아웃 처리
-  const handleLogout = () => {
-    SignApiClient.signOut().then(res => {
-      if (res.ok) {
-        localStorage.removeItem('accessToken');
-        alert("로그아웃 성공");
-        setIsLoggedIn(false);
-        setCurUser('');
-        handleMenuClick('/'); // 닫힌 후 메인으로 이동
-      } else {
-        alert("로그아웃 실패");
-      }
-    });
-  };
-
-  // AccessToken Test용
-  const handleTest = () => {
-    SignApiClient.test().then(res => {
-      if (res.ok) {
-        res.text().then(data => alert(data));
-      } else {
-        alert("실패");
-      }
-    });
-  };
-
+  
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">

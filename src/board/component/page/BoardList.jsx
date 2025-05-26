@@ -16,6 +16,7 @@ const BoardList = () => {
         res => {
           if (res.ok) {
             res.json().then(data => {
+              console.log(data);
               setBoards(data);
               console.log("get success");
             });
@@ -30,6 +31,10 @@ const BoardList = () => {
       setLoading(false);
     }
   };
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    return isoString.substring(0, 16).replace("T", " ");
+  };
 
   useEffect(() => {
     getBoardList();
@@ -39,19 +44,8 @@ const BoardList = () => {
   if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
 
   return (
-    <div
 
-
-      style={{
-        minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-        width: "100vw",               // 가로폭: 브라우저 창 전체
-        overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
-        background: "linear-gradient(135deg, #f0f8ff 0%, #e0c3fc 100%)",
-        position: "relative"          // 하위 요소 레이아웃 보호
-      }}
-
-      className="container mt-4">
-
+    <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
         <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
@@ -64,7 +58,6 @@ const BoardList = () => {
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
             <th scope="col">날짜</th>
-            <th scope="col">수정</th> {/* 수정 열 추가 */}
           </tr>
         </thead>
         <tbody>
@@ -77,12 +70,7 @@ const BoardList = () => {
                 </Link>
               </td>
               <td>{board.memberNickname}</td>
-              <td>{board.modifiedDate}</td>
-              <td>
-                <Link to={`/board/edit?no=${board.id}`} className="btn btn-sm btn-outline-primary">
-                  수정
-                </Link>
-              </td>
+              <td>{formatDate(board.modifiedDate)}</td>
             </tr>
           ))}
         </tbody>

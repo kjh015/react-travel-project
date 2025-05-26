@@ -13,7 +13,7 @@ const CampaignPlan = () => {
   const [file, setFile] = useState(null);
 
   return (
-    <div className="container-fluid mt-5">
+    <div className="container mt-5">
       <div className="row">
         {/* 왼쪽: 사이드 메뉴 */}
 

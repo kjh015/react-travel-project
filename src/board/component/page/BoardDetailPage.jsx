@@ -1,120 +1,144 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
+
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import myImage from '../imgs/jeju.jpg';
 import WriteComment from '../../../comment/component/WriteComment';
+import { Card, Badge, Carousel } from "react-bootstrap";
+import Navbar from "../../../common/Navbar";
+import BoardApiClient from "../../service/BoardApiClient";
+import { useSearchParams, Link } from "react-router-dom";
 
-// 상세보기 파일
+const categoryColors = {
+  축제: "danger",
+  공연: "primary",
+  행사: "success",
+  체험: "warning",
+  쇼핑: "info",
+  자연: "success",
+  역사: "secondary",
+  가족: "dark",
+  음식: "warning",
+};
+
+const regionColors = {
+  서울: "primary",
+  부산: "info",
+  제주: "success",
+  // 필요시 추가
+};
+
 const BoardDetailPage = () => {
-  let [like, setLike] = useState(0);
+  const [searchParams] = useSearchParams();
+  const no = searchParams.get('no');
+  const [board, setBoard] = useState({
+    no: '',
+    title: '',
+    content: '',
+    memberNickname: '',
+    travelPlace: '',
+    address: '',
+    category: '',
+    region: ''
+  });
+
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    // 예: 2025-05-22T17:13:56.160912 -> 2025-05-22 17:13
+    return isoString.substring(0, 16).replace("T", " ");
+  };
+
+  const viewBoard = () => {
+    BoardApiClient.getBoard(no).then(
+      res => {
+        if (res.ok) {
+          res.json().then(data => {
+            setBoard(data);
+            console.log(data);
+          });
+        } else {
+          console.log('에러');
+        }
+      }
+    )
+  }
+
+  useEffect(() => {
+    viewBoard();
+    // eslint-disable-next-line
+  }, [no]);
 
   return (
-    <>
-
-
-      {/* 상단 네비 스타일 */}
-      <div
-
-        className="container d-flex justify-content-between align-items-center py-3">
-        <a href="#" className="navbar-brand d-flex align-items-center">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="2"
-            aria-hidden="true"
-            className="me-2"
-            viewBox="0 0 24 24"
-          >
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-            <circle cx="12" cy="13" r="4"></circle>
-          </svg>
-          <strong>Place</strong>
-        </a>
-        <button
-          className="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarHeader"
-          aria-controls="navbarHeader"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
+    <div className="container py-5" style={{ minHeight: "100vh" }}>
+      <div className="d-flex justify-content-center" style={{ marginTop: "50px" }}>
+        <Link
+          to="/board/list"
+          className="fw-bold text-dark text-decoration-none"
+          style={{ fontSize: "2rem", letterSpacing: "1px" }}
         >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+          게시판 목록
+        </Link>
       </div>
+      <Card className="shadow-lg" style={{ maxWidth: "650px", margin: "0 auto", borderRadius: "18px", marginTop: "50px" }}>
 
-      <main>
-        <div className="album py-5 bg-body-tertiary"
-          style={{
-            minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-            width: "100vw",               // 가로폭: 브라우저 창 전체
-            overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
-            background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-            position: "relative"          // 하위 요소 레이아웃 보호
-          }}
+        <Card.Body>
 
-        >
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-md-8"> {/* 카드 크기 조정 */}
-                <div className="card shadow-sm border-0" style={{ borderRadius: '24px' }}>
-                  {/* 이미지 중앙정렬 + 스타일 */}
-                  <img
-                    src={myImage}
-                    alt="제주도 돌하르방"
-                    className="card-img-top mx-auto d-block"
-                    style={{
-                      width: '70%',
-                      height: '400px',
-                      objectFit: 'cover',
-                      borderRadius: '20px',
-                      marginTop: '24px',
-                      boxShadow: '0 4px 24px rgba(0,0,0,0.10)'
-                    }}
-                  />
-
-                  <div className="card-body text-center">
-                    <h5 className="card-title mb-3 fw-bold">멋진 제주도 여행기</h5>
-                    <p className="card-text">
-                      This is a wider card with supporting text below as a natural lead-in to
-                      additional content. 😎 제주에서의 멋진 여행이야기와 사진!
-                    </p>
-                    <div className="d-flex justify-content-between align-items-center">
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-sm btn-outline-secondary">View</button>
-                        <button type="button" className="btn btn-sm btn-outline-secondary">Edit</button>
-                      </div>
-                      <small className="text-body-secondary">9 mins ago</small>
-                    </div>
-                  </div>
-                </div>
-              </div>
+          {/* 이미지 캐러셀 섹션 */}
+          {board.images && board.images.length > 0 && (
+            <div className="mb-4">
+              <Carousel>
+                {board.images.map((img, idx) => (
+                  <Carousel.Item key={idx}>
+                    <img
+                      src={img}
+                      className="d-block w-100"
+                      alt={`여행지 이미지${idx + 1}`}
+                      style={{ maxHeight: "320px", objectFit: "cover", borderRadius: "12px" }}
+                    />
+                  </Carousel.Item>
+                ))}
+              </Carousel>
             </div>
+          )}
+          <div className="d-flex justify-content-between align-items-center mb-3">
+            <h4 className="mb-0 fw-bold">{board.title}</h4>
+            <Badge bg={categoryColors[board.category] || "secondary"} className="fs-6">{board.category}</Badge>
           </div>
-        </div>
-      </main>
+          <div className="mb-2 text-muted" style={{ fontSize: "0.95rem" }}>
+            글 번호: <span className="fw-semibold">{board.no}</span> &nbsp;|&nbsp;
+            작성자: <span className="fw-semibold">{board.memberNickname}</span>
+          </div>
+          {/* 생성/수정 날짜 영역 */}
+          <div className="mb-2" style={{ fontSize: "0.92rem", color: "#8b929e" }}>
+            <span >{formatDate(board.modifiedDate)}</span>
+          </div>
+          <hr />
+          <div className="mb-3">
+            <span className="fw-semibold"><i className="bi bi-geo-alt-fill"></i> 여행지</span>: {board.travelPlace}
+            <br />
+            <span className="text-muted" style={{ fontSize: "0.97rem" }}>{board.address}</span>
+          </div>
+          <div className="mb-3">
+            <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역</span>:&nbsp;
+            <Badge bg={regionColors[board.region] || "secondary"}>{board.region}</Badge>
+          </div>
+          <Card className="mb-3" style={{ background: "#f7fafc", border: "none" }}>
+            <Card.Body>
+              <div style={{ whiteSpace: "pre-line", fontSize: "1.05rem" }}>
+                {board.content}
+              </div>
+            </Card.Body>
+          </Card>
+          <div className="d-flex justify-content-end">
+            <Link to={`/board/edit?no=${board.no}`} className="btn btn-sm btn-outline-primary">
+              수정
+            </Link>
+          </div>
 
-      <WriteComment />
-
-      <footer className="text-body-secondary py-5">
-        <div className="container">
-          <p className="float-end mb-1">
-            <a type="button" href="/">Back to Top</a>
-          </p>
-          <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
-          <p className="mb-0">
-            New to Bootstrap? <a href="/">Visit the homepage</a> or read the{" "}
-            <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.
-          </p>
-        </div>
-      </footer>
-    </>
+        </Card.Body>
+      </Card>
+    </div>
   );
 };
 
