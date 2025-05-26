@@ -15,34 +15,20 @@ const MainPageCard = () => {
               boxShadow: "0 8px 32px rgba(60,60,100,0.14)"
             }}
           >
-            <div style={{ position: "relative" }}>
-              <img
-                src={viewImage}
-                alt="Main visual"
-                className="img-fluid"
-                style={{
-                  height: '340px',
-                  objectFit: 'cover',
-                  filter: "brightness(98%)"
-                }}
-              />
-              {/* 이미지 위 오버레이 & 텍스트 (선택) */}
-              {/* <div
-                style={{
-                  position: "absolute",
-                  bottom: "0",
-                  left: "0",
-                  width: "100%",
-                  background: "rgba(40,40,60,0.32)",
-                  color: "#fff",
-                  padding: "16px",
-                  fontSize: "1.3rem",
-                  fontWeight: 600
-                }}
-              >
-                메인 이미지를 설명하는 문구!
-              </div> */}
-            </div>
+            {/* 이미지를 카드에 딱 맞게 꽉 채우기 */}
+            <img
+              src={viewImage}
+              alt="Main visual"
+              className="card-img-top" // Bootstrap의 card 상단 이미지 전용 클래스!
+              style={{
+                height: '340px',        // 원하는 비율로 조정
+                width: '100%',          // 카드 가로를 꽉 채움
+                objectFit: 'cover',     // 이미지를 잘라서 빈 공간 없이 채움
+                filter: "brightness(98%)",
+                display: 'block'        // 여백 방지
+              }}
+            />
+
             <div className="card-body px-4 py-4">
               <h4 className="card-title mb-3 fw-bold">여행의 모든 순간, 함께!</h4>
               <p className="card-text text-secondary mb-4" style={{ fontSize: "1.1rem" }}>
@@ -58,6 +44,7 @@ const MainPageCard = () => {
                       transition: "background 0.2s, box-shadow 0.2s"
                     }}
                   >
+                    글쓰기
                   </button>
                   <button
                     type="button"
@@ -66,6 +53,7 @@ const MainPageCard = () => {
                       transition: "color 0.2s, border 0.2s"
                     }}
                   >
+                    둘러보기
                   </button>
                 </div>
                 <small className="text-muted">9분 전 · by <b>유정석</b></small>
