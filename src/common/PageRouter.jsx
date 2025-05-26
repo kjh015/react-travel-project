@@ -1,6 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import Navbar from "./Navbar";
 
 //sign
 import SignUpPage from '../sign/component/SignUpPage';
@@ -33,16 +32,15 @@ import Navbar from "./Navbar";
 const PageRouter = () => {
     return (
         <BrowserRouter>
-        <Navbar />
+            <Navbar />
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
                 <Route index path="/component/admnpage" element={<AdmnPage />}></Route>
-                <Route index path="/component/mypage" element={<MyPage />}></Route>
 
                 {/* board */}
                 <Route path="/board/list" element={<BoardList />} />
-                <Route path="/board/component/page/BoardDetailPage" element={<BoardDetailPage />} />
+                <Route path="/board/detail" element={<BoardDetailPage />} />
 
                 <Route path="/board/write" element={<BoardWritePage />} />
                 <Route path="/board/edit" element={<BoardEditPage />} />

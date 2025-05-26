@@ -1,6 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
-import { FaEye, FaEdit } from "react-icons/fa"; // 아이콘 사용시
 import viewImage from '../../imgs/view.jpg';
 
 const MainPageCard = () => {
@@ -59,7 +58,6 @@ const MainPageCard = () => {
                       transition: "background 0.2s, box-shadow 0.2s"
                     }}
                   >
-                    <FaEye /> <span>View</span>
                   </button>
                   <button
                     type="button"
@@ -68,7 +66,6 @@ const MainPageCard = () => {
                       transition: "color 0.2s, border 0.2s"
                     }}
                   >
-                    <FaEdit /> <span>Edit</span>
                   </button>
                 </div>
                 <small className="text-muted">9분 전 · by <b>유정석</b></small>
