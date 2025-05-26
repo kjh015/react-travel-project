@@ -21,18 +21,33 @@ const SignInPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('accessToken', data.accessToken);
+                localStorage.setItem('userID', getUserIdFromToken());
                 alert("로그인 성공!");
                 window.location.href = "/";
             } else {
-                alert("로그인 실패");
+                const message = await res.text();
+                alert(message);
             }
         } catch (error) {
             console.error("에러 발생:", error);
             alert("에러가 발생했습니다.");
         }
     };
+    const getUserIdFromToken = () => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) return null;
+
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.sub || payload.loginId;
+        } catch (e) {
+            console.error("토큰 디코딩 실패:", e);
+            return null;
+        }
+    }
 
     useEffect(() => {
+
         document.body.classList.add('bg-body-tertiary');
         return () => document.body.classList.remove('bg-body-tertiary');
     }, []);

@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import RadioPage from './RegionRadioComp';
 
 import BoardApiClient from '../../service/BoardApiClient';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const categoryList = [
     "축제", "공연", "행사", "체험", "쇼핑", "자연", "역사", "가족", "음식"
@@ -32,6 +32,13 @@ const BoardWritePage = () => {
             [id]: value
         }));
     };
+
+    // const handleMember = () => {
+    //     setBoard(prev => ({
+    //         ...prev,
+    //         memberNickname: cat
+    //     }));
+    // };
 
     const handleCategorySelect = (cat) => {
         setBoard(prev => ({
@@ -83,6 +90,9 @@ const BoardWritePage = () => {
             console.error(err);
         }
     };
+    useEffect(() => {
+        
+    }, []);
 
     return (
         <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
