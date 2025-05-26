@@ -9,11 +9,25 @@ import { Link } from "react-router-dom";
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [curUser, setCurUser] = useState('');
-  const navigate = useNavigate();
-  const location = useLocation();
-  const offcanvasRef = useRef(null);
 
+  const handleLogin = (e) => {
+    e.preventDefault();
+    setIsLoggedIn(true); // 로그인 상태로 변경
+  };
 
+  /**
+   * 현재 Sign 문제점: 
+   * - 로그인 실패해도 성공뜸 (백에서 member null로 처리되어 오류) -> member null(ID없음) or password fail(비번틀림) 시 프론트로 오류 보내기
+   * - 현재 accessToken 없어도 로그아웃 버튼 클릭 가능 & 로그아웃 성공 알람 출력
+   *    -> 로그인된 상태면 로그인&회원가입 접근 거부 되도록 / 로그인 안된 상태면 로그아웃 접근 거부되도록
+   * - 로그인 안된 상태로 요청보내면 만료 메시지 나옴 
+   *    -> refreshToken이 아예 없으면 "로그인 필요" 알람 출력 / refreshToken이 만료된 것이면 "재로그인" 알람 출력
+   * - 회원탈퇴 기능 구현 필요
+   *
+   * 
+   * 
+   * 
+   */
   const handleLogout = () => {
     SignApiClient.signOut().then(
       res => {
@@ -43,31 +57,24 @@ const Navbar = () => {
       }
     )
   }
-
   const getUserIdFromToken = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return null;
+
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub || payload.loginId;
+      return payload.sub || payload.loginId; // JWT 구조에 따라 다름
     } catch (e) {
       console.error("토큰 디코딩 실패:", e);
       return null;
     }
-  };
-
+  }
   useEffect(() => {
-    const userId = getUserIdFromToken();
-    if (userId) {
-      setIsLoggedIn(true);
-      setCurUser(userId);
-    } else {
-      setIsLoggedIn(false);
-      setCurUser('');
-    }
+    setCurUser(getUserIdFromToken());
+    document.body.style.overflow = 'auto';
+    document.body.classList.remove('offcanvas-backdrop');
   }, []);
 
-  
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
@@ -82,7 +89,7 @@ const Navbar = () => {
           className="offcanvas offcanvas-end text-bg-dark"
           tabIndex="-1"
           id="offcanvasNavbar"
-          aria-labelledby="offcanvasNavbarLabel"          
+          aria-labelledby="offcanvasNavbarLabel"
         >
           <div className="offcanvas-header">
             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">메뉴</h5>
