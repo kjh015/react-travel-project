@@ -33,6 +33,13 @@ const BoardWritePage = () => {
         }));
     };
 
+    const handleMember = () => {
+        setBoard(prev => ({
+            ...prev,
+            memberNickname: cat
+        }));
+    };
+
     const handleCategorySelect = (cat) => {
         setBoard(prev => ({
             ...prev,
@@ -83,6 +90,9 @@ const BoardWritePage = () => {
             console.error(err);
         }
     };
+    useEffect(() => {
+        
+    }, []);
 
     return (
         <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>

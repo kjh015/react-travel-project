@@ -32,7 +32,7 @@ import Navbar from "./Navbar";
 const PageRouter = () => {
     return (
         <BrowserRouter>
-            <Navbar />
+            <Navbar />  
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
