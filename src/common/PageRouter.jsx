@@ -19,6 +19,8 @@ import CheckMyArt from "../board/component/page/CheckMyArt";
 
 //comment
 import ChckMyCom from '../comment/component/ChckMyCom';
+import CommentPage from '../comment/component/CommentPage';
+
 
 //others
 import SseSubscriber from "../sse/components/SseSubscriber";
@@ -49,6 +51,7 @@ const PageRouter = () => {
 
                 {/* //comment */}
                 <Route path="page/chckmycom" element={<ChckMyCom />} />
+                <Route path="comment/component/CommentPage" element={<CommentPage />} />
 
 
                 {/* //board */}

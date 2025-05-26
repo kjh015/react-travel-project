@@ -4,6 +4,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import Navbar from '../../../common/Navbar';
 import myImage from '../imgs/jeju.jpg';
 import WriteComment from '../../../comment/component/WriteComment';
+import CommentPage from '../../../comment/component/CommentPage';
 
 // 상세보기 파일
 const BoardDetailPage = () => {
@@ -89,7 +90,7 @@ const BoardDetailPage = () => {
         </div>
       </main>
 
-      <WriteComment />
+      <CommentPage />
 
       <footer className="text-body-secondary py-5">
         <div className="container">

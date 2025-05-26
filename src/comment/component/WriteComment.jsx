@@ -3,6 +3,7 @@ import { useState } from "react";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import CommentList from "./CommentList";
 
 //댓글 쓰는 파일
 const WriteComment = () => {
@@ -53,22 +54,10 @@ const WriteComment = () => {
                     <button type="submit" className="btn btn-primary">작성하기</button>
                 </form>
 
-                {/* 댓글 목록 */}
-                <div className="mt-5">
-                    <h5>댓글 목록</h5>
-                    {comments.length === 0 && <p>아직 댓글이 없습니다.</p>}
-                    <ul className="list-group">
-                        {comments.map((c, idx) => (
-                            <li key={idx} className="list-group-item">
-                                <strong>{c.name}</strong>: {c.comment}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
             </div>
 
         </div>
     );
 }
 
-export default WriteComment;
+export default WriteComment; 
