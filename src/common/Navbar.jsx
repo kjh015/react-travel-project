@@ -1,33 +1,21 @@
-import { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SignApiClient from "../sign/service/SignApiClient";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Offcanvas } from 'bootstrap';
-import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [curUser, setCurUser] = useState('');
+  const offcanvasRef = useRef(null);        // 오프캔버스 DOM 참조
+  const location = useLocation();
 
   const handleLogin = (e) => {
     e.preventDefault();
-    setIsLoggedIn(true); // 로그인 상태로 변경
+    setIsLoggedIn(true);
   };
 
-  /**
-   * 현재 Sign 문제점: 
-   * - 로그인 실패해도 성공뜸 (백에서 member null로 처리되어 오류) -> member null(ID없음) or password fail(비번틀림) 시 프론트로 오류 보내기
-   * - 현재 accessToken 없어도 로그아웃 버튼 클릭 가능 & 로그아웃 성공 알람 출력
-   *    -> 로그인된 상태면 로그인&회원가입 접근 거부 되도록 / 로그인 안된 상태면 로그아웃 접근 거부되도록
-   * - 로그인 안된 상태로 요청보내면 만료 메시지 나옴 
-   *    -> refreshToken이 아예 없으면 "로그인 필요" 알람 출력 / refreshToken이 만료된 것이면 "재로그인" 알람 출력
-   * - 회원탈퇴 기능 구현 필요
-   *
-   * 
-   * 
-   * 
-   */
   const handleLogout = () => {
     SignApiClient.signOut().then(
       res => {
@@ -35,61 +23,75 @@ const Navbar = () => {
           localStorage.removeItem('accessToken');
           window.location.href = '/';
           alert("로그아웃 성공");
-        }
-        else {
+        } else {
           alert("로그아웃 실패");
         }
       }
     )
   };
+
   const handleTest = () => {
     SignApiClient.test().then(
       res => {
         if (res.ok) {
           res.text().then(
-            data =>
-              alert(data)
+            data => alert(data)
           )
-        }
-        else {
+        } else {
           alert("실패");
         }
       }
     )
-  }
+  };
+
   const getUserIdFromToken = () => {
     const token = localStorage.getItem("accessToken");
     if (!token) return null;
-
     try {
       const payload = JSON.parse(atob(token.split('.')[1]));
-      return payload.sub || payload.loginId; // JWT 구조에 따라 다름
+      return payload.sub || payload.loginId;
     } catch (e) {
       console.error("토큰 디코딩 실패:", e);
       return null;
     }
-  }
+  };
+
+  // 최초 렌더링 시 현재 유저ID 셋팅
   useEffect(() => {
     setCurUser(getUserIdFromToken());
     document.body.style.overflow = 'auto';
-    document.body.classList.remove('offcanvas-backdrop');
+    document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+    document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
   }, []);
+
+  // 페이지 이동(라우트 변경) 시 오프캔버스/오버레이/스크롤 문제 모두 정리
+  useEffect(() => {
+    if (offcanvasRef.current) {
+      const instance = Offcanvas.getOrCreateInstance(offcanvasRef.current);
+      instance.hide();
+    }
+    // 오버레이와 스크롤 잠김 현상도 모두 정리
+    document.body.style.overflow = 'auto';
+    document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+    document.querySelectorAll('.offcanvas-backdrop').forEach(el => el.remove());
+  }, [location]);
 
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">Travel React</Link>
 
-        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar"
-        >
+        <button className="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
           <span className="navbar-toggler-icon" />
         </button>
 
         <div
+          ref={offcanvasRef}
           className="offcanvas offcanvas-end text-bg-dark"
           tabIndex="-1"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
+          style={{ "--bs-offcanvas-width": "250px" }}
         >
           <div className="offcanvas-header">
             <h5 className="offcanvas-title" id="offcanvasNavbarLabel">메뉴</h5>
@@ -111,31 +113,23 @@ const Navbar = () => {
               </li>
             </ul>
             <div className="d-flex flex-column align-items-center gap-2 my-3">
-              <Link to={"/sign/component/SignInPage"} className="btn btn-primary"> 로그인 </Link>
-
-
-              {/* 추가 버튼들 */}
-              <Link to="/sign/component/SignUpPage" className="btn btn-success">
-                Sign up
-              </Link>
-              <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger">
-                상세보기
-              </Link>
-              <button class="btn btn-warning" onClick={handleTest}>AccessToken Test</button>
-              <button class="btn btn-outline-danger" onClick={handleLogout}>로그아웃</button>
-              <button class="btn btn-outline-success">ID: {curUser}</button>
-
-
+              <Link to="/sign/component/SignInPage" className="btn btn-primary btn-sm w-50">로그인</Link>
+              <Link to="/sign/component/SignUpPage" className="btn btn-success btn-sm w-50">Sign up</Link>
+              <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger btn-sm w-50">상세보기</Link>
+              <button className="btn btn-warning btn-sm w-50" onClick={handleTest}>AccessToken Test</button>
+              <Link to="/common/MyPage" className="btn btn-success btn-sm w-50">마이페이지</Link>
+              <button className="btn btn-outline-danger btn-sm w-50" onClick={handleLogout}>로그아웃</button>
+              <button className="btn btn-outline-success btn-sm w-50" disabled>ID: {curUser}</button>
               {/* 검색 폼 */}
-              <form className="d-flex mt-3 justify-content-center" role="search">
+              <form className="d-flex mt-3 w-100 justify-content-center" role="search">
                 <input
-                  className="form-control me-2"
+                  className="form-control form-control-sm me-2"
                   type="search"
                   placeholder="검색"
                   aria-label="검색"
                 />
                 <button
-                  className="btn btn-outline-light"
+                  className="btn btn-outline-light btn-sm"
                   type="submit"
                   style={{ whiteSpace: 'nowrap', padding: '0.375rem 0.75rem' }}
                 >

@@ -2,8 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 
-import Navbar from './Navbar';
 import SignApiClient from '../sign/service/SignApiClient';
+
 
 //mypage파일
 const MyPage = () => {
@@ -93,6 +93,11 @@ const MyPage = () => {
                   <div className="mb-3">
                     <Link to="/sign/component/SignUpdatePage" className="btn btn-primary">
                       회원 정보 수정
+                    </Link>
+                  </div>
+                  <div>
+                    <Link to="/board/component/page/LikeListPage" className="btn btn-danger">
+                      찜목록
                     </Link>
                   </div>
 
