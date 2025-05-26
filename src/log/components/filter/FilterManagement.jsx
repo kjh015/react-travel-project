@@ -39,30 +39,9 @@ const FilterManagement = ({ processId, onMenuClick }) => {
         // FilterApiClient.toggleActive(id).then(() => getFilters());
     };
 
-    const filterDate = (datetime, mode = 'full') => {
-        const date = new Date(datetime);
-        if (mode === 'date') {
-            return date.toLocaleDateString('ko-KR', {
-                year: 'numeric',
-                month: '2-digit',
-                day: '2-digit'
-            }).replace(/\./g, '-');
-        }
-        if (mode === 'time') {
-            return date.toLocaleTimeString('ko-KR', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: false
-            });
-        }
-        return date.toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-            hour12: false
-        }).replace(/\./g, '-').replace(' ', ' ').trim();
+    const filterDate = (isoString) => {
+        if (!isoString) return "";
+        return isoString.substring(0, 16).replace("T", " ");
     };
 
 
@@ -111,11 +90,9 @@ const FilterManagement = ({ processId, onMenuClick }) => {
                                         </td>
                                         <td>
                                             <div>{filterDate(filter.createdTime, 'date')}</div>
-                                            <div className="text-muted small">{filterDate(filter.createdTime, 'time')}</div>
                                         </td>
                                         <td>
                                             <div>{filterDate(filter.updatedTime, 'date')}</div>
-                                            <div className="text-muted small">{filterDate(filter.updatedTime, 'time')}</div>
                                         </td>
                                         <td>
                                             <button

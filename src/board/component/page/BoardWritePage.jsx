@@ -16,7 +16,7 @@ const BoardWritePage = () => {
         title: '',
         content: '',
         memberNickname: 'user01',
-        tName: '',
+        travelPlace: '',
         address: '',
         category: '',
         region: '서울'
@@ -61,16 +61,17 @@ const BoardWritePage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        const formData = new FormData();
-        Object.entries(board).forEach(([key, value]) => {
-            formData.append(key, value);
-        });
-        images.forEach((file) => {
-            formData.append('images', file);
-        });
+        // const formData = new FormData();
+        // Object.entries(board).forEach(([key, value]) => {
+        //     formData.append(key, value);
+        // });
+        // images.forEach((file) => {
+        //     formData.append('images', file);
+        // });
+        console.log(board);
 
         try {
-            const response = await BoardApiClient.addBoard(formData);
+            const response = await BoardApiClient.addBoard(board);
             if (response.ok) {
                 alert('글 작성이 완료되었습니다.');
                 navigate('/board/list');
@@ -85,7 +86,7 @@ const BoardWritePage = () => {
 
     return (
         <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
-            <Navbar />
+            
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 text-center fw-bold" style={{ letterSpacing: '2px' }}>글 작성</h2>
@@ -112,14 +113,14 @@ const BoardWritePage = () => {
                         {/* 여행지 이름 + 주소 한 줄 */}
                         <div className="row g-3 mb-4">
                             <div className="col-md-5">
-                                <label htmlFor="tName" className="form-label fw-semibold">여행지 이름</label>
+                                <label htmlFor="travelPlace" className="form-label fw-semibold">여행지 이름</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    id="tName"
+                                    id="travelPlace"
                                     required
                                     placeholder="예: 남산타워"
-                                    value={board.tName}
+                                    value={board.travelPlace}
                                     onChange={handleChange}
                                 />
                             </div>

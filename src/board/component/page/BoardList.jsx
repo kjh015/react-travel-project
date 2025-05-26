@@ -16,6 +16,7 @@ const BoardList = () => {
         res => {
           if (res.ok) {
             res.json().then(data => {
+              console.log(data);
               setBoards(data);
               console.log("get success");
             });
@@ -30,6 +31,10 @@ const BoardList = () => {
       setLoading(false);
     }
   };
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    return isoString.substring(0, 16).replace("T", " ");
+  };
 
   useEffect(() => {
     getBoardList();
@@ -40,7 +45,6 @@ const BoardList = () => {
 
   return (
     <div className="container mt-4">
-      <Navbar />
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
         <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
@@ -53,7 +57,6 @@ const BoardList = () => {
             <th scope="col">제목</th>
             <th scope="col">작성자</th>
             <th scope="col">날짜</th>
-            <th scope="col">수정</th> {/* 수정 열 추가 */}
           </tr>
         </thead>
         <tbody>
@@ -66,12 +69,7 @@ const BoardList = () => {
                 </Link>
               </td>
               <td>{board.memberNickname}</td>
-              <td>{board.modifiedDate}</td>
-              <td>
-                <Link to={`/board/edit?no=${board.id}`} className="btn btn-sm btn-outline-primary">
-                  수정
-                </Link>
-              </td>
+              <td>{formatDate(board.modifiedDate)}</td>
             </tr>
           ))}
         </tbody>

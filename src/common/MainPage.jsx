@@ -13,8 +13,6 @@ import Navbar from "./Navbar";
 const MainPage = () => {
   return (
     <div>
-      {/* Navbar */}
-      <Navbar />
 
       {/* 본문 영역 */}
       <div style={{ marginTop: "80px" }}>

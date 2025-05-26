@@ -34,7 +34,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
     const handleEditComp = () => setEditComp(0);
 
     return (
-        <div className="container-fluid">
+        <div className="container">
             <div className="row">
                 {/* 오른쪽 본문 (Process 관리) */}
                 <div className="col-md-9 col-lg-10">

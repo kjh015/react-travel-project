@@ -1,5 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Navbar from "./Navbar";
+
 //sign
 import SignUpPage from '../sign/component/SignUpPage';
 import SignUpdatePage from "../sign/component/SignUpdatePage";
@@ -34,6 +36,7 @@ import AdmnBoard from "../board/component/page/AdmnBoard";
 const PageRouter = () => {
     return (
         <BrowserRouter>
+        <Navbar />
             <Routes>
                 {/* common */}                
                 <Route index path="/" element={<MainPage />}></Route>

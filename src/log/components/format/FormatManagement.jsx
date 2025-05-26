@@ -37,17 +37,9 @@ const FormatManagement = ({ processId, onMenuClick }) => {
         // FormatApiClient.toggleActive(id).then(() => getFormats());
     };
 
-    const formatDate = (datetime) => {
-        const date = new Date(datetime);
-        return date.toLocaleString('ko-KR', {
-            year: 'numeric',
-            month: '2-digit',
-            day: '2-digit',
-            hour: '2-digit',
-            minute: '2-digit',
-
-            hour12: false,
-        }).replace(/\./g, '-').replace(' ', ' ').trim();
+    const formatDate = (isoString) => {
+        if (!isoString) return "";
+        return isoString.substring(0, 16).replace("T", " ");
     };
 
     return (
@@ -103,7 +95,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
 
                                 {detailComp === format.id && (
                                     <tr>
-                                        <td colSpan="5" className="text-center">
+                                        <td colSpan="5" className="text-center bg-light">
                                             <DetailFormat onClose={handleDetailComp} formatId={format.id} />
                                         </td>
                                     </tr>

@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 import Navbar from './Navbar';
+import SignApiClient from '../sign/service/SignApiClient';
 
 //mypage파일
 const MyPage = () => {
@@ -11,8 +12,37 @@ const MyPage = () => {
     const confirmed = window.confirm('정말 탈퇴하시겠습니까?');
     if (confirmed) {
       alert('회원을 탈퇴합니다');
-      navigate('/');
+      SignApiClient.withdraw().then(
+        res => {
+          res.text().then(
+            message => {
+              if (res.ok) {
+                localStorage.removeItem('accessToken');
+                alert(message);
+                window.location.href = '/';
+              }
+              else {
+                alert(message);
+              }
+            }
+          )
+        }
+      )
     }
+  };
+  const handleLogout = () => {
+    SignApiClient.signOut().then(
+      res => {
+        if (res.ok) {
+          localStorage.removeItem('accessToken');
+          window.location.href = '/';
+          alert("로그아웃 성공");
+        }
+        else {
+          alert("로그아웃 실패");
+        }
+      }
+    )
   };
 
   return (

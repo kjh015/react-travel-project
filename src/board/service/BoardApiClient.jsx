@@ -23,16 +23,7 @@ class BoardApiClient {
         });
 
     }
-    static editBoard({ no, title, content, address, placeName, categorName, regionName }) {
-        const payload = {
-            no,
-            title,
-            content,
-            address,
-            placeName,
-            categorName,
-            regionName
-        };
+    static editBoard(payload) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_EDIT, {
             method: 'POST',
             headers: {
