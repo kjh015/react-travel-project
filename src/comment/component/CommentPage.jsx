@@ -7,8 +7,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 const CommentPage = () => {
     return (
         <div>
-            <WriteComment />
             <CommentList />
+            <WriteComment />
+
         </div>
     );
 }

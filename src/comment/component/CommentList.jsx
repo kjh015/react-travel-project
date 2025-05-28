@@ -20,10 +20,10 @@ const CommentList = ({ comments = [] }) => {
     // comments가 undefined여도 자동으로 [] 처리되어 에러 방지
     return (
         <div className="container my-4">
-            <div className="card shadow-lg border-0 rounded-4 mx-auto" style={{ maxWidth: 540, background: "#fafdffcc" }}>
+            <div className="card shadow-lg border-0 rounded-4 mx-auto" style={{ maxWidth: 520, background: "#fafdffcc" }}>
                 <div className="card-body p-4">
                     <h5 className="mb-4">댓글 목록</h5>
-                    {(comments.length === 0) && <p className="text-muted">아직 댓글이 없습니다.</p>}
+                    {(comments.length === 0) && <p className="text-muted">더미 댓글 예시</p>}
                     <div>
                         {comments.map((c, idx) => (
                             <div key={idx} className="card mb-3 border-0 shadow-sm rounded-3">

@@ -27,13 +27,11 @@ const FormatManagement = ({ processId, onMenuClick }) => {
     const handleDetailComp = () => setDetailComp(0);
 
     const handleActivate = (id) => {
-        // 로컬 상태에서 직접 토글 (즉시 UI 반영)
         const updatedList = formatList.map(format =>
             format.id === id ? { ...format, active: !format.active } : format
         );
         setFormatList(updatedList);
-
-        // 서버에 반영하려면 여기에 API 호출 추가 가능
+        // 서버 반영 필요시 아래 사용
         // FormatApiClient.toggleActive(id).then(() => getFormats());
     };
 
@@ -44,7 +42,6 @@ const FormatManagement = ({ processId, onMenuClick }) => {
 
     return (
         <div>
-
             <div className="container" style={{ marginTop: '80px' }}>
                 <h4 className="mb-4 fw-bold">포맷 목록</h4>
 
@@ -65,7 +62,6 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                             <th style={{ width: '10%' }}>활성화</th>
                         </tr>
                     </thead>
-
                     <tbody>
                         {formatList.map(format => (
                             <React.Fragment key={format.id}>
@@ -76,7 +72,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                                             className="px-2 py-1 bg-light text-primary rounded-pill d-inline-block fw-semibold"
                                             role="button"
                                             style={{ cursor: 'pointer', transition: '0.2s' }}
-                                            onClick={() => setDetailComp(format.id)}
+                                            onClick={() => setDetailComp(detailComp === format.id ? 0 : format.id)}
                                         >
                                             {format.name}
                                         </span>
@@ -86,13 +82,13 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                                     <td>
                                         <button
                                             className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}
-
+                                        // handleActivate 사용 원할 시 아래 onClick 활성화
+                                        // onClick={() => handleActivate(format.id)}
                                         >
                                             {format.active ? 'ON' : 'OFF'}
                                         </button>
                                     </td>
                                 </tr>
-
                                 {detailComp === format.id && (
                                     <tr>
                                         <td colSpan="5" className="text-center bg-light">

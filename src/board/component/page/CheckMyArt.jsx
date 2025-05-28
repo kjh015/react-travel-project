@@ -16,7 +16,7 @@ const CheckMyArt = () => {
     return (
         <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <h4>작성글 목록</h4>
+                <h4 className="mt-5">작성글 목록</h4>
 
             </div>
 

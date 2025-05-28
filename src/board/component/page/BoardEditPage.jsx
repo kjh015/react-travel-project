@@ -119,7 +119,16 @@ const BoardEditPage = () => {
     };
 
     return (
-        <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+        <div className="py-5"
+
+            style={{
+                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
+                width: "100vw",               // 가로폭: 브라우저 창 전체
+                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+
+                position: "relative"          // 하위 요소 레이아웃 보호
+            }}
+        >
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 

@@ -17,6 +17,7 @@ import BoardWritePage from "../board/component/page/BoardWritePage";
 import BoardEditPage from "../board/component/page/BoardEditPage";
 import LikeListPage from '../board/component/page/LikeListPage';
 import CheckMyArt from "../board/component/page/CheckMyArt";
+import MyPlace from "../board/component/page/MyPlace";
 
 //comment
 import ChckMyCom from '../comment/component/ChckMyCom';
@@ -42,7 +43,7 @@ const PageRouter = () => {
                 <Route path="/board/list" element={<BoardList />} />
                 <Route path="/board/detail" element={<BoardDetailPage />} />
                 <Route path="/board/component/page/LikeListPage" element={<LikeListPage />} />
-
+                <Route path="/board/component/page/MyPlace" element={<MyPlace />} />
                 <Route path="/board/write" element={<BoardWritePage />} />
                 <Route path="/board/edit" element={<BoardEditPage />} />
 

@@ -115,7 +115,7 @@ const Navbar = () => {
             <div className="d-flex flex-column align-items-center gap-2 my-3">
               <Link to="/sign/component/SignInPage" className="btn btn-primary btn-sm w-50">로그인</Link>
               <Link to="/sign/component/SignUpPage" className="btn btn-success btn-sm w-50">Sign up</Link>
-              <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger btn-sm w-50">상세보기</Link>
+
               <button className="btn btn-warning btn-sm w-50" onClick={handleTest}>AccessToken Test</button>
               <Link to="/common/MyPage" className="btn btn-success btn-sm w-50">마이페이지</Link>
               <button className="btn btn-outline-danger btn-sm w-50" onClick={handleLogout}>로그아웃</button>

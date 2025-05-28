@@ -3,8 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { useSearchParams, Link } from "react-router-dom";
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
+import { Tooltip, Card, Badge, OverlayTrigger } from "react-bootstrap";
 
-import { Card, Badge, Carousel } from "react-bootstrap";
 import Navbar from "../../../common/Navbar";
 import BoardApiClient from "../../service/BoardApiClient";
 import CommentPage from "../../../comment/component/CommentPage";
@@ -21,6 +21,10 @@ const regionColors = {
 const BoardDetailPage = () => {
   const [liked, setLiked] = useState(false);
   const handleLike = () => setLiked(prev => !prev);
+
+  const [shared, setShared] = useState(false);
+  const handleShare = () => setShared(prev => !prev);
+
   const [searchParams] = useSearchParams();
   const no = searchParams.get('no');
   const [board, setBoard] = useState({
@@ -53,89 +57,131 @@ const BoardDetailPage = () => {
 
   return (
     <>
+      {/* 하트 hover/active 효과 CSS */}
+      <style>
+        {`
+        .heart-btn {
+          font-size: 1.7rem;
+          color: #b0b0b0;
+          transition: color 0.15s;
+        }
+        .heart-btn.liked,
+        .heart-btn:hover {
+          color: #e64980 !important;
+        }
+        `}
+      </style>
       <Navbar />
-      <div className="container py-5" style={{ minHeight: "100vh" }}>
-        <div className="d-flex justify-content-center" style={{ marginTop: "50px" }}>
-          <Link to="/board/list" className="fw-bold text-dark text-decoration-none"
-            style={{ fontSize: "2rem", letterSpacing: "1px" }}>
-            게시판 목록
-          </Link>
-        </div>
-        {/* 상세 카드 */}
-        <Card className="shadow-lg" style={{ maxWidth: "650px", margin: "0 auto", borderRadius: "18px", marginTop: "50px" }}>
-          <Card.Body>
-            {/* 이미지 캐러셀 */}
-            {board.images && board.images.length > 0 && (
-              <div className="mb-4">
-                <Carousel>
-                  {board.images.map((img, idx) => (
-                    <Carousel.Item key={idx}>
-                      <img
-                        src={img}
-                        className="d-block w-100"
-                        alt={`여행지 이미지${idx + 1}`}
-                        style={{ maxHeight: "320px", objectFit: "cover", borderRadius: "12px" }}
-                      />
-                    </Carousel.Item>
-                  ))}
-                </Carousel>
-              </div>
-            )}
+      <div
+        style={{
+          minHeight: "100vh",
+          width: "100vw",
+          overflowX: "hidden",
 
-            <div className="d-flex justify-content-between align-items-center mb-3">
-              <h4 className="mb-0 fw-bold">{board.title}</h4>
-              <Badge bg={categoryColors[board.category] || "secondary"} className="fs-6">
-                {board.category}
-              </Badge>
-            </div>
-            <div className="mb-2 text-muted" style={{ fontSize: "0.95rem" }}>
-              글 번호: <span className="fw-semibold">{board.no}</span> &nbsp;|&nbsp;
-              작성자: <span className="fw-semibold">{board.memberNickname}</span>
-            </div>
-            <div className="mb-2" style={{ fontSize: "0.92rem", color: "#8b929e" }}>
-              <span>{formatDate(board.modifiedDate || board.createdDate)}</span>
-            </div>
-            <hr />
-            <div className="mb-3">
-              <span className="fw-semibold"><i className="bi bi-geo-alt-fill"></i> 여행지</span>: {board.travelPlace}
-              <br />
-              <span className="text-muted" style={{ fontSize: "0.97rem" }}>{board.address}</span>
-            </div>
-            <div className="mb-3">
-              <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역</span>:&nbsp;
-              <Badge bg={regionColors[board.region] || "secondary"}>{board.region}</Badge>
-            </div>
-            <Card className="mb-3" style={{ background: "#f7fafc", border: "none" }}>
-              <Card.Body>
-                <div style={{ whiteSpace: "pre-line", fontSize: "1.05rem" }}>
-                  {board.content}
+          position: "relative"
+        }}
+      >
+        <div className="container py-5 mt-5" style={{ minHeight: "100vh", maxWidth: "1600px" }}>
+          {/* 상단 게시판 목록 링크 */}
+          <div className="d-flex justify-content-center mb-3">
+            <Link to="/board/list" className="fw-bold text-dark text-decoration-none"
+              style={{ fontSize: "2rem", letterSpacing: "1px" }}>
+              게시판 목록
+            </Link>
+          </div>
+
+          {/* 카드 전체를 크게, flexbox로 넓게 */}
+          <div style={{
+            display: "flex",
+            gap: "32px",
+            width: "95%",
+            margin: "0 auto",
+            alignItems: "stretch"
+          }}>
+            {/* 상세 카드 */}
+            <Card className="shadow-sm flex-fill"
+              style={{
+                borderRadius: "18px",
+                width: "100%",
+                minWidth: "0",
+                background: "#fff",
+                display: "flex",
+                flexDirection: "column"
+              }}>
+              <Card.Body className="pb-2 pt-4 d-flex flex-column" style={{ flex: 1 }}>
+                <div className="d-flex justify-content-between align-items-start mb-1">
+                  <h4 className="fw-bold mb-1">{board.title}</h4>
+                  <Badge bg={categoryColors[board.category] || "secondary"} style={{ fontSize: "1rem" }}>
+                    {board.category}
+                  </Badge>
+                </div>
+                <div className="mb-2 text-muted" style={{ fontSize: "0.96rem" }}>
+                  글 번호: <span className="fw-semibold">{board.no}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span>
+                </div>
+                <hr className="my-2" />
+                <div className="mb-2">
+                  <span className="fw-semibold"><i className="bi bi-geo-alt-fill"></i> 여행지:</span> {board.travelPlace}
+                  <div className="text-muted" style={{ fontSize: "0.97rem" }}>{board.address}</div>
+                </div>
+                <div className="mb-2 d-flex align-items-center justify-content-between">
+                  <div>
+                    <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
+                    <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
+                  </div>
+                  <OverlayTrigger
+                    placement="top"
+                    overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}
+                  >
+                    <Link
+                      to={`/board/edit?no=${board.no}`}
+                      className="btn btn-outline-primary btn-sm ms-2"
+                      style={{ whiteSpace: "nowrap" }}
+                    >
+                      🖊
+                    </Link>
+                  </OverlayTrigger>
+                </div>
+                {/* 본문 */}
+                <Card className="mb-0" style={{ background: "#f7fafc", border: "none" }}>
+                  <Card.Body className="py-2 px-3" style={{ minHeight: "50px", fontSize: "1.08rem" }}>
+                    {board.content}
+                  </Card.Body>
+                </Card>
+                {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
+                <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
+                  <button
+                    className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
+                    onClick={handleLike}
+                    style={{ textDecoration: "none" }}
+                    aria-label={liked ? "찜 취소" : "찜하기"}
+                  >
+                    <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-primary px-4"
+                    onClick={handleShare}
+                  >
+                    {shared ? "공유취소" : "공유하기"}
+                  </button>
                 </div>
               </Card.Body>
             </Card>
-
-            {/* 하단 버튼 영역 */}
-            <div className="d-flex justify-content-between align-items-center">
-              <button
-                className="btn btn-link p-0"
-                onClick={handleLike}
-                style={{
-                  fontSize: "1.7rem",
-                  color: liked ? "#e64980" : "#b0b0b0",
-                  textDecoration: "none"
-                }}
-                aria-label={liked ? "찜 취소" : "찜하기"}
-              >
-                <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
-              </button>
-              <Link to={`/board/edit?no=${board.no}`} className="btn btn-sm btn-outline-primary">
-                수정
-              </Link>
-            </div>
-          </Card.Body>
-        </Card>
-        {/* 댓글 영역 */}
-        <div className="mt-4" style={{ maxWidth: "650px", margin: "0 auto" }}>
-          <CommentPage boardNo={board.no} />
+            {/* 댓글 카드 */}
+            <Card className="shadow-sm flex-fill"
+              style={{
+                borderRadius: "18px",
+                width: "70%",
+                minWidth: "0",
+                background: "#fff",
+                display: "flex",
+                flexDirection: "column"
+              }}>
+              <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
+                <CommentPage boardNo={board.no} />
+              </Card.Body>
+            </Card>
+          </div>
         </div>
       </div>
     </>
