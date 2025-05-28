@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 import BoardApiClient from "../../service/BoardApiClient";
@@ -8,6 +8,7 @@ const BoardList = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const getBoardList = async () => {
     setLoading(true);
@@ -35,6 +36,14 @@ const BoardList = () => {
     if (!isoString) return "";
     return isoString.substring(0, 16).replace("T", " ");
   };
+  const goToWrite = () => {
+    if (localStorage.getItem('accessToken') != null) {
+      navigate("/board/write");      
+    }
+    else{
+      alert("권한이 없습니다.");
+    }
+  }
 
   useEffect(() => {
     getBoardList();
@@ -48,7 +57,7 @@ const BoardList = () => {
     <div className="container mt-4">
       <div className="d-flex justify-content-between align-items-center mb-3">
         <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
-        <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
+        <button className="btn btn-primary" onClick={goToWrite}>글쓰기</button>
       </div>
 
       <table className="table table-hover">

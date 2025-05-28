@@ -2,12 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
+import { useNavigate } from 'react-router-dom';
 
 const SignInPage = () => {
     const [loginData, setLoginData] = useState({
         loginId: '',
         password: ''
     });
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -21,9 +23,16 @@ const SignInPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('accessToken', data.accessToken);
-                localStorage.setItem('userID', getUserIdFromToken());
-                alert("로그인 성공!");
-                window.location.href = "/";
+                const resNN = await SignApiClient.getNickname(getUserIdFromToken());
+                const message = await resNN.text();
+                if (resNN.ok) {
+                    localStorage.setItem('nickname', message);
+                    alert("로그인 성공!");
+                    navigate("/");
+                }
+                else {
+                    alert(message);
+                }
             } else {
                 const message = await res.text();
                 alert(message);
@@ -35,6 +44,7 @@ const SignInPage = () => {
     };
     const getUserIdFromToken = () => {
         const token = localStorage.getItem("accessToken");
+        console.log("TK: " + token);
         if (!token) return null;
 
         try {

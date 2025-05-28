@@ -8,13 +8,14 @@ import FormatManagement from '../log/components/format/FormatManagement';
 import ProcessManagement from '../log/components/process/ProcessManagement';
 import FilterManagement from '../log/components/filter/FilterManagement';
 import LogManagement from '../log/components/db/LogManagement';
+import DeduplicationManagement from '../log/components/deduplication/DeduplicationManagement';
 
 
 import AdmnBoard from '../board/component/page/AdmnBoard';
 
 const AdmnPage = () => {
   const [activeMenu, setActiveMenu] = useState('process');
-  const [processId, setProcessId] = useState('processId');
+  const [processId, setProcessId] = useState(1);
 
   // 렌더링할 컴포넌트 결정
   const renderContent = () => {
@@ -31,6 +32,9 @@ const AdmnPage = () => {
         return <FilterManagement processId={processId} onMenuClick={setActiveMenu} />
       case 'log':
         return <LogManagement onMenuClick={setActiveMenu} />
+      case 'deduplication':
+        return <DeduplicationManagement processId={processId} onMenuClick={setActiveMenu} />
+
 
       default:
         return <div>선택된 메뉴가 없습니다.</div>;

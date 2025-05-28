@@ -28,6 +28,7 @@ import ProcessManagement from "../log/components/process/ProcessManagement";
 import FilterManagement from "../log/components/filter/FilterManagement";
 import LogManagement from "../log/components/db/LogManagement";
 import Navbar from "./Navbar";
+import DeduplicationManagement from "../log/components/deduplication/DeduplicationManagement";
 
 const PageRouter = () => {
     return (
@@ -56,6 +57,8 @@ const PageRouter = () => {
                 <Route index path="/log/process" element={<ProcessManagement />}></Route>
                 <Route index path="/log/filter" element={<FilterManagement />}></Route>
                 <Route index path="/log/db" element={<LogManagement />}></Route>
+                <Route index path="/log/deduplication" element={<DeduplicationManagement />}></Route>
+
 
                 {/* comment */}
                 <Route path="page/chckmycom" element={<ChckMyCom />} />

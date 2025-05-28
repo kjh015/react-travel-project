@@ -8,7 +8,7 @@ import WriteComment from '../../../comment/component/WriteComment';
 import { Card, Badge, Carousel } from "react-bootstrap";
 import Navbar from "../../../common/Navbar";
 import BoardApiClient from "../../service/BoardApiClient";
-import { useSearchParams, Link } from "react-router-dom";
+import { useSearchParams, Link, useNavigate } from "react-router-dom";
 
 const categoryColors = {
   축제: "danger",
@@ -32,6 +32,7 @@ const regionColors = {
 const BoardDetailPage = () => {
   const [searchParams] = useSearchParams();
   const no = searchParams.get('no');
+  const navigate = useNavigate();
   const [board, setBoard] = useState({
     no: '',
     title: '',
@@ -62,6 +63,14 @@ const BoardDetailPage = () => {
         }
       }
     )
+  }
+  const goToEdit = () => {
+    if (localStorage.getItem('nickname') == board.memberNickname) {
+      navigate(`/board/edit?no=${board.no}`);      
+    }
+    else{
+      alert("권한이 없습니다.");
+    }
   }
 
   useEffect(() => {
@@ -131,9 +140,9 @@ const BoardDetailPage = () => {
             </Card.Body>
           </Card>
           <div className="d-flex justify-content-end">
-            <Link to={`/board/edit?no=${board.no}`} className="btn btn-sm btn-outline-primary">
+            <button className="btn btn-sm btn-outline-primary" onClick={goToEdit}>
               수정
-            </Link>
+            </button>
           </div>
 
         </Card.Body>

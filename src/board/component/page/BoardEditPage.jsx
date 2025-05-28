@@ -58,6 +58,12 @@ const BoardEditPage = () => {
 
     useEffect(() => {
         viewBoard();
+        let nickname = localStorage.getItem("nickname");
+        setBoard(prev => ({
+            ...prev,
+            memberNickname: nickname
+        }));
+
     }, [no]);
 
     const handleChange = (e) => {
@@ -123,10 +129,29 @@ const BoardEditPage = () => {
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 
-                     fw-bold" style={{ letterSpacing: '2px' }}>글 수정</h2>
+                     fw-bold" style={{ textAlign: 'center', letterSpacing: '2px' }}>글 수정</h2>
                     <div className="text-secondary text-center mb-4" style={{ fontSize: '1.07rem' }}>
                         여행지, 사진, 지역, 카테고리, 후기를 모두 입력해 주세요!
                     </div>
+                    <div className="mb-4 d-flex justify-content-end">
+                        <span
+                            className="fw-semibold"
+                            style={{ fontSize: '1.08rem', color: '#222', marginRight: 6 }}
+                        >
+                            작성자:
+                        </span>
+                        <span
+                            className="fw-bold"
+                            style={{
+                                fontSize: '1.08rem',
+                                minWidth: 80,
+                                display: 'inline-block'
+                            }}
+                        >
+                            {board.memberNickname || ""}
+                        </span>
+                    </div>
+
                     <form onSubmit={handleSubmit}>
 
                         {/* 제목 단독 줄 */}

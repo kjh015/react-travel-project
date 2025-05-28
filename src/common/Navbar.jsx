@@ -19,7 +19,8 @@ const Navbar = () => {
       res => {
         if (res.ok) {
           localStorage.removeItem('accessToken');
-          window.location.href = '/';
+          localStorage.removeItem('nickname');
+          navigate("/");
           alert("로그아웃 성공");
         }
         else {
@@ -44,7 +45,7 @@ const Navbar = () => {
   }
 
   const goToLogin = () => {
-    if (localStorage.getItem('userID') != null) {
+    if (localStorage.getItem('accessToken') != null) {
       alert("이미 로그인되어 있습니다.");
     }
     else{
@@ -53,7 +54,7 @@ const Navbar = () => {
   }
 
   useEffect(() => {
-    setCurUser(localStorage.getItem('userID'));
+    setCurUser(localStorage.getItem('nickname'));
     document.body.style.overflow = 'auto';
     document.body.classList.remove('offcanvas-backdrop');
   }, []);

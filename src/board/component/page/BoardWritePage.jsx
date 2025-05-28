@@ -33,12 +33,7 @@ const BoardWritePage = () => {
         }));
     };
 
-    // const handleMember = () => {
-    //     setBoard(prev => ({
-    //         ...prev,
-    //         memberNickname: cat
-    //     }));
-    // };
+    
 
     const handleCategorySelect = (cat) => {
         setBoard(prev => ({
@@ -90,8 +85,19 @@ const BoardWritePage = () => {
             console.error(err);
         }
     };
+
+    const handleMember = () => {
+        setBoard(prev => ({
+            ...prev,
+            memberNickname: localStorage.getItem("nickname")
+        }));
+    };
     useEffect(() => {
-        
+        let nickname = localStorage.getItem("nickname");
+        setBoard(prev => ({
+            ...prev,
+            memberNickname: nickname
+        }));
     }, []);
 
     return (
