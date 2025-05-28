@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//작성 글 파일
-const CheckMyArt = () => {
+//찜 목록 파일
+const LikeListPage = () => {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -14,9 +14,9 @@ const CheckMyArt = () => {
     if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4" style={{ backgroundColor: '#eaf4fc', minHeight: '100vh' }}>
             <div className="d-flex justify-content-between align-items-center mb-3">
-                <h4 className="mt-5">작성글 목록</h4>
+                <h4 className="mt-5">찜 목록</h4>
 
             </div>
 
@@ -66,4 +66,4 @@ const CheckMyArt = () => {
     );
 };
 
-export default CheckMyArt;
+export default LikeListPage;

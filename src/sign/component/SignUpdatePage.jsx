@@ -1,101 +1,62 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
+const inputBoxStyle = {
+    width: "60%",
+    minWidth: "220px",
+    maxWidth: "400px",
+    margin: "0 auto 20px auto",
+};
+
 const SignUpdatePage = () => {
     return (
-
-        <div className="container">
+        <div
+            style={{
+                minHeight: "100vh",
+                width: "100vw",
+                overflowX: "hidden",
+                background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
+                position: "relative"
+            }}
+        >
             <main>
-
-                <div style={{ flex: 1, marginTop: '70px', padding: '20px' }} className="py-5 text-center">
+                <div style={{ width: "100%", marginTop: '70px', padding: '20px', textAlign: 'center' }}>
                     <a className="btn btn-secondary" href="/">Travel React</a>
-                    <div style={{ flex: 1, marginTop: '30px', padding: '20px' }}></div>
+                    <div style={{ marginTop: '30px', padding: '20px' }}></div>
                     <h1 className="h2">회원 정보 수정</h1>
                 </div>
-                <div className="row justify-content-center">
-                    <div className="col-md-7 col-lg-8">
-                        <form className="needs-validation" noValidate>
-                            <div className="row g-3">
-                                {/* 이름 */}
-                                <div className="col-sm-6">
-                                    <label htmlFor="firstName" className="form-label">이름</label>
-                                    <input type="text" className="form-control" id="firstName" required />
-                                    <div className="invalid-feedback">이름을 입력해주세요.</div>
-                                </div>
-
-                                {/* 아이디 */}
-                                <div className="col-12">
-                                    <label htmlFor="username" className="form-label">아이디</label>
-                                    <div className="input-group has-validation">
-                                        <input type="text" className="form-control" id="username" required />
-                                        <div className="invalid-feedback">아이디를 입력해주세요.</div>
-                                    </div>
-                                </div>
-
-                                {/* 이메일 */}
-                                <div className="col-12">
-                                    <label htmlFor="email" className="form-label">
-                                        이메일 <span className="text-body-secondary">(선택)</span>
-                                    </label>
-                                    <input type="email" className="form-control" id="email" placeholder="you@example.com" />
-                                    <div className="invalid-feedback">유효한 이메일을 입력해주세요.</div>
-                                </div>
-
-                                {/* 주소 */}
-                                <div className="col-12">
-                                    <label htmlFor="address" className="form-label">주소</label>
-                                    <input type="text" className="form-control" id="address" required />
-                                    <div className="invalid-feedback">주소를 입력해주세요.</div>
-                                </div>
-
-                                {/* 상세주소 */}
-                                <div className="col-12">
-                                    <label htmlFor="address2" className="form-label">
-                                        상세주소 <span className="text-body-secondary">(선택)</span>
-                                    </label>
-                                    <input type="text" className="form-control" id="address2" placeholder="예: 아파트, 동/호수" />
-                                </div>
-
-                                {/* 국가 */}
-                                <div className="col-md-5">
-                                    <label htmlFor="country" className="form-label">국가</label>
-                                    <select className="form-select" id="country" required>
-                                        <option value="">선택...</option>
-                                        <option>대한민국</option>
-                                        <option>United States</option>
-                                    </select>
-                                    <div className="invalid-feedback">국가를 선택해주세요.</div>
-                                </div>
-
-                                {/* 도 */}
-                                <div className="col-md-4">
-                                    <label htmlFor="state" className="form-label">도</label>
-                                    <select className="form-select" id="state" required>
-                                        <option value="">선택...</option>
-                                        <option>서울특별시</option>
-                                        <option>California</option>
-                                    </select>
-                                    <div className="invalid-feedback">도/시를 선택해주세요.</div>
-                                </div>
-
-                                {/* 우편번호 */}
-                                <div className="col-md-3">
-                                    <label htmlFor="zip" className="form-label">우편번호</label>
-                                    <input type="text" className="form-control" id="zip" required />
-                                    <div className="invalid-feedback">우편번호를 입력해주세요.</div>
-                                </div>
-                            </div>
-                            <div style={{ flex: 1, marginTop: '30px', padding: '20px' }}></div>
-
-                            <div class="d-grid gap-2">
-                                <a class="btn btn-primary" href="/">정보 수정 완료</a>
-                            </div>
-
-                        </form>
+                <form className="needs-validation" noValidate style={{ width: "100%", padding: "0 10vw" }}>
+                    {/* 이름 */}
+                    <div style={inputBoxStyle}>
+                        <label htmlFor="firstName" className="form-label">이름</label>
+                        <input type="text" className="form-control" id="firstName" required />
+                        <div className="invalid-feedback">이름을 입력해주세요.</div>
                     </div>
-                </div>
+                    {/* 아이디 */}
+                    <div style={inputBoxStyle}>
+                        <label htmlFor="username" className="form-label">아이디</label>
+                        <input type="text" className="form-control" id="username" required />
+                        <div className="invalid-feedback">아이디를 입력해주세요.</div>
+                    </div>
+                    {/* 이메일 */}
+                    <div style={inputBoxStyle}>
+                        <label htmlFor="email" className="form-label">
+                            이메일 <span className="text-body-secondary">(선택)</span>
+                        </label>
+                        <input type="email" className="form-control" id="email" placeholder="you@example.com" />
+                        <div className="invalid-feedback">유효한 이메일을 입력해주세요.</div>
+                    </div>
+                    {/* 비밀번호 */}
+                    <div style={inputBoxStyle}>
+                        <label htmlFor="password" className="form-label">비밀번호</label>
+                        <input type="password" className="form-control" id="password" required />
+                        <div className="invalid-feedback">비밀번호를 입력해주세요.</div>
+                    </div>
+                    <div style={{ ...inputBoxStyle, marginBottom: "40px" }}>
+                        <a className="btn btn-primary w-100" href="/">정보 수정 완료</a>
+                    </div>
+                </form>
             </main>
-
             <footer className="my-5 pt-5 text-body-secondary text-center text-small">
                 <p className="mb-1">© 2017–2025 Company Name</p>
                 <ul className="list-inline">

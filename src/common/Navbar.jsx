@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
-import { useNavigate, Link } from 'react-router-dom';
+
+import { Offcanvas, Button, Form } from 'react-bootstrap';
+import { useEffect, useState, useRef } from "react";
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import SignApiClient from "../sign/service/SignApiClient";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Offcanvas, Button, Form } from 'react-bootstrap';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const Navbar = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [curUser, setCurUser] = useState('');
-
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
 
   const handleLogout = () => {
     SignApiClient.signOut().then(
@@ -20,15 +20,17 @@ const Navbar = () => {
         if (res.ok) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('nickname');
-          navigate("/");
           alert("로그아웃 성공");
-        }
-        else {
+          handleClose();
+          navigate("/");
+          
+        } else {
           alert("로그아웃 실패");
         }
       }
     )
   };
+
   const handleTest = () => {
     SignApiClient.test().then(
       res => {
@@ -36,8 +38,7 @@ const Navbar = () => {
           res.text().then(
             data => alert(data)
           )
-        }
-        else {
+        } else {
           alert("실패");
         }
       }
@@ -53,11 +54,12 @@ const Navbar = () => {
     }
   }
 
+
   useEffect(() => {
     setCurUser(localStorage.getItem('nickname'));
     document.body.style.overflow = 'auto';
-    document.body.classList.remove('offcanvas-backdrop');
-  }, []);
+    document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+  }, [handleShow]);
 
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
@@ -70,6 +72,7 @@ const Navbar = () => {
           onClick={handleShow}
           aria-controls="offcanvasNavbar"
         >
+
           <span className="navbar-toggler-icon" />
         </Button>
 
@@ -80,6 +83,7 @@ const Navbar = () => {
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
           className="text-bg-dark"
+
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id="offcanvasNavbarLabel">메뉴</Offcanvas.Title>
@@ -94,27 +98,25 @@ const Navbar = () => {
               </li>
             </ul>
             <div className="d-flex flex-column align-items-center gap-2 my-3">
-              <Button variant="primary" onClick={() => { goToLogin(); handleClose(); }}>로그인</Button>
-              <Link to="/sign/component/SignUpPage" className="btn btn-success" onClick={handleClose}>
+              <Button variant="primary btn-sm w-50" onClick={() => { goToLogin(); handleClose(); }}>로그인</Button>
+              <Link to="/sign/component/SignUpPage" className="btn btn-success btn-sm w-50" onClick={handleClose}>
                 Sign up
               </Link>
-              <Link to="/board/component/page/BoardDetailPage" className="btn btn-danger" onClick={handleClose}>
-                상세보기
-              </Link>
-              <button className="btn btn-warning" onClick={handleTest}>AccessToken Test</button>
-              <button className="btn btn-outline-danger" onClick={handleLogout}>로그아웃</button>
-              <button className="btn btn-outline-success" disabled>ID: {curUser}</button>
-
+              <button className="btn btn-warning btn-sm w-50" onClick={handleTest}>AccessToken Test</button>
+              <Link to="/common/MyPage" className="btn btn-success btn-sm w-50">마이페이지</Link>
+              <button className="btn btn-outline-danger btn-sm w-50" onClick={handleLogout}>로그아웃</button>
+              <button className="btn btn-outline-success btn-sm w-50" disabled>ID: {curUser}</button>
               {/* 검색 폼 */}
               <Form className="d-flex mt-3 justify-content-center" role="search">
                 <Form.Control
+
                   type="search"
                   placeholder="검색"
                   className="me-2"
                   aria-label="검색"
                 />
                 <Button
-                  variant="outline-light"
+                  variant="outline-light btn-sm"
                   type="submit"
                   style={{ whiteSpace: 'nowrap', padding: '0.375rem 0.75rem' }}
                 >

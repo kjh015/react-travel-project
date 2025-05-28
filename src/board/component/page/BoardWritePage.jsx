@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import RadioPage from './RegionRadioComp';
 
 import BoardApiClient from '../../service/BoardApiClient';
-import { useEffect, useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 const categoryList = [
     "축제", "공연", "행사", "체험", "쇼핑", "자연", "역사", "가족", "음식"
@@ -25,6 +25,21 @@ const BoardWritePage = () => {
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
+    // 드롭다운 상태와 ref
+    const [dropdownOpen, setDropdownOpen] = useState(false);
+    const dropdownRef = useRef();
+
+    // 바깥 클릭시 드롭다운 닫힘
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+                setDropdownOpen(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
+
     const handleChange = (e) => {
         const { id, value } = e.target;
         setBoard(prev => ({
@@ -40,6 +55,7 @@ const BoardWritePage = () => {
             ...prev,
             category: cat
         }));
+        setDropdownOpen(false); // 선택 후 닫기
     };
 
     const handleRegionChange = (regionValue) => {
@@ -101,7 +117,18 @@ const BoardWritePage = () => {
     }, []);
 
     return (
-        <div className="py-5" style={{ backgroundColor: '#f8f9fa', minHeight: '100vh' }}>
+        <div
+
+            style={{
+                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
+                width: "100vw",               // 가로폭: 브라우저 창 전체
+                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+
+
+                position: "relative"          // 하위 요소 레이아웃 보호
+            }}
+
+            className="" >
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 text-center fw-bold" style={{ letterSpacing: '2px' }}>글 작성</h2>
@@ -157,16 +184,16 @@ const BoardWritePage = () => {
                         <div className="row g-3 mb-4">
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">카테고리</label>
-                                <div className="dropdown">
+                                <div className="dropdown" ref={dropdownRef}>
                                     <button
-                                        className="btn btn-outline-primary dropdown-toggle w-100"
+                                        className="btn btn-outline-primary w-100"
                                         type="button"
-                                        data-bs-toggle="dropdown"
+                                        onClick={() => setDropdownOpen(open => !open)}
                                         style={{ fontWeight: '500', fontSize: '1.08rem' }}
                                     >
                                         {board.category || "카테고리 선택"}
                                     </button>
-                                    <ul className="dropdown-menu w-100">
+                                    <ul className={`dropdown-menu w-100${dropdownOpen ? " show" : ""}`}>
                                         {categoryList.map((cat, idx) => (
                                             <li key={idx}>
                                                 <button
