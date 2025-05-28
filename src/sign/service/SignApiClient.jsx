@@ -6,6 +6,7 @@ class SignApiClient {
     static SIGN_IN = "/sign-in";
     static SIGN_OUT = "/sign-out";
     static WITHDRAW = "/withdraw";
+    static GET_NICKNAME = "/nickname";
 
     static signUp(payload) {        
         return fetch(SignApiClient.SERVER_URL + SignApiClient.SIGN_UP, {
@@ -39,6 +40,15 @@ class SignApiClient {
             credentials: 'include',
         });
         
+    }
+    static getNickname(loginId){
+        return authFetch(SignApiClient.SERVER_URL + SignApiClient.GET_NICKNAME, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ loginId: loginId })
+        });
     }
 
     static test(){
