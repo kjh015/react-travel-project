@@ -21,12 +21,6 @@ const regionColors = {
 };
 
 const BoardDetailPage = () => {
-  const [liked, setLiked] = useState(false);
-
-
-  const [shared, setShared] = useState(false);
-  const handleShare = () => setShared(prev => !prev);
-
   const [searchParams] = useSearchParams();
   const no = searchParams.get('no');
   const navigate = useNavigate();
@@ -36,10 +30,53 @@ const BoardDetailPage = () => {
     createdDate: '', modifiedDate: ''
   });
 
-  const handleLike = () => {
-    // FavoriteApiClient.toggleFavorite
+  const [liked, setLiked] = useState(false);
+  const [shared, setShared] = useState(false);
+  const handleShare = () => setShared(prev => !prev);
 
+
+
+  const handleLike = () => {
+    const nickname = localStorage.getItem("nickname");
+    const payload = {
+      boardId: no,
+      memberNickname: nickname
+    }
+    FavoriteApiClient.toggleFavorite(payload)
+      .then(res => res.json()
+        .then(data => {
+          if (res.ok) {
+            setLiked(data);
+            data ? alert("찜 목록에 추가되었습니다.") : alert("찜 목록에서 삭제되었습니다.")
+          }
+          else {
+            alert("Error");
+          }
+        }
+      )
+    )
   }
+
+  const getLike = () => {
+    const nickname = localStorage.getItem("nickname");
+    const payload = {
+      boardId: no,
+      memberNickname: nickname
+    }
+    FavoriteApiClient.existsFavorite(payload)
+      .then(res => res.json()
+        .then(data => {
+          if (res.ok) {
+            setLiked(data);
+          }
+          else {
+            alert("Error");
+          }
+        }
+      )
+    )
+  }
+
 
   const viewBoard = () => {
     BoardApiClient.getBoard(no).then(
@@ -63,7 +100,7 @@ const BoardDetailPage = () => {
 
   useEffect(() => {
     viewBoard();
-    // eslint-disable-next-line
+    getLike();
   }, [no]);
 
   return (
