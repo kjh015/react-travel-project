@@ -26,15 +26,6 @@ const FormatManagement = ({ processId, onMenuClick }) => {
     const handleInputComp = () => setInputComp(false);
     const handleDetailComp = () => setDetailComp(0);
 
-    const handleActivate = (id) => {
-        const updatedList = formatList.map(format =>
-            format.id === id ? { ...format, active: !format.active } : format
-        );
-        setFormatList(updatedList);
-        // 서버 반영 필요시 아래 사용
-        // FormatApiClient.toggleActive(id).then(() => getFormats());
-    };
-
 
     const formatDate = (isoString) => {
         if (!isoString) return "";
@@ -82,9 +73,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                                     <td>{format.updatedTime && formatDate(format.updatedTime)}</td>
                                     <td>
                                         <button
-                                            className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}
-                                        // handleActivate 사용 원할 시 아래 onClick 활성화
-                                        // onClick={() => handleActivate(format.id)}
+                                            className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}                                        
                                         >
                                             {format.active ? 'ON' : 'OFF'}
                                         </button>
