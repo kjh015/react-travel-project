@@ -35,9 +35,9 @@ const CommentPage = ({ no }) => {
         }
         CommentApiClient.addComment(payload)
             .then(res => res.text()
-                .then(message => { 
-                    alert(message);                   
-                    if(res.ok){                        
+                .then(message => {
+                    alert(message);
+                    if (res.ok) {
                         getCommentList();
                     }
                 })
@@ -53,7 +53,7 @@ const CommentPage = ({ no }) => {
     return (
         <div>
             <CommentList comments={commentList} />
-            <WriteComment onAddComment={addComment}/>
+            <WriteComment onAddComment={addComment} />
 
         </div>
     );

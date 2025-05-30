@@ -28,16 +28,17 @@ const CommentList = ({ comments = [] }) => {
                         {comments.map((c, idx) => (
                             <div key={idx} className="card mb-3 border-0 shadow-sm rounded-3">
                                 <div className="card-body">
-                                    <div className="d-flex align-items-center mb-2">
+                                    <div className="d-flex align-items mb-2">
                                         <strong className="me-2">{c.nickname}</strong>
                                         <span style={{ fontSize: "0.96rem", color: "#aaa" }}>
-                                            | {c.rating ? `★${c.rating}` : "별점 없음"}
+
+                                            {c.rating > 0 && (
+                                                <div className="mb-1">{renderStarsStatic(c.rating)}</div>
+                                            )}
                                         </span>
                                     </div>
                                     <div className="mb-2">{c.content}</div>
-                                    {c.rating > 0 && (
-                                        <div className="mb-1">{renderStarsStatic(c.rating)}</div>
-                                    )}
+
                                 </div>
                             </div>
                         ))}

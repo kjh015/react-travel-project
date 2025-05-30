@@ -1,14 +1,14 @@
 class ProcessApiClient {
-    static SERVER_URL = "http://localhost:8000/process"; 
+    static SERVER_URL = "http://localhost:8000/process";
     static GET_LIST = "/list"
     static POST_ADD = "/add"
     static POST_UPDATE = "/update"
     static POST_REMOVE = "/remove"
 
-    static getProcessList(){
+    static getProcessList() {
         return fetch(ProcessApiClient.SERVER_URL + ProcessApiClient.GET_LIST);
     }
-    static addProcess(name){
+    static addProcess(name) {
         return fetch(ProcessApiClient.SERVER_URL + ProcessApiClient.POST_ADD + "?name=" + name, {
             method: 'POST',
             headers: {
@@ -16,7 +16,7 @@ class ProcessApiClient {
             }
         });
     }
-    static updateProcess(processId, name){
+    static updateProcess(processId, name) {
         return fetch(ProcessApiClient.SERVER_URL + ProcessApiClient.POST_UPDATE + "?processId=" + processId + "&name=" + name, {
             method: 'POST',
             headers: {
@@ -24,7 +24,7 @@ class ProcessApiClient {
             }
         });
     }
-    static removeProcess(processId){
+    static removeProcess(processId) {
         return fetch(ProcessApiClient.SERVER_URL + ProcessApiClient.POST_REMOVE + "?processId=" + processId, {
             method: 'POST',
             headers: {
@@ -33,6 +33,6 @@ class ProcessApiClient {
         });
     }
 
-    
+
 }
 export default ProcessApiClient;
