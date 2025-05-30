@@ -46,7 +46,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
           <tbody key={ddp.id}>
             <tr>
               <td>
-                <span role="button" onClick={() => setShowDetail(showDetail === 0 ? ddp.id : 0)}>
+                <span role="button" onClick={() => setShowDetail(ddp.id)}>
                   {ddp.name}
                 </span>
                 

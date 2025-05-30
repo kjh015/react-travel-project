@@ -1,199 +1,107 @@
 import React, { useEffect, useState } from 'react';
 import LogDBApiClient from '../../service/LogDBApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import LogTable from './LogTable';
 
-const LogManagement = ({onMenuClick}) => {
+const LogManagement = ({ onMenuClick }) => {
     const [successList, setSuccessList] = useState([]);
-    const [failList, setFailList] = useState([]);
+    const [failFilterList, setFailFilterList] = useState([]);
+    const [failDedupList, setFailDedupList] = useState([]);
+
     const [expandedSuccessRowId, setExpandedSuccessRowId] = useState(null);
-    const [expandedFailRowId, setExpandedFailRowId] = useState(null);
+    const [expandedFailFilterRowId, setExpandedFailFilterRowId] = useState(null);
+    const [expandedFailDedupRowId, setExpandedFailDedupRowId] = useState(null);
 
-    const [successSortConfig, setSuccessSortConfig] = useState({ key: null, direction: 'asc' });
-    const [failSortConfig, setFailSortConfig] = useState({ key: null, direction: 'asc' });
-
+    const [successSortConfig, setSuccessSortConfig] = useState({ key: 'id', direction: 'desc' });
+    const [failFilterSortConfig, setFailFilterSortConfig] = useState({ key: 'id', direction: 'desc' });
+    const [failDedupSortConfig, setFailDedupSortConfig] = useState({ key: 'id', direction: 'desc' });
 
     useEffect(() => {
         LogDBApiClient.getSuccessList().then(res => {
-            if (res.ok) {
-                res.json().then(data => setSuccessList(data));
-            } else {
-                alert("Success Log DB get fail");
-            }
+            if (res.ok) res.json().then(setSuccessList);
+            else alert("Success Log DB get fail");
         });
-
-        LogDBApiClient.getFailList().then(res => {
-            if (res.ok) {
-                res.json().then(data => setFailList(data));
-            } else {
-                alert("Fail Log DB get fail");
-            }
+        LogDBApiClient.getFailListByFilter().then(res => {
+            if (res.ok) res.json().then(setFailFilterList);
+            else alert("Fail-Filter Log DB get fail");
+        });
+        LogDBApiClient.getFailListByDeduplication().then(res => {
+            if (res.ok) res.json().then(setFailDedupList);
+            else alert("Fail-Deduplication Log DB get fail");
         });
     }, []);
 
-    const toggleRow = (id, isSuccess) => {
-        if (isSuccess) {
-            setExpandedSuccessRowId(prev => (prev === id ? null : id));
-        } else {
-            setExpandedFailRowId(prev => (prev === id ? null : id));
-        }
-    };
+    const columnsSuccess = [
+        { key: 'id', label: 'Log ID', width: '20%', sortable: true },
+        { key: 'process', label: 'Process', width: '20%', sortable: true },
+        { key: 'createdTime', label: '생성 시간', sortable: true },
+    ];
 
-    const handleSort = (key, isSuccess) => {
-        const config = isSuccess ? successSortConfig : failSortConfig;
-        const newConfig = config.key === key
-            ? { key, direction: config.direction === 'asc' ? 'desc' : 'asc' }
-            : { key, direction: 'asc' };
+    const columnsFailFilter = [
+        { key: 'id', label: 'Log ID', width: '15%', sortable: true },
+        { key: 'process', label: 'Process', width: '15%', sortable: true },
+        { key: 'filter', label: '실패 원인', width: '20%', sortable: true },
+        { key: 'createdTime', label: '생성 시간', sortable: true },
+    ];
 
-        isSuccess ? setSuccessSortConfig(newConfig) : setFailSortConfig(newConfig);
-    };
+    const columnsFailDedup = [
+        { key: 'id', label: 'Log ID', width: '15%', sortable: true },
+        { key: 'process', label: 'Process', width: '15%', sortable: true },
+        { key: 'deduplication', label: '실패 원인', width: '20%', sortable: true },
+        { key: 'createdTime', label: '생성 시간', sortable: true },
+    ];
 
-    const getSortedList = (list, config, nestedFields = {}) => {
-        const { key, direction } = config;
-        if (!key) return list;
-
-        return [...list].sort((a, b) => {
-            let aValue = nestedFields[key] ? nestedFields[key](a) : a[key];
-            let bValue = nestedFields[key] ? nestedFields[key](b) : b[key];
-
-            if (aValue < bValue) return direction === 'asc' ? -1 : 1;
-            if (aValue > bValue) return direction === 'asc' ? 1 : -1;
-            return 0;
-        });
-    };
-
-    const renderSortIcon = (config, key) => {
-        if (config.key !== key) return null;
-        return (
-            <span style={{ fontSize: '0.75em', marginLeft: '4px', verticalAlign: 'middle' }}>
-                {config.direction === 'asc' ? '▲' : '▼'}
-            </span>
-        );
-    };
-
-
-    const sortedSuccessList = getSortedList(successList, successSortConfig, {
-        process: item => item.process.name
-    });
-
-    const sortedFailList = getSortedList(failList, failSortConfig, {
-        process: item => item.process.name,
-        filter: item => item.filter.name
-    });
-
-    const formatDate = (time) => new Date(time).toLocaleString("ko-KR", {
-        year: "numeric", month: "2-digit", day: "2-digit",
-        hour: "2-digit", minute: "2-digit",
-        hour12: false
-    });
+    const nestedProcess = item => item.process.name;
+    const nestedFilter = item => item.filter.name;
+    const nestedDedup = item => item.deduplication.name;
 
     return (
-        <div className="container mt-4">
+        <div className="container mt-4" style={{ paddingTop: '50px'}}>
             <h1>결과 화면</h1>
+            
             <div className="row">
-                {/* 성공 로그 */}
-                <div className="col-6">
-                    <h3 className="mb-3">성공 로그</h3>
-                    <div className="table-responsive" style={{ maxHeight: '500px', overflowY: 'auto' }}>
-
-                        <table className="table table-bordered table-hover align-middle">
-                            <thead className="table-primary text-center">
-                                <tr>
-                                    <th style={{ cursor: 'pointer', width: '20%' }} onClick={() => handleSort('id', true)}>Log ID{renderSortIcon(successSortConfig, 'id')}</th>
-                                    <th style={{ cursor: 'pointer', width: '20%' }} onClick={() => handleSort('process', true)}>Process{renderSortIcon(successSortConfig, 'process')}</th>
-                                    <th style={{ cursor: 'pointer' }} onClick={() => handleSort('createdTime', true)}>생성 시간{renderSortIcon(successSortConfig, 'createdTime')}</th>
-                                    <th style={{ cursor: 'pointer' }} onClick={() => handleSort('updatedTime', true)}>수정 시간{renderSortIcon(successSortConfig, 'updatedTime')}</th>
-                                </tr>
-                            </thead>
-                            <tbody className="text-center">
-                                {sortedSuccessList.length === 0 ? (
-                                    <tr><td colSpan="4" className="text-muted">데이터가 없습니다.</td></tr>
-                                ) : (
-                                    sortedSuccessList.flatMap(list => [
-                                        <tr key={list.id} style={{ cursor: 'pointer' }} onClick={() => toggleRow(list.id, true)}>
-                                            <td>{list.id}</td>
-                                            <td>{list.process.name}</td>
-                                            <td>{formatDate(list.createdTime)}</td>
-                                            <td>{formatDate(list.updatedTime)}</td>
-                                        </tr>,
-                                        expandedSuccessRowId === list.id && (
-                                            <tr key={`${list.id}-expanded`}>
-                                                <td colSpan="4" className="text-start bg-light">
-                                                    <strong>Item:</strong>
-                                                    <pre
-                                                        className="mb-0 mt-2"
-                                                        style={{
-                                                            whiteSpace: 'pre-wrap',
-                                                            wordBreak: 'break-word',
-                                                            overflowX: 'hidden'
-                                                        }}
-                                                    >
-                                                        {JSON.stringify(JSON.parse(list.logJson), null, 2)}
-                                                    </pre>
-                                                </td>
-                                            </tr>
-                                        )
-                                    ])
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                <p>Test용 p태그</p>
+                <div className="col-12 mb-4">
+                    <LogTable
+                        title="성공 로그"
+                        data={successList}
+                        expandedRowId={expandedSuccessRowId}
+                        setExpandedRowId={setExpandedSuccessRowId}
+                        sortConfig={successSortConfig}
+                        setSortConfig={setSuccessSortConfig}
+                        columns={columnsSuccess}
+                        nestedFields={{ process: nestedProcess }}
+                        color="primary"
+                    />
                 </div>
-
-                {/* 실패 로그 */}
-                <div className="col-6">
-                    <h3 className="mb-3">실패 로그</h3>
-                    <div className="table-responsive" style={{ maxHeight: '500px', overflowY: 'auto' }}>
-                        
-
-                        <table className="table table-bordered table-hover align-middle">
-                            <thead className="table-danger text-center">
-                                <tr>
-                                    <th style={{ cursor: 'pointer', width: '15%' }} onClick={() => handleSort('id', false)}>Log ID{renderSortIcon(failSortConfig, 'id')}</th>
-                                    <th style={{ cursor: 'pointer', width: '15%' }} onClick={() => handleSort('process', false)}>Process{renderSortIcon(failSortConfig, 'process')}</th>
-                                    <th style={{ cursor: 'pointer', width: '20%' }} onClick={() => handleSort('filter', false)}>실패 원인{renderSortIcon(failSortConfig, 'filter')}</th>
-                                    <th style={{ cursor: 'pointer' }} onClick={() => handleSort('createdTime', false)}>생성 시간{renderSortIcon(failSortConfig, 'createdTime')}</th>
-                                    <th style={{ cursor: 'pointer' }} onClick={() => handleSort('updatedTime', false)}>수정 시간{renderSortIcon(failSortConfig, 'updatedTime')}</th>
-
-                                </tr>
-                            </thead>
-                            <tbody className="text-center">
-                                {sortedFailList.length === 0 ? (
-                                    <tr><td colSpan="5" className="text-muted">데이터가 없습니다.</td></tr>
-                                ) : (
-                                    sortedFailList.flatMap(list => [
-                                        <tr key={list.id} style={{ cursor: 'pointer' }} onClick={() => toggleRow(list.id, false)}>
-                                            <td>{list.id}</td>
-                                            <td>{list.process.name}</td>
-                                            <td>{list.filter.name}</td>
-                                            <td>{formatDate(list.createdTime)}</td>
-                                            <td>{formatDate(list.updatedTime)}</td>
-
-                                        </tr>,
-                                        expandedFailRowId === list.id && (
-                                            <tr key={`${list.id}-expanded`}>
-                                                <td colSpan="5" className="text-start bg-light">
-                                                    <strong>Item:</strong>
-                                                    <pre
-                                                        className="mb-0 mt-2"
-                                                        style={{
-                                                            whiteSpace: 'pre-wrap',
-                                                            wordBreak: 'break-word',
-                                                            overflowX: 'hidden'
-                                                        }}
-                                                    >
-                                                        {JSON.stringify(JSON.parse(list.logJson), null, 2)}
-                                                    </pre>
-                                                </td>
-                                            </tr>
-                                        )
-                                    ])
-                                )}
-                            </tbody>
-                        </table>
-                    </div>
+                <div className="col-12 mb-4">
+                    <LogTable
+                        title="필터 실패 로그"
+                        data={failFilterList}
+                        expandedRowId={expandedFailFilterRowId}
+                        setExpandedRowId={setExpandedFailFilterRowId}
+                        sortConfig={failFilterSortConfig}
+                        setSortConfig={setFailFilterSortConfig}
+                        columns={columnsFailFilter}
+                        nestedFields={{ process: nestedProcess, filter: nestedFilter }}
+                        color="danger"
+                    />
+                </div>
+                <div className="col-12 mb-4">
+                    <LogTable
+                        title="중복제거 실패 로그"
+                        data={failDedupList}
+                        expandedRowId={expandedFailDedupRowId}
+                        setExpandedRowId={setExpandedFailDedupRowId}
+                        sortConfig={failDedupSortConfig}
+                        setSortConfig={setFailDedupSortConfig}
+                        columns={columnsFailDedup}
+                        nestedFields={{ process: nestedProcess, deduplication: nestedDedup }}
+                        color="warning"
+                    />
                 </div>
             </div>
-            <p>Test용 p태그</p>
+            
         </div>
     );
 };

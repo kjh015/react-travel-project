@@ -191,159 +191,193 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     };
 
     return (
-        <div className="container mt-4 text-center" style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <h5 className="text-center">필터 수정</h5>
+        <div className="container mt-5" style={{ maxWidth: 950 }}>
+            <div className="mb-2">
+                <h4 className="fw-bold text-primary">필터 수정</h4>
+                <hr />
+            </div>
 
-            <div className="mb-3 text-center">
-                <label className="form-label">Filter Name</label>
-                <div className="d-flex justify-content-center">
-                    <input
-                        type="text"
-                        className="form-control"
-                        style={{ width: '150px' }}
-                        placeholder="filter name"
-                        value={name}
-                        onChange={e => setName(e.target.value)}
-                    />
+            {/* 현재 표현식 */}
+            <div className="bg-light rounded-4 shadow-sm p-3 mb-4" style={{ fontSize: 17 }}>
+                <strong className="me-2">현재 표현식:</strong>
+                <code className="text-break" style={{ fontSize: 16 }}>
+                    {buildExpression()}
+                </code>
+            </div>
+            <div className="row gx-5">
+                {/* 좌측: 설정 및 컨트롤 */}
+                <div className="col-lg-4 mb-4">
+                    <div className="card shadow-sm rounded-4 p-4 mb-4 border-0">
+                        <div className="mb-4">
+                            <label className="form-label fw-semibold">필터 이름</label>
+                            <input
+                                type="text"
+                                className="form-control rounded-3"
+                                placeholder="filter name"
+                                value={name}
+                                onChange={e => setName(e.target.value)}
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label className="form-label fw-semibold">조건 추가</label>
+                            <div className="d-flex gap-2">
+                                <button className="btn btn-outline-secondary" onClick={addParenAndConditionWithAnd}>
+                                    ( + 조건
+                                </button>
+                                <button className="btn btn-outline-secondary" onClick={addRightParen}>)</button>
+                                <button className="btn btn-outline-success" onClick={addCondition}>조건</button>
+                            </div>
+                        </div>
+                        <div className="mb-3">
+                            <button className={`btn ${active ? "btn-success" : "btn-outline-secondary"} w-100 rounded-pill`}
+                                onClick={() => setActive(!active)}>
+                                <span className="fw-bold">활성화: {active ? "ON" : "OFF"}</span>
+                            </button>
+                        </div>
+                        <div className="d-flex gap-2">
+                            <button className="btn btn-primary flex-fill rounded-3" onClick={handleSubmit}>저장</button>
+                            <button className="btn btn-danger flex-fill rounded-3" onClick={removeFilter}>삭제</button>
+                            <button className="btn btn-outline-dark flex-fill rounded-3" onClick={onClose}>닫기</button>
+                        </div>
+                    </div>
                 </div>
-            </div>
 
+                {/* 우측: 조건식 구성 */}
+                <div className="col-lg-8">
+                    <div className="card shadow-sm rounded-4 p-4">
+                        <div className="mb-2 d-flex align-items-center">
+                            <i className="bi bi-funnel fs-5 me-2 text-primary"></i>
+                            <span className="fw-semibold">조건 목록</span>
+                        </div>
+                        <div>
+                            {getGroups(tokens).length === 0 && (
+                                <div className="text-secondary text-center py-5">
+                                    <i className="bi bi-sliders"></i> 조건을 추가해 주세요.
+                                </div>
+                            )}
+                            {getGroups(tokens).map((group, idx) => {
+                                const groupId = group[0].groupId;
+                                return (
+                                    <div key={groupId}>
+                                        {group.map((t, i) => {
+                                            const tokenIndex = tokens.findIndex(tok => tok === t);
 
+                                            // AND/OR operator 버튼
+                                            if (t.type === 'operator') {
+                                                return (
+                                                    <div className="d-flex justify-content-center mb-2" key={i}>
+                                                        <button
+                                                            className="btn btn-outline-primary rounded-pill px-4"
+                                                            onClick={() => updateToken(tokenIndex, 'value', t.value === '&&' ? '||' : '&&')}
+                                                        >
+                                                            {t.value === '&&' ? 'AND' : 'OR'}
+                                                        </button>
+                                                    </div>
+                                                );
+                                            }
 
-            {/* 조건/괄호 추가 버튼 */}
-            <div className="mt-3">
-                <label>추가:  </label>
-                <button className="btn btn-secondary me-2" onClick={addParenAndConditionWithAnd}>(</button>
-                <button className="btn btn-secondary me-2" onClick={addRightParen}>)</button>
-                <button className="btn btn-success me-2" onClick={addCondition}>조건</button>
-            </div>
-
-            {/* 현재 표현식 출력 */}
-            <div className="mt-4">
-                <strong>현재 표현식: </strong>
-                <code>{buildExpression()}</code>
-            </div>
-
-            {/* 조건 그룹 렌더링 */}
-            {getGroups(tokens).map((group, idx) => {
-                const groupId = group[0].groupId;
-                return (
-                    <div className="d-flex justify-content-center mb-3" key={groupId}>
-                        <div className="d-flex flex-column align-items-start">
-                            {group.map((t, i) => {
-                                const tokenIndex = tokens.findIndex(tok => tok === t);
-
-                                // AND/OR 버튼
-                                if (t.type === 'operator') {
-                                    return (
-                                        <div className="w-100 text-center mb-2" key={i}>
-                                            <button
-                                                className="btn btn-outline-primary"
-                                                onClick={() =>
-                                                    updateToken(tokenIndex, 'value', t.value === '&&' ? '||' : '&&')
+                                            // 여는 괄호 + 조건
+                                            if (t.type === 'left-paren') {
+                                                const nextToken = group[i + 1];
+                                                if (nextToken?.type === 'condition') {
+                                                    const condIndex = tokens.findIndex(tok => tok === nextToken);
+                                                    return (
+                                                        <div className="d-flex align-items-center justify-content-center py-2 border-bottom" key={i}
+                                                            style={{ background: '#f8f9fa', borderRadius: 8, marginBottom: 6 }}>
+                                                            <span className="fs-4 fw-bold text-primary me-2">(</span>
+                                                            <select className="form-select me-2" style={{ width: 150 }}
+                                                                value={nextToken.field}
+                                                                onChange={(e) => updateToken(condIndex, 'field', e.target.value)}>
+                                                                <option value="">필드 선택</option>
+                                                                {fieldList.map((f) => <option key={f} value={f}>{f}</option>)}
+                                                            </select>
+                                                            <select className="form-select me-2" style={{ width: 100 }}
+                                                                value={nextToken.operator}
+                                                                onChange={(e) => updateToken(condIndex, 'operator', e.target.value)}>
+                                                                {operatorOptions.map((op) => <option key={op} value={op}>{op}</option>)}
+                                                            </select>
+                                                            <input
+                                                                type="text"
+                                                                className="form-control me-2"
+                                                                style={{ width: 130 }}
+                                                                value={nextToken.value}
+                                                                onChange={(e) => updateToken(condIndex, 'value', e.target.value)}
+                                                            />
+                                                            {groupId !== 0 && (
+                                                                <>
+                                                                    <button className="btn btn-outline-danger btn-sm me-1" onClick={() => deleteGroup(groupId)} title="삭제">
+                                                                        <i className="bi bi-x-lg"></i>
+                                                                    </button>
+                                                                    <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')} title="위로">⬆</button>
+                                                                    <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')} title="아래로">⬇</button>
+                                                                </>
+                                                            )}
+                                                        </div>
+                                                    );
                                                 }
-                                            >
-                                                {t.value === '&&' ? 'AND' : 'OR'}
-                                            </button>
-                                        </div>
-                                    );
-                                }
+                                            }
 
-                                // 여는 괄호 + 조건
-                                if (t.type === 'left-paren') {
-                                    const nextToken = group[i + 1];
-                                    if (nextToken?.type === 'condition') {
-                                        const condIndex = tokens.findIndex(tok => tok === nextToken);
-                                        return (
-                                            <div className="d-flex align-items-center" key={i}>
-                                                <h2 className="me-2">(</h2>
-                                                <select className="form-select me-2" style={{ width: '120px' }}
-                                                    value={nextToken.field}
-                                                    onChange={(e) => updateToken(condIndex, 'field', e.target.value)}>
-                                                    <option value="">필드 선택</option>
-                                                    {fieldList.map((f) => <option key={f} value={f}>{f}</option>)}
-                                                </select>
-                                                <select className="form-select me-2" style={{ width: '80px' }}
-                                                    value={nextToken.operator}
-                                                    onChange={(e) => updateToken(condIndex, 'operator', e.target.value)}>
-                                                    {operatorOptions.map((op) => <option key={op} value={op}>{op}</option>)}
-                                                </select>
-                                                <input type="text" className="form-control me-2" style={{ width: '100px' }}
-                                                    value={nextToken.value}
-                                                    onChange={(e) => updateToken(condIndex, 'value', e.target.value)} />
+                                            // 일반 조건줄
+                                            if (t.type === 'condition' && group[i - 1]?.type !== 'left-paren') {
+                                                return (
+                                                    <div className="d-flex align-items-center justify-content-center py-2 border-bottom" key={i}
+                                                        style={{ background: '#f8f9fa', borderRadius: 8, marginBottom: 6 }}>
+                                                        <select className="form-select me-2" style={{ width: 150 }}
+                                                            value={t.field}
+                                                            onChange={(e) => updateToken(tokenIndex, 'field', e.target.value)}>
+                                                            <option value="">필드 선택</option>
+                                                            {fieldList.map((f) => <option key={f} value={f}>{f}</option>)}
+                                                        </select>
+                                                        <select className="form-select me-2" style={{ width: 100 }}
+                                                            value={t.operator}
+                                                            onChange={(e) => updateToken(tokenIndex, 'operator', e.target.value)}>
+                                                            {operatorOptions.map((op) => <option key={op} value={op}>{op}</option>)}
+                                                        </select>
+                                                        <input type="text" className="form-control me-2"
+                                                            style={{ width: 130 }}
+                                                            value={t.value}
+                                                            onChange={(e) => updateToken(tokenIndex, 'value', e.target.value)} />
+                                                        {groupId !== 0 && (
+                                                            <>
+                                                                <button className="btn btn-outline-danger btn-sm me-1" onClick={() => deleteGroup(groupId)} title="삭제">
+                                                                    <i className="bi bi-x-lg"></i>
+                                                                </button>
+                                                                <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')} title="위로">⬆</button>
+                                                                <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')} title="아래로">⬇</button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                );
+                                            }
 
-                                                {/* 삭제 및 이동 버튼 */}
-                                                {groupId !== 0 && (
-                                                    <>
-                                                        <button className="btn btn-danger btn-sm me-2" onClick={() => deleteGroup(groupId)}>X</button>
-                                                        <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')}>⬆</button>
-                                                        <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')}>⬇</button>
-                                                    </>
-                                                )}
-                                            </div>
-                                        );
-                                    }
-                                }
+                                            // 닫는 괄호
+                                            if (t.type === 'right-paren') {
+                                                return (
+                                                    <div className="d-flex align-items-center justify-content-center py-2 border-bottom" key={i}
+                                                        style={{ background: '#f8f9fa', borderRadius: 8, marginBottom: 6 }}>
+                                                        <span className="fs-4 fw-bold text-primary me-2">)</span>
+                                                        {groupId !== 0 && (
+                                                            <>
+                                                                <button className="btn btn-outline-danger btn-sm me-1" onClick={() => deleteGroup(groupId)} title="삭제">
+                                                                    <i className="bi bi-x-lg"></i>
+                                                                </button>
+                                                                <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')} title="위로">⬆</button>
+                                                                <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')} title="아래로">⬇</button>
+                                                            </>
+                                                        )}
+                                                    </div>
+                                                );
+                                            }
 
-                                // 일반 조건줄 (괄호 없이)
-                                if (t.type === 'condition' && group[i - 1]?.type !== 'left-paren') {
-                                    return (
-                                        <div className="d-flex align-items-center" key={i}>
-                                            <select className="form-select me-2" style={{ width: '120px' }}
-                                                value={t.field}
-                                                onChange={(e) => updateToken(tokenIndex, 'field', e.target.value)}>
-                                                <option value="">필드 선택</option>
-                                                {fieldList.map((f) => <option key={f} value={f}>{f}</option>)}
-                                            </select>
-                                            <select className="form-select me-2" style={{ width: '80px' }}
-                                                value={t.operator}
-                                                onChange={(e) => updateToken(tokenIndex, 'operator', e.target.value)}>
-                                                {operatorOptions.map((op) => <option key={op} value={op}>{op}</option>)}
-                                            </select>
-                                            <input type="text" className="form-control me-2" style={{ width: '100px' }}
-                                                value={t.value}
-                                                onChange={(e) => updateToken(tokenIndex, 'value', e.target.value)} />
-
-                                            {/* 삭제 및 이동 버튼 */}
-                                            {groupId !== 0 && (
-                                                <>
-                                                    <button className="btn btn-danger btn-sm me-2" onClick={() => deleteGroup(groupId)}>X</button>
-                                                    <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')}>⬆</button>
-                                                    <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')}>⬇</button>
-                                                </>
-                                            )}
-                                        </div>
-                                    );
-                                }
-
-                                // 닫는 괄호
-                                if (t.type === 'right-paren') {
-                                    return (
-                                        <div className="d-flex align-items-center" key={i}>
-                                            <h2 className="me-2">)</h2>
-                                            {groupId !== 0 && (
-                                                <>
-                                                    <button className="btn btn-danger btn-sm me-2" onClick={() => deleteGroup(groupId)}>X</button>
-                                                    <button className="btn btn-outline-dark btn-sm me-1" onClick={() => moveGroup(groupId, 'up')}>⬆</button>
-                                                    <button className="btn btn-outline-dark btn-sm" onClick={() => moveGroup(groupId, 'down')}>⬇</button>
-                                                </>
-                                            )}
-                                        </div>
-                                    );
-                                }
-
-                                return null;
+                                            return null;
+                                        })}
+                                    </div>
+                                );
                             })}
                         </div>
                     </div>
-                );
-            })}
-            <button className="btn btn-success me-2" onClick={() => setActive(!active)}>
-                활성화: {active ? "On" : "Off"}
-            </button>
-            <button className="btn btn-primary" onClick={handleSubmit}>수정</button>
-            <button className="btn btn-danger" onClick={removeFilter} style={{ marginRight: '10px' }}>삭제</button>
-            <button className="btn btn-outline-dark" onClick={onClose}>닫기</button>
+                </div>
+            </div>
         </div>
     );
 };

@@ -4,22 +4,26 @@ class LogDBApiClient {
     static GET_FAIL = "/fail";
     static GET_PROCESS = "-process";
     static GET_FILTER = "-filter";
+    static GET_DDP = "-deduplication";
 
     static getSuccessList() {
         return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS);
+    }    
+    
+    static getFailListByFilter() {
+        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_FILTER);
     }
-    static getFailList() {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL);
+
+    static getFailListByDeduplication() {
+        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_DDP);
     }
-    static getSuccessListByProcess(processId) {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS + LogDBApiClient.GET_PROCESS + "?processId=" + processId);
-    }
-    static getFailListByProcess(processId) {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_PROCESS + "?processId=" + processId);
-    }
-    static getFailListByFilter(filterId) {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_FILTER + "?filterId=" + filterId);
-    }
+
+    // static getSuccessListByProcess(processId) {
+    //     return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS + LogDBApiClient.GET_PROCESS + "?processId=" + processId);
+    // }
+    // static getFailListByProcess(processId) {
+    //     return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_PROCESS + "?processId=" + processId);
+    // }
 
 }
 
