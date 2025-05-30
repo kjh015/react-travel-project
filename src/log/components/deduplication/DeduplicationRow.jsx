@@ -4,132 +4,157 @@ import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
     const [formatList, setFormatList] = useState([]);
 
-    const getFormats = () => {
+    useEffect(() => {
         DeduplicationApiClient.getFormatKeys(processId)
-            .then(res => res.json()
-                .then(data => {
-                    setFormatList(data);
-                })
-
-            )
-    }
-
+            .then(res => res.json().then(data => setFormatList(data)));
+    }, [processId]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         onChange(index, { ...data, [name]: value });
     };
 
-    useEffect(() => {
-        getFormats();
-    }, []);
-
-
-
-
-
-    const timeLabels = {
-        year: '년',
-        month: '월',
-        day: '일',
-        hour: '시',
-        minute: '분',
-        second: '초',
-    };
+    // 스타일 유틸
+    const inputBoxStyle = { width: 90, textAlign: 'center', display: 'inline-block' };
+    const labelStyle = { minWidth: 28, textAlign: 'center', display: 'inline-block' };
 
     return (
-        <div className="card p-3 mb-3 shadow-sm">
-            <div className="row align-items-start g-3 d-flex" style={{ flexWrap: 'nowrap' }}>
-                {/* 왼쪽: 드롭다운 + 문자열 입력 (유동) */}
-                <div
-                    className="col-md-7"
-                    style={{ flex: '1 1 0%', minWidth: 0 }}
-                >
-                    <label className="form-label fw-bold">포맷</label>
-                    <div className="d-flex gap-2">
-                        <select
-                            name="format"
-                            className="form-select"
-                            value={data.format}
-                            onChange={handleChange}
-                        >
-                            <option value="">선택</option>
-                            {formatList.map((f) => (
-                                <option key={f} value={f}>
-                                    {f}
-                                </option>
-                            ))}
-                        </select>
-
-                        <input
-                            name="value"
-                            type="text"
-                            className="form-control"
-                            placeholder="문자열 입력"
-                            value={data.value}
-                            onChange={handleChange}
-                        />
-                    </div>
-                </div>
-
-                {/* 오른쪽: 시간 설정 (고정 400px) */}
-                <div
-                    className="col-md-4"
-                    style={{ width: 400, flex: '0 0 400px' }}
-                >
-                    <label className="form-label fw-bold">중복 제거 시간</label>
-                    <div className="border rounded p-3 bg-light">
-                        {/* 윗줄: 년/월/일 */}
-                        <div className="d-flex gap-3 mb-2">
-                            {['year', 'month', 'day'].map((unit) => (
-                                <div key={unit} className="input-group" style={{ width: '110px' }}>
-                                    <input
-                                        name={unit}
-                                        type="number"
-                                        min="0"
-                                        className="form-control"
-                                        value={data[unit]}
-                                        onChange={handleChange}
-                                    />
-                                    <span className="input-group-text">{timeLabels[unit]}</span>
-                                </div>
-                            ))}
-                        </div>
-                        {/* 아랫줄: 시/분/초 */}
-                        <div className="d-flex gap-3">
-                            {['hour', 'minute', 'second'].map((unit) => (
-                                <div key={unit} className="input-group" style={{ width: '110px' }}>
-                                    <input
-                                        name={unit}
-                                        type="number"
-                                        min="0"
-                                        className="form-control"
-                                        value={data[unit]}
-                                        onChange={handleChange}
-                                    />
-                                    <span className="input-group-text">{timeLabels[unit]}</span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </div>
-
-                {/* 삭제 버튼 (작게 고정) */}
-                <div
-                    className="col-md-1 text-end"
-                    style={{ width: 50, flex: '0 0 50px' }}
-                >
-                    <button
-                        className="btn btn-outline-danger mt-4"
-                        onClick={() => onRemove(index)}
+        <div
+            className="border rounded bg-white p-3 mb-3"
+            style={{
+                boxShadow: '0 2px 8px rgba(0,0,0,0.03)',
+                position: 'relative'
+            }}
+        >
+            {/* 포맷/값 한 줄 */}
+            <div className="row align-items-center mb-3">
+                <label className="form-label d-flex mb-1 fw-bold justify-content-center">포맷</label>
+                <div className="col-12 d-flex gap-2 justify-content-center">
+                    <select
+                        name="format"
+                        className="form-select"
+                        style={{ maxWidth: 200 }}
+                        value={data.format}
+                        onChange={handleChange}
                     >
-                        X
-                    </button>
+                        <option value="">선택</option>
+                        {formatList.map(f => (
+                            <option key={f} value={f}>{f}</option>
+                        ))}
+                    </select>
+                    <input
+                        name="value"
+                        type="text"
+                        className="form-control"
+                        placeholder="문자열 입력"
+                        style={{ maxWidth: 200 }}
+                        value={data.value}
+                        onChange={handleChange}
+                    />
                 </div>
+            </div>
+            {/* 중복 제거 시간 (2줄 3칸씩) */}
+            <label className="form-label d-flex mb-1 fw-bold justify-content-center">중복 제거 시간</label>
+            <div className="mb-2 text-center">
+
+                <div className="p-3 border rounded bg-light d-inline-block">
+                    <div className="d-flex flex-row mb-2 justify-content-center gap-3">
+                        {/* 1행: 년 월 일 */}
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="year"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.year}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>년</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="month"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.month}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>월</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="day"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.day}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>일</span>
+                        </div>
+                    </div>
+                    <div className="d-flex flex-row justify-content-center gap-3">
+                        {/* 2행: 시 분 초 */}
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="hour"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.hour}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>시</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="minute"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.minute}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>분</span>
+                        </div>
+                        <div className="d-flex align-items-center gap-1">
+                            <input
+                                name="second"
+                                type="number"
+                                min="0"
+                                className="form-control"
+                                style={inputBoxStyle}
+                                value={data.second}
+                                onChange={handleChange}
+                            />
+                            <span style={labelStyle}>초</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/* 삭제 버튼 */}
+            <div className="d-flex justify-content-end">
+                <button
+                    className="btn btn-outline-danger mt-3"
+                    onClick={() => onRemove(index)}
+                    type="button"
+                    style={{
+                        width: 36, height: 36, minWidth: 36, minHeight: 36,
+                        fontWeight: 'bold', fontSize: '1.2rem'
+                    }}
+                    aria-label="삭제"
+                >
+                    ×
+                </button>
             </div>
         </div>
     );
-
 };
 
 export default DeduplicationRow;

@@ -35,6 +35,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
         // FormatApiClient.toggleActive(id).then(() => getFormats());
     };
 
+
     const formatDate = (isoString) => {
         if (!isoString) return "";
         return isoString.substring(0, 16).replace("T", " ");

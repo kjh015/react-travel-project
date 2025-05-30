@@ -36,6 +36,7 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
             )
     }
 
+
     const handleChange = (index, updatedRow) => {
         const newRows = [...rows];
         newRows[index] = updatedRow;
@@ -102,9 +103,7 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                 <input type="text" className="form-control"
                     value={name} onChange={e => setName(e.target.value)} />
             </div>
-            <button className="btn btn-secondary me-2" onClick={() => setActive(!active)}>
-                활성화: {active ? "On" : "Off"}
-            </button>
+
 
             {rows.map((row, idx) => (
                 <DeduplicationRow
@@ -119,6 +118,13 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
 
             <div className="d-flex justify-content-between mt-3">
                 <button className="btn btn-success" onClick={handleAddRow}>+ 조건 추가</button>
+                <button
+                    className={`btn btn-sm ${active ? 'btn-success' : 'btn-outline-success'}`}
+                    onClick={() => setActive(!active)}
+                    type="button"
+                >
+                    활성화: {active ? "On" : "Off"}
+                </button>
                 <div className="d-flex justify-content-end">
                     <button className="btn btn-danger" onClick={handleRemove}>삭제</button>
                     <button className="btn btn-primary" onClick={handleSubmit}>전송</button>
@@ -129,4 +135,4 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
     );
 };
 
-export default DetailDeduplication;
+export default DetailDeduplication;       
