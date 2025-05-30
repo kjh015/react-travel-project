@@ -14,12 +14,9 @@ const initialRow = {
 };
 
 const InputDeduplication = ({ processId, onClose }) => {
-    
     const [rows, setRows] = useState([initialRow]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-
-    
 
     const handleChange = (index, updatedRow) => {
         const newRows = [...rows];
@@ -42,10 +39,10 @@ const InputDeduplication = ({ processId, onClose }) => {
     const handleSubmit = () => {
         try {
             DeduplicationApiClient.addDeduplication({
-                processId: processId,
-                name: name,
-                active: active,
-                rows: rows
+                processId,
+                name,
+                active,
+                rows
             }).then(res => res.text()
                 .then(message => {
                     alert(message);
@@ -59,33 +56,68 @@ const InputDeduplication = ({ processId, onClose }) => {
     };
 
     return (
-        <div className="container mt-5">
-            <h3 className="mb-4">중복 제거 설정</h3>
+        <div
+            style={{
+                background: '#fff',
+                borderRadius: 12,
+                padding: '28px 24px 24px 24px',
+                boxShadow: '0 2px 12px rgba(0,0,0,0.09)',
+                maxWidth: 600,
+                margin: '0 auto'
+            }}
+        >
+            {/* 타이틀과 닫기 */}
+            <div className="d-flex justify-content-between align-items-center mb-3">
+
+            </div>
+
+            {/* 이름 입력 */}
             <div className="mb-3">
-                <label className="form-label">Deduplication Name</label>
-                <input type="text" className="form-control"
-                    value={name} onChange={e => setName(e.target.value)} />
-            </div>
-            <button className="btn btn-secondary me-2" onClick={() => setActive(!active)}>
-                활성화: {active ? "On" : "Off"}
-            </button>
-
-            {rows.map((row, idx) => (
-                <DeduplicationRow
-                    key={idx}
-                    processId={processId}
-                    index={idx}
-                    data={row}
-                    onChange={handleChange}
-                    onRemove={handleRemoveRow}
+                <label className="form-label fw-bold">Deduplication Name</label>
+                <input
+                    type="text"
+                    className="form-control"
+                    value={name}
+                    onChange={e => setName(e.target.value)}
+                    autoFocus
                 />
-            ))}
-
-            <div className="d-flex justify-content-between mt-3">
-                <button className="btn btn-success" onClick={handleAddRow}>+ 조건 추가</button>
-                <button className="btn btn-primary" onClick={handleSubmit}>전송</button>
             </div>
-            <button className="btn btn-outline-dark" onClick={onClose}>닫기</button>
+
+            {/* 활성화 버튼 */}
+            <div className="mb-3 d-flex justify-content-end">
+                <button
+                    className={`btn btn-sm ${active ? 'btn-success' : 'btn-outline-success'}`}
+                    onClick={() => setActive(!active)}
+                    type="button"
+                >
+                    활성화: {active ? "On" : "Off"}
+                </button>
+            </div>
+
+            {/* 조건 목록 */}
+            <div>
+
+                {rows.map((row, idx) => (
+                    <DeduplicationRow
+                        key={idx}
+                        processId={processId}
+                        index={idx}
+                        data={row}
+                        onChange={handleChange}
+                        onRemove={handleRemoveRow}
+                    />
+                ))}
+            </div>
+
+            {/* 하단 버튼 */}
+            <div className="d-flex justify-content-between align-items-center mt-3">
+                <button className="btn btn-success" onClick={handleAddRow}>
+                    + 조건 추가
+                </button>
+                <button className="btn btn-primary" onClick={handleSubmit}>
+                    전송
+                </button>
+            </div>
         </div>
     );
 };

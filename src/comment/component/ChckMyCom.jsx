@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//작성한 댓글 파일
+//작성한 댓글 보는 페이지 파일
 const ChckMyCom = () => {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(false);
