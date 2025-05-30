@@ -9,6 +9,8 @@ import BoardApiClient from "../../service/BoardApiClient";
 import { useSearchParams, Link, useNavigate } from "react-router-dom";
 import CommentPage from "../../../comment/component/CommentPage";
 
+import FavoriteApiClient from "../../service/FavoriteApiClient";
+
 const categoryColors = {
   축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
   쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
@@ -20,7 +22,7 @@ const regionColors = {
 
 const BoardDetailPage = () => {
   const [liked, setLiked] = useState(false);
-  const handleLike = () => setLiked(prev => !prev);
+
 
   const [shared, setShared] = useState(false);
   const handleShare = () => setShared(prev => !prev);
@@ -34,10 +36,10 @@ const BoardDetailPage = () => {
     createdDate: '', modifiedDate: ''
   });
 
-  const formatDate = (isoString) => {
-    if (!isoString) return "";
-    return isoString.substring(0, 16).replace("T", " ");
-  };
+  const handleLike = () => {
+    // FavoriteApiClient.toggleFavorite
+
+  }
 
   const viewBoard = () => {
     BoardApiClient.getBoard(no).then(
@@ -52,9 +54,9 @@ const BoardDetailPage = () => {
   }
   const goToEdit = () => {
     if (localStorage.getItem('nickname') == board.memberNickname) {
-      navigate(`/board/edit?no=${board.no}`);      
+      navigate(`/board/edit?no=${board.no}`);
     }
-    else{
+    else {
       alert("권한이 없습니다.");
     }
   }
@@ -80,7 +82,6 @@ const BoardDetailPage = () => {
         }
         `}
       </style>
-      <Navbar />
       <div
         style={{
           minHeight: "100vh",
@@ -88,7 +89,7 @@ const BoardDetailPage = () => {
           overflowX: "hidden",
           position: "relative"
         }}
-      >          
+      >
         <div className="container py-5 mt-5" style={{ minHeight: "100vh", maxWidth: "1600px" }}>
           {/* 상단 게시판 목록 링크 */}
           <div className="d-flex justify-content-center mb-3">
@@ -157,6 +158,8 @@ const BoardDetailPage = () => {
                 </Card>
                 {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
+
+                  {/* 하트버튼 */}
                   <button
                     className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
                     onClick={handleLike}
@@ -165,6 +168,8 @@ const BoardDetailPage = () => {
                   >
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
                   </button>
+
+                  {/* 공유버튼 */}
                   <button
                     type="button"
                     className="btn btn-primary px-4"
@@ -185,9 +190,10 @@ const BoardDetailPage = () => {
                 display: "flex",
                 flexDirection: "column"
               }}>
-              <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                <CommentPage boardNo={board.no} />
-              </Card.Body>
+              {board.no &&
+                <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
+                  <CommentPage no={board.no} />
+                </Card.Body>}
             </Card>
           </div>
         </div>
