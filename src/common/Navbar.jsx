@@ -23,7 +23,7 @@ const Navbar = () => {
           alert("로그아웃 성공");
           handleClose();
           navigate("/");
-          
+
         } else {
           alert("로그아웃 실패");
         }
@@ -49,7 +49,7 @@ const Navbar = () => {
     if (localStorage.getItem('accessToken') != null) {
       alert("이미 로그인되어 있습니다.");
     }
-    else{
+    else {
       navigate("/sign/component/SignInPage");
     }
   }
@@ -65,7 +65,23 @@ const Navbar = () => {
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">Travel React</Link>
+        {/* 검색 폼 */}
+        <Form className="d-flex  justify-content-center" role="search" style={{ width: '30%' }}>
+          <Form.Control
 
+            type="search"
+            placeholder="검색"
+            className="me-2"
+            aria-label="검색"
+          />
+          <Button
+            variant="outline-light btn-sm"
+            type="submit"
+            style={{ whiteSpace: 'nowrap', padding: '0.2rem 0.35rem' }}
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
+          </Button>
+        </Form>
         <Button
           variant="dark"
           className="navbar-toggler"
@@ -106,23 +122,7 @@ const Navbar = () => {
               <Link to="/common/MyPage" className="btn btn-success btn-sm w-50">마이페이지</Link>
               <button className="btn btn-outline-danger btn-sm w-50" onClick={handleLogout}>로그아웃</button>
               <button className="btn btn-outline-success btn-sm w-50" disabled>ID: {curUser}</button>
-              {/* 검색 폼 */}
-              <Form className="d-flex mt-3 justify-content-center" role="search">
-                <Form.Control
 
-                  type="search"
-                  placeholder="검색"
-                  className="me-2"
-                  aria-label="검색"
-                />
-                <Button
-                  variant="outline-light btn-sm"
-                  type="submit"
-                  style={{ whiteSpace: 'nowrap', padding: '0.375rem 0.75rem' }}
-                >
-                  검색
-                </Button>
-              </Form>
             </div>
           </Offcanvas.Body>
         </Offcanvas>
