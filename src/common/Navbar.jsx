@@ -64,6 +64,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
       <div className="container-fluid">
+        <p>New Test p태그</p>
         <Link className="navbar-brand" to="/">Travel React</Link>
 
         <Button

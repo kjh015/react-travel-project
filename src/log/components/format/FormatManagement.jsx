@@ -40,7 +40,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                 {/* 상단 우측 버튼 영역 */}
                 <div className="d-flex justify-content-end mb-3">
                     <button className="btn btn-primary me-2" onClick={() => setInputComp(true)}>포맷 추가</button>
-                    <button className="btn btn-secondary" onClick={() => onMenuClick('filter')}>필터링 관리</button>
+                    <button className="btn btn-secondary" onClick={() => onMenuClick('filter')}>필터링 관리 ➡</button>
                 </div>
 
                 {/* 포맷 테이블 */}

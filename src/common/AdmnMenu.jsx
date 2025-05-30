@@ -17,8 +17,8 @@ const AdmnMenu = ({ onMenuClick }) => {
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('log')}>
                 로그 DB
             </button>
-            <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('deduplication')}>
-                중복 제거
+            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:9080')}>
+                Matomo
             </button>
             
         </div>

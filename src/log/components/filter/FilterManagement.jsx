@@ -64,8 +64,11 @@ const FilterManagement = ({ processId, onMenuClick }) => {
                         <button className="btn btn-primary me-2" onClick={() => setBuilderComp(true)}>
                             필터 추가
                         </button>
-                        <button className="btn btn-secondary" onClick={() => onMenuClick('format')}>
-                            포맷 관리
+                        <button className="btn btn-secondary me-2" onClick={() => onMenuClick('format')}>
+                            ⬅ 포맷 관리
+                        </button>
+                        <button className="btn btn-secondary" onClick={() => onMenuClick('deduplication')}>
+                            중복제거 관리 ➡
                         </button>
                     </div>
 

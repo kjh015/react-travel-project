@@ -52,9 +52,13 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
         <div className="col">
           <h4 className="fw-bold">중복 제거 관리</h4>
         </div>
-        <div className="col-auto">
-          <button className="btn btn-primary" onClick={() => setShowInput(true)}>
+
+        <div className="col-auto">          
+          <button className="btn btn-primary me-2" onClick={() => setShowInput(true)}>
             설정 추가
+          </button>
+          <button className="btn btn-secondary" onClick={() => onMenuClick('filter')}>
+            ⬅ 필터 관리
           </button>
         </div>
       </div>

@@ -144,13 +144,9 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
                     className="btn btn-outline-danger mt-3"
                     onClick={() => onRemove(index)}
                     type="button"
-                    style={{
-                        width: 36, height: 36, minWidth: 36, minHeight: 36,
-                        fontWeight: 'bold', fontSize: '1.2rem'
-                    }}
                     aria-label="삭제"
                 >
-                    ×
+                    X
                 </button>
             </div>
         </div>
