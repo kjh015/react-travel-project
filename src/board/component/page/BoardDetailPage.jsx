@@ -34,8 +34,6 @@ const BoardDetailPage = () => {
   const [shared, setShared] = useState(false);
   const handleShare = () => setShared(prev => !prev);
 
-
-
   const handleLike = () => {
     const nickname = localStorage.getItem("nickname");
     const payload = {
@@ -76,7 +74,6 @@ const BoardDetailPage = () => {
         )
       )
   }
-
 
   const viewBoard = () => {
     BoardApiClient.getBoard(no).then(
@@ -137,20 +134,22 @@ const BoardDetailPage = () => {
             </Link>
           </div>
 
-          {/* 카드 전체를 크게, flexbox로 넓게 */}
-          <div style={{
-            display: "flex",
-            gap: "32px",
-            width: "95%",
-            margin: "0 auto",
-            alignItems: "stretch"
-          }}>
-            {/* 상세 카드 */}
-            <Card className="shadow-sm flex-fill"
+          {/* 두 칸 고정 flex 레이아웃 */}
+          <div
+            style={{
+              display: "flex",
+              gap: "32px",
+              width: "95%",
+              margin: "0 auto",
+              alignItems: "stretch"
+            }}
+          >
+            {/* 상세 카드 (왼쪽, flex:3) */}
+            <Card className="shadow-sm"
               style={{
                 borderRadius: "18px",
-                width: "100%",
-                minWidth: "0",
+                flex: 3,
+                minWidth: 0,
                 background: "#fff",
                 display: "flex",
                 flexDirection: "column"
@@ -175,8 +174,6 @@ const BoardDetailPage = () => {
                     <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
                     <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
                   </div>
-
-
                   {isLoggedIn && (
                     <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
                       <Link
@@ -188,9 +185,7 @@ const BoardDetailPage = () => {
                       </Link>
                     </OverlayTrigger>
                   )}
-
                 </div>
-
                 {/* 본문 */}
                 <Card className="mb-0" style={{ background: "#f7fafc", border: "none" }}>
                   <Card.Body className="py-2 px-3" style={{ minHeight: "50px", fontSize: "1.08rem" }}>
@@ -199,7 +194,6 @@ const BoardDetailPage = () => {
                 </Card>
                 {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
-
                   {/* 하트버튼 */}
                   <button
                     className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
@@ -209,7 +203,6 @@ const BoardDetailPage = () => {
                   >
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
                   </button>
-
                   {/* 공유버튼 */}
                   <button
                     type="button"
@@ -221,37 +214,32 @@ const BoardDetailPage = () => {
                 </div>
               </Card.Body>
             </Card>
-            {/* 댓글 카드 */}
+
+            {/* 오른쪽: 댓글 카드 or Placeholder (flex:2) */}
+            <div>
+              <Card className="shadow-sm flex-fill"
+                style={{
+                  borderRadius: "18px",
+                  background: "#fff",
+                  display: "flex",
+                  flexDirection: "column",
+                  height: "100%"
+                }}>
+                {board.no && <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
+                  <CommentPage no={board.no} />
+                </Card.Body>
+                }
 
 
-            {isLoggedIn && (
-              <>
-                <Card className="shadow-sm flex-fill"
-                  style={{
-                    borderRadius: "18px",
-                    width: "70%",
-                    minWidth: "0",
-                    background: "#fff",
-                    display: "flex",
-                    flexDirection: "column"
-                  }}>
 
+              </Card>
 
-                  {board.no &&
-                    <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                      <CommentPage no={board.no} />
-                    </Card.Body>}
-                </Card>
-              </>
-            )}
-
+            </div>
           </div>
         </div>
-      </div >
+      </div>
     </>
   );
 };
 
 export default BoardDetailPage;
-
-
