@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import BoardApiClient from "../../service/BoardApiClient";
 
 const BoardList = () => {
@@ -33,12 +32,13 @@ const BoardList = () => {
     if (!isoString) return "";
     return isoString.substring(0, 16).replace("T", " ");
   };
+
   const goToWrite = () => {
     if (localStorage.getItem('accessToken') != null) {
-      navigate("/board/write");      
+      navigate("/board/write");
     }
-    else{
-      alert("권한이 없습니다.");
+    else {
+      alert("로그인 필요");
     }
   }
 
@@ -46,6 +46,7 @@ const BoardList = () => {
     getBoardList();
   }, []);
 
+  const isLoggedIn = !!localStorage.getItem('accessToken');
   if (loading) return <div className="text-center mt-5">로딩 중...</div>;
   if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
 
@@ -64,7 +65,11 @@ const BoardList = () => {
           <div className="col-lg-10 col-md-12">
             <div className="d-flex justify-content-between align-items-center mb-4">
               <h4 className="mb-0">게시판 목록</h4>
-              <button className="btn btn-primary" onClick={goToWrite}>글쓰기</button>
+              {isLoggedIn && (   // <-- 여기 조건만 바뀜
+                <>
+                  <button className="btn btn-primary" onClick={goToWrite}>글쓰기</button>
+                </>
+              )}
             </div>
             <div className="card shadow-sm">
               <div className="card-body p-4">

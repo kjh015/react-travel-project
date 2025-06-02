@@ -53,8 +53,8 @@ const BoardDetailPage = () => {
             alert("Error");
           }
         }
+        )
       )
-    )
   }
 
   const getLike = () => {
@@ -73,8 +73,8 @@ const BoardDetailPage = () => {
             alert("Error");
           }
         }
+        )
       )
-    )
   }
 
 
@@ -102,6 +102,7 @@ const BoardDetailPage = () => {
     viewBoard();
     getLike();
   }, [no]);
+  const isLoggedIn = !!localStorage.getItem('accessToken');
 
   return (
     <>
@@ -174,19 +175,22 @@ const BoardDetailPage = () => {
                     <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
                     <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
                   </div>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}
-                  >
-                    <Link
-                      to={`/board/edit?no=${board.no}`}
-                      className="btn btn-outline-primary btn-sm ms-2"
-                      style={{ whiteSpace: "nowrap" }}
-                    >
-                      🖊
-                    </Link>
-                  </OverlayTrigger>
+
+
+                  {isLoggedIn && (
+                    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
+                      <Link
+                        to={`/board/edit?no=${board.no}`}
+                        className="btn btn-outline-primary btn-sm ms-2"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        🖊
+                      </Link>
+                    </OverlayTrigger>
+                  )}
+
                 </div>
+
                 {/* 본문 */}
                 <Card className="mb-0" style={{ background: "#f7fafc", border: "none" }}>
                   <Card.Body className="py-2 px-3" style={{ minHeight: "50px", fontSize: "1.08rem" }}>
@@ -218,25 +222,36 @@ const BoardDetailPage = () => {
               </Card.Body>
             </Card>
             {/* 댓글 카드 */}
-            <Card className="shadow-sm flex-fill"
-              style={{
-                borderRadius: "18px",
-                width: "70%",
-                minWidth: "0",
-                background: "#fff",
-                display: "flex",
-                flexDirection: "column"
-              }}>
-              {board.no &&
-                <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.no} />
-                </Card.Body>}
-            </Card>
+
+
+            {isLoggedIn && (
+              <>
+                <Card className="shadow-sm flex-fill"
+                  style={{
+                    borderRadius: "18px",
+                    width: "70%",
+                    minWidth: "0",
+                    background: "#fff",
+                    display: "flex",
+                    flexDirection: "column"
+                  }}>
+
+
+                  {board.no &&
+                    <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
+                      <CommentPage no={board.no} />
+                    </Card.Body>}
+                </Card>
+              </>
+            )}
+
           </div>
         </div>
-      </div>
+      </div >
     </>
   );
 };
 
 export default BoardDetailPage;
+
+

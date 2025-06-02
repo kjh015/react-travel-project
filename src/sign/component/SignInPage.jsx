@@ -42,11 +42,10 @@ const SignInPage = () => {
             alert("에러가 발생했습니다.");
         }
     };
+
     const getUserIdFromToken = () => {
         const token = localStorage.getItem("accessToken");
-        console.log("TK: " + token);
         if (!token) return null;
-
         try {
             const payload = JSON.parse(atob(token.split('.')[1]));
             return payload.sub || payload.loginId;
@@ -57,7 +56,6 @@ const SignInPage = () => {
     }
 
     useEffect(() => {
-
         document.body.classList.add('bg-body-tertiary');
         return () => document.body.classList.remove('bg-body-tertiary');
     }, []);
@@ -65,11 +63,11 @@ const SignInPage = () => {
     return (
         <div
             style={{
-                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-                width: "100vw",               // 가로폭: 브라우저 창 전체
-                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+                minHeight: "100vh",
+                width: "100vw",
+                overflowX: "hidden",
                 background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
-                position: "relative"          // 하위 요소 레이아웃 보호
+                position: "relative"
             }}
             className="min-vh-100 d-flex flex-column">
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
@@ -104,8 +102,21 @@ const SignInPage = () => {
                                     />
                                 </div>
 
-                                <div className="d-grid mt-4">
-                                    <button type="submit" className="btn btn-primary">로그인</button>
+                                {/* 버튼 영역: 회원가입 왼쪽, 로그인 오른쪽 */}
+                                <div className="d-flex justify-content-between mt-4">
+                                    <button
+                                        type="button"
+                                        className="btn btn-outline-success"
+                                        onClick={() => navigate('/sign/component/SignUpPage')}
+                                    >
+                                        회원가입
+                                    </button>
+                                    <button
+                                        type="submit"
+                                        className="btn btn-primary"
+                                    >
+                                        로그인
+                                    </button>
                                 </div>
                             </form>
                         </div>
