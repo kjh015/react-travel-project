@@ -1,5 +1,7 @@
+import { authFetch } from "../../AuthFetch";
+
 class BoardApiClient {
-    static SERVER_URL = "http://localhost:8000/board";
+    static SERVER_URL = "http://localhost:8000/api/board";
     static GET_LIST = "/list"
     static GET_VIEW = "/view"
     static POST_ADD = "/add"
@@ -11,10 +13,9 @@ class BoardApiClient {
     }
     static getBoard(no) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_VIEW + "?no=" + no);
-
     }
     static addBoard(payload) {
-        return fetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_ADD, {
+        return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_ADD, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -24,7 +25,7 @@ class BoardApiClient {
 
     }
     static editBoard(payload) {
-        return fetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_EDIT, {
+        return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_EDIT, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -33,7 +34,7 @@ class BoardApiClient {
         });
     }
     static removeBoard(no) {
-        return fetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_REMOVE + "?no=" + no, {
+        return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_REMOVE + "?no=" + no, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

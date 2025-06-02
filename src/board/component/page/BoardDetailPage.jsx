@@ -25,7 +25,7 @@ const BoardDetailPage = () => {
   const no = searchParams.get('no');
   const navigate = useNavigate();
   const [board, setBoard] = useState({
-    no: '', title: '', content: '', memberNickname: '',
+    id: '', title: '', content: '', memberNickname: '',
     travelPlace: '', address: '', category: '', region: '', images: [],
     createdDate: '', modifiedDate: ''
   });
@@ -91,7 +91,7 @@ const BoardDetailPage = () => {
   }
   const goToEdit = () => {
     if (localStorage.getItem('nickname') == board.memberNickname) {
-      navigate(`/board/edit?no=${board.no}`);
+      navigate(`/board/edit?no=${board.id}`);
     }
     else {
       alert("권한이 없습니다.");
@@ -162,7 +162,7 @@ const BoardDetailPage = () => {
                   </Badge>
                 </div>
                 <div className="mb-2 text-muted" style={{ fontSize: "0.96rem" }}>
-                  글 번호: <span className="fw-semibold">{board.no}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span>
+                  글 번호: <span className="fw-semibold">{board.id}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span>
                 </div>
                 <hr className="my-2" />
                 <div className="mb-2">
@@ -179,7 +179,7 @@ const BoardDetailPage = () => {
                     overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}
                   >
                     <Link
-                      to={`/board/edit?no=${board.no}`}
+                      to={`/board/edit?no=${board.id}`}
                       className="btn btn-outline-primary btn-sm ms-2"
                       style={{ whiteSpace: "nowrap" }}
                     >
@@ -227,9 +227,9 @@ const BoardDetailPage = () => {
                 display: "flex",
                 flexDirection: "column"
               }}>
-              {board.no &&
+              {board.id &&
                 <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.no} />
+                  <CommentPage no={board.id} />
                 </Card.Body>}
             </Card>
           </div>

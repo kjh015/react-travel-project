@@ -1,11 +1,13 @@
+import { authFetch } from "../../AuthFetch";
+
 class FavoriteApiClient {
-    static SERVER_URL = "http://localhost:8000/favorite-api";
+    static SERVER_URL = "http://localhost:8000/api/favorite";
     static POST_TOGGLE = "/toggle";
     static POST_EXISTS = "/exists";
 
 
     static toggleFavorite(payload){
-        return fetch(FavoriteApiClient.SERVER_URL + FavoriteApiClient.POST_TOGGLE, {
+        return authFetch(FavoriteApiClient.SERVER_URL + FavoriteApiClient.POST_TOGGLE, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

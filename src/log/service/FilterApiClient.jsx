@@ -1,5 +1,7 @@
+import { authFetch } from "../../AuthFetch";
+
 class FilterApiClient {
-    static SERVER_URL = "http://localhost:8000/filter";
+    static SERVER_URL = "http://localhost:8000/api/filter";
     static GET_LIST = "/list"
     static GET_VIEW = "/view"
     static POST_ADD = "/add"
@@ -8,13 +10,13 @@ class FilterApiClient {
     static GET_KEYS = "/keys"
 
     static getFilterList(processId) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_LIST + "?processId=" + processId);
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_LIST + "?processId=" + processId);
     }
     static viewFilter(filterId) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_VIEW + "?filterId=" + filterId);
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_VIEW + "?filterId=" + filterId);
     }
     static addFilter(processId, name, active, conditionStr, tokens) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_ADD + "?processId=" + processId + "&name=" + name + "&active=" + active, {
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_ADD + "?processId=" + processId + "&name=" + name + "&active=" + active, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -26,7 +28,7 @@ class FilterApiClient {
         });
     }
     static updateFilter(filterId, name, active, conditionStr, tokens) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_UPDATE + "?filterId=" + filterId + "&name=" + name + "&active=" + active, {
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_UPDATE + "?filterId=" + filterId + "&name=" + name + "&active=" + active, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -38,7 +40,7 @@ class FilterApiClient {
         });
     }
     static removeFilter(filterId) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_REMOVE + "?filterId=" + filterId, {
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.POST_REMOVE + "?filterId=" + filterId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -46,7 +48,7 @@ class FilterApiClient {
         });
     }
     static getFormatKeys(processId) {
-        return fetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_KEYS + "?processId=" + processId);
+        return authFetch(FilterApiClient.SERVER_URL + FilterApiClient.GET_KEYS + "?processId=" + processId);
     }
 
 

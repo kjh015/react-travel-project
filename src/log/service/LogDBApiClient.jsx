@@ -1,5 +1,7 @@
+import { authFetch } from "../../AuthFetch";
+
 class LogDBApiClient {
-    static SERVER_URL = "http://localhost:8000/log-db";
+    static SERVER_URL = "http://localhost:8000/api/log-db";
     static GET_SUCCESS = "/success";
     static GET_FAIL = "/fail";
     static GET_PROCESS = "-process";
@@ -7,15 +9,15 @@ class LogDBApiClient {
     static GET_DDP = "-deduplication";
 
     static getSuccessList() {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS);
+        return authFetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS);
     }    
     
     static getFailListByFilter() {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_FILTER);
+        return authFetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_FILTER);
     }
 
     static getFailListByDeduplication() {
-        return fetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_DDP);
+        return authFetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_DDP);
     }
 
     // static getSuccessListByProcess(processId) {
