@@ -59,12 +59,19 @@ const BoardEditPage = () => {
     useEffect(() => {
         viewBoard();
         let nickname = localStorage.getItem("nickname");
+        if (nickname == null) {
+            alert("로그인 필요");
+            navigate(-1);
+        }
         setBoard(prev => ({
             ...prev,
             memberNickname: nickname
         }));
 
     }, [no]);
+
+    const isLoggedIn = !!localStorage.getItem('accessToken');
+
 
     const handleChange = (e) => {
         const { id, value } = e.target;

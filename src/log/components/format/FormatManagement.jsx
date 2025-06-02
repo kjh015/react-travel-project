@@ -73,7 +73,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                                     <td>{format.updatedTime && formatDate(format.updatedTime)}</td>
                                     <td>
                                         <button
-                                            className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}                                        
+                                            className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}
                                         >
                                             {format.active ? 'ON' : 'OFF'}
                                         </button>
@@ -99,10 +99,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                 )}
             </div>
 
-            {/* 푸터: 관리자 페이지 링크 */}
-            <footer className="text-center mt-auto mb-3">
-                <Link to="/component/admnpage" className="text-decoration-none">관리자 페이지</Link>
-            </footer>
+
         </div>
     );
 };

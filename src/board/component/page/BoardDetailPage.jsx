@@ -34,8 +34,6 @@ const BoardDetailPage = () => {
   const [shared, setShared] = useState(false);
   const handleShare = () => setShared(prev => !prev);
 
-
-
   const handleLike = () => {
     const nickname = localStorage.getItem("nickname");
     const payload = {
@@ -53,8 +51,8 @@ const BoardDetailPage = () => {
             alert("Error");
           }
         }
+        )
       )
-    )
   }
 
   const getLike = () => {
@@ -73,10 +71,9 @@ const BoardDetailPage = () => {
             alert("Error");
           }
         }
+        )
       )
-    )
   }
-
 
   const viewBoard = () => {
     BoardApiClient.getBoard(no).then(
@@ -102,6 +99,7 @@ const BoardDetailPage = () => {
     viewBoard();
     getLike();
   }, [no]);
+  const isLoggedIn = !!localStorage.getItem('accessToken');
 
   return (
     <>
@@ -136,20 +134,22 @@ const BoardDetailPage = () => {
             </Link>
           </div>
 
-          {/* 카드 전체를 크게, flexbox로 넓게 */}
-          <div style={{
-            display: "flex",
-            gap: "32px",
-            width: "95%",
-            margin: "0 auto",
-            alignItems: "stretch"
-          }}>
-            {/* 상세 카드 */}
-            <Card className="shadow-sm flex-fill"
+          {/* 두 칸 고정 flex 레이아웃 */}
+          <div
+            style={{
+              display: "flex",
+              gap: "32px",
+              width: "95%",
+              margin: "0 auto",
+              alignItems: "stretch"
+            }}
+          >
+            {/* 상세 카드 (왼쪽, flex:3) */}
+            <Card className="shadow-sm"
               style={{
                 borderRadius: "18px",
-                width: "100%",
-                minWidth: "0",
+                flex: 3,
+                minWidth: 0,
                 background: "#fff",
                 display: "flex",
                 flexDirection: "column"
@@ -174,18 +174,17 @@ const BoardDetailPage = () => {
                     <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
                     <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
                   </div>
-                  <OverlayTrigger
-                    placement="top"
-                    overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}
-                  >
-                    <Link
-                      to={`/board/edit?no=${board.id}`}
-                      className="btn btn-outline-primary btn-sm ms-2"
-                      style={{ whiteSpace: "nowrap" }}
-                    >
-                      🖊
-                    </Link>
-                  </OverlayTrigger>
+                  {isLoggedIn && (
+                    <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
+                      <Link
+                        to={`/board/edit?no=${board.no}`}
+                        className="btn btn-outline-primary btn-sm ms-2"
+                        style={{ whiteSpace: "nowrap" }}
+                      >
+                        🖊
+                      </Link>
+                    </OverlayTrigger>
+                  )}
                 </div>
                 {/* 본문 */}
                 <Card className="mb-0" style={{ background: "#f7fafc", border: "none" }}>
@@ -195,7 +194,6 @@ const BoardDetailPage = () => {
                 </Card>
                 {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
-
                   {/* 하트버튼 */}
                   <button
                     className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
@@ -205,7 +203,6 @@ const BoardDetailPage = () => {
                   >
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
                   </button>
-
                   {/* 공유버튼 */}
                   <button
                     type="button"

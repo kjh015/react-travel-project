@@ -45,13 +45,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                 <h3 className="fw-bold mb-0" style={{ letterSpacing: '1px' }}>
                     <span style={{ color: "#34a853" }}>●</span> Process 관리
                 </h3>
-                <a
-                    href="/component/admnpage"
-                    className="btn btn-link text-secondary"
-                    style={{ textDecoration: "none", fontWeight: 500, fontSize: "16px" }}
-                >
-                    관리자 페이지
-                </a>
+
             </div>
             <div className="card shadow-sm rounded-4 mb-4">
                 <div className="card-body p-4">

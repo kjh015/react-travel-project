@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-
+import { Link, useNavigate } from "react-router-dom";
 const WriteComment = ({ onAddComment }) => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(0);
+
+    const navigate = useNavigate();
 
     // 별점 클릭 렌더 함수
     const renderStars = () => (
@@ -30,6 +32,11 @@ const WriteComment = ({ onAddComment }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!comment.trim()) return;
+        if (localStorage.getItem('accessToken') == null) {
+            alert("로그인 필요");
+            navigate(-1);
+            return;
+        }
         if (onAddComment) onAddComment({ comment, rating });
         setComment("");
         setRating(0);
@@ -37,7 +44,6 @@ const WriteComment = ({ onAddComment }) => {
 
     return (
         <div className="card shadow-sm rounded-4 px-4 py-3 mx-auto" style={{ maxWidth: 520, margin: "0 auto" }}>
-
             <form onSubmit={handleSubmit}>
                 <div className="d-flex justify-content-between align-items-center mb-2">
                     <label className="form-label mb-0" htmlFor="comment" style={{ fontWeight: 500 }}>
@@ -55,6 +61,8 @@ const WriteComment = ({ onAddComment }) => {
                     style={{ resize: "none" }}
                 />
                 <div className="d-flex justify-content-end">
+
+
                     <button type="submit" className="btn btn-primary px-4">작성하기</button>
                 </div>
             </form>
