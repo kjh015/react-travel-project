@@ -134,22 +134,20 @@ const BoardDetailPage = () => {
             </Link>
           </div>
 
-          {/* 두 칸 고정 flex 레이아웃 */}
-          <div
-            style={{
-              display: "flex",
-              gap: "32px",
-              width: "95%",
-              margin: "0 auto",
-              alignItems: "stretch"
-            }}
-          >
-            {/* 상세 카드 (왼쪽, flex:3) */}
-            <Card className="shadow-sm"
+          {/* 카드 전체를 크게, flexbox로 넓게 */}
+          <div style={{
+            display: "flex",
+            gap: "32px",
+            width: "95%",
+            margin: "0 auto",
+            alignItems: "stretch"
+          }}>
+            {/* 상세 카드 */}
+            <Card className="shadow-sm flex-fill"
               style={{
                 borderRadius: "18px",
-                flex: 3,
-                minWidth: 0,
+                width: "100%",
+                minWidth: "0",
                 background: "#fff",
                 display: "flex",
                 flexDirection: "column"
@@ -194,6 +192,7 @@ const BoardDetailPage = () => {
                 </Card>
                 {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
+
                   {/* 하트버튼 */}
                   <button
                     className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
@@ -203,6 +202,7 @@ const BoardDetailPage = () => {
                   >
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
                   </button>
+
                   {/* 공유버튼 */}
                   <button
                     type="button"
@@ -226,7 +226,7 @@ const BoardDetailPage = () => {
               }}>
               {board.id &&
                 <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.id} />
+                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} />
                 </Card.Body>}
             </Card>
           </div>

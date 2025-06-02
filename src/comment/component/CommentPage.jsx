@@ -6,7 +6,7 @@ import CommentApiClient from "../service/CommentApiClient";
 import { useEffect, useState } from "react";
 
 
-const CommentPage = ({ no }) => {
+const CommentPage = ({ no, isLoggedIn }) => {
     const [commentList, setCommentList] = useState([]);
 
     const getCommentList = () => {
@@ -53,7 +53,8 @@ const CommentPage = ({ no }) => {
     return (
         <div>
             <CommentList comments={commentList} />
-            <WriteComment onAddComment={addComment} />
+            {isLoggedIn && <WriteComment onAddComment={addComment} />}
+            
 
         </div>
     );
