@@ -1,5 +1,7 @@
+import { authFetch } from "../../AuthFetch";
+
 class CommentApiClient {
-    static SERVER_URL = "http://localhost:8000/comment-api";
+    static SERVER_URL = "http://localhost:8000/api/comment";
     static GET_LIST = "/list"
     static POST_ADD = "/add"
     static POST_REMOVE = "/remove"
@@ -8,7 +10,7 @@ class CommentApiClient {
         return fetch(CommentApiClient.SERVER_URL + CommentApiClient.GET_LIST + "?no=" + no);
     }
     static addComment(payload){
-        return fetch(CommentApiClient.SERVER_URL + CommentApiClient.POST_ADD, {
+        return authFetch(CommentApiClient.SERVER_URL + CommentApiClient.POST_ADD, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -17,7 +19,7 @@ class CommentApiClient {
         });        
     }
     static removeBoard(commentId) {
-        return fetch(CommentApiClient.SERVER_URL + CommentApiClient.POST_REMOVE + "?commentId=" + commentId, {
+        return authFetch(CommentApiClient.SERVER_URL + CommentApiClient.POST_REMOVE + "?commentId=" + commentId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

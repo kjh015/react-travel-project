@@ -17,9 +17,16 @@ const AdmnMenu = ({ onMenuClick }) => {
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('log')}>
                 로그 DB
             </button>
+            <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('dashboard')}>
+                DashBoard
+            </button>
             <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:9080')}>
                 Matomo
             </button>
+            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:8085')}>
+                Kibana
+            </button>
+            
             
         </div>
     );

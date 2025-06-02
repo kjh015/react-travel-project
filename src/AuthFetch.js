@@ -16,7 +16,7 @@ export async function authFetch(url, options = {}) {
 
     if (res.status === 401) {
         // accessToken 만료 → refresh 요청
-        const refreshRes = await fetch('http://localhost:8000/sign-api/refresh', {
+        const refreshRes = await fetch('http://localhost:8000/api/sign-api/refresh', {
             method: 'POST',
             credentials: 'include', // 쿠키 필요
         });

@@ -1,5 +1,7 @@
+import { authFetch } from "../../AuthFetch";
+
 class DeduplicationApiClient {
-    static SERVER_URL = "http://localhost:8000/deduplication";
+    static SERVER_URL = "http://localhost:8000/api/deduplication";
     static GET_LIST = "/list"
     static GET_VIEW = "/view"
     static POST_ADD = "/add"
@@ -8,13 +10,13 @@ class DeduplicationApiClient {
     static GET_KEYS = "/keys"
 
     static getDeduplicationList(processId) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_LIST + "?processId=" + processId);
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_LIST + "?processId=" + processId);
     }
     static viewDeduplication(deduplicationId) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_VIEW + "?deduplicationId=" + deduplicationId);
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_VIEW + "?deduplicationId=" + deduplicationId);
     }
     static addDeduplication({processId, name, active, rows}) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_ADD, {
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_ADD, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -28,7 +30,7 @@ class DeduplicationApiClient {
         });
     }
     static updateDeduplication({id, name, active, rows}) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_UPDATE, {
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_UPDATE, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -42,7 +44,7 @@ class DeduplicationApiClient {
         });
     }
     static removeDeduplication(deduplicationId) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_REMOVE + "?deduplicationId=" + deduplicationId, {
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_REMOVE + "?deduplicationId=" + deduplicationId, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -50,7 +52,7 @@ class DeduplicationApiClient {
         });
     }
     static getFormatKeys(processId) {
-        return fetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_KEYS + "?processId=" + processId);
+        return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_KEYS + "?processId=" + processId);
     }
 
 
