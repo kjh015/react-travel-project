@@ -34,7 +34,7 @@ import DeduplicationManagement from "../log/components/deduplication/Deduplicati
 const PageRouter = () => {
     return (
         <BrowserRouter>
-            <Navbar />  
+            <Navbar />
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
