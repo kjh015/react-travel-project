@@ -1,18 +1,27 @@
 export async function authFetch(url, options = {}) {
     let token = localStorage.getItem('accessToken');
-    if(token == null){
+    if (token == null) {
         alert("로그인이 필요합니다.");
         window.location.href = '/sign/component/SignInPage';
         return null;
     }
 
-    const res = await fetch(url, {
+    const isFormData = options.body instanceof FormData;
+
+    const fetchOptions = {
         ...options,
-        headers: {
-            ...(options.headers || {}),
-            Authorization: `Bearer ${token}`,
-        },
-    });
+        headers: isFormData
+            ? { Authorization: `Bearer ${token}` }
+            : {
+                ...(options.headers || {}),
+                Authorization: `Bearer ${token}`,
+            },
+    };
+
+    // FormData면 headers가 { Authorization: ... } 만 들어감
+    // fetch가 boundary/Content-Type을 직접 자동 설정
+
+    const res = await fetch(url, fetchOptions);
 
     if (res.status === 401) {
         // accessToken 만료 → refresh 요청
@@ -36,6 +45,8 @@ export async function authFetch(url, options = {}) {
             return retryRes;
         } else {
             // refreshToken도 만료 → 로그아웃 처리
+            localStorage.removeItem('accessToken');
+            localStorage.removeItem('nickname');
             alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
             window.location.href = '/';
             return null;

@@ -18,7 +18,7 @@ class CommentApiClient {
             body: JSON.stringify(payload),
         });        
     }
-    static removeBoard(commentId) {
+    static removeComment(commentId) {
         return authFetch(CommentApiClient.SERVER_URL + CommentApiClient.POST_REMOVE + "?commentId=" + commentId, {
             method: 'POST',
             headers: {

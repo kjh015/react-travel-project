@@ -15,7 +15,7 @@ const CommentPage = ({ no, isLoggedIn }) => {
                 .then(data => {
                     if (res.ok) {
                         setCommentList(data);
-                        console.log("성공");
+                        console.log(data);
                     }
                     else {
                         console.log(data);
@@ -24,8 +24,25 @@ const CommentPage = ({ no, isLoggedIn }) => {
                 )
             )
     }
+    const removeComment = ({commentId}) => {
+        CommentApiClient.removeComment(commentId)
+            .then(res => res.text()
+                .then(message => {
+                    alert(message);
+                    if (res.ok) {
+                        getCommentList();
+                    }
+                })
+            )
+
+    }
 
     const addComment = ({ rating, comment }) => {
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: "travel_comment_add",
+            boardId: no
+        });
         const nickname = localStorage.getItem("nickname");
         const payload = {
             rating: rating,
@@ -52,9 +69,9 @@ const CommentPage = ({ no, isLoggedIn }) => {
 
     return (
         <div>
-            <CommentList comments={commentList} />
+            <CommentList comments={commentList} onRemoveComment={removeComment} />
             {isLoggedIn && <WriteComment onAddComment={addComment} />}
-            
+
 
         </div>
     );

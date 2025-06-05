@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 
 //sign
@@ -8,7 +8,7 @@ import LogIn from "../notUse/LogIn";
 import SignInPage from "../sign/component/SignInPage";
 
 //board
-import MainPage from "./MainPage";
+import MainPage from "../board/component/page/MainPage";
 import AdmnPage from "./AdmnPage";
 import BoardDetailPage from "../board/component/page/BoardDetailPage";
 import MyPage from '../common/MyPage';
@@ -31,10 +31,11 @@ import LogManagement from "../log/components/db/LogManagement";
 import Navbar from "./Navbar";
 import DeduplicationManagement from "../log/components/deduplication/DeduplicationManagement";
 
+
 const PageRouter = () => {
     return (
         <BrowserRouter>
-            <Navbar />  
+            <Navbar />
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>

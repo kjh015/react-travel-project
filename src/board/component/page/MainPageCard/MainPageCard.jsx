@@ -1,8 +1,36 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import viewImage from '../../imgs/view.jpg';
+import BoardApiClient from '../../../service/BoardApiClient';
+import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-const MainPageCard = () => {
+const MainPageCard = ({ boardId }) => {
+  const navigate = useNavigate();
+  const [board, setBoard] = useState({
+    id: '', title: '', content: '', memberNickname: '',
+    travelPlace: '', address: '', category: '', region: '', imagePaths: [],
+    createdDate: '', modifiedDate: ''
+  });
+
+  const viewBoard = () => {
+    BoardApiClient.getBoard(boardId).then(
+      res => {
+        if (res.ok) {
+          res.json().then(data => setBoard({ ...data, images: data.images || [] }));
+        } else {
+          alert('게시글을 불러오지 못했습니다.');
+        }
+      }
+    )
+  }
+  useEffect(() => {
+    viewBoard()
+    console.log(board.imagePaths);
+  }, [boardId]);
+
+
+
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
@@ -16,9 +44,10 @@ const MainPageCard = () => {
             }}
           >
             {/* 이미지를 카드에 딱 맞게 꽉 채우기 */}
+
             <img
-              src={viewImage}
-              alt="Main visual"
+              src={`http://localhost:8000/board${board.imagePaths[0]}`}
+              alt="uploaded"
               className="card-img-top" // Bootstrap의 card 상단 이미지 전용 클래스!
               style={{
                 height: '340px',        // 원하는 비율로 조정
@@ -30,10 +59,9 @@ const MainPageCard = () => {
             />
 
             <div className="card-body px-4 py-4">
-              <h4 className="card-title mb-3 fw-bold">여행의 모든 순간, 함께!</h4>
+              <h4 className="card-title mb-3 fw-bold">{board.title}</h4>
               <p className="card-text text-secondary mb-4" style={{ fontSize: "1.1rem" }}>
-                여러분의 소중한 여행 경험을 나누고, 새로운 인연을 만나보세요.<br />
-                이곳에서 사진, 후기, 꿀팁을 자유롭게 공유할 수 있습니다.
+                {board.content}
               </p>
               <div className="d-flex justify-content-between align-items-center mt-3">
                 <div className="btn-group gap-2">
@@ -52,11 +80,12 @@ const MainPageCard = () => {
                     style={{
                       transition: "color 0.2s, border 0.2s"
                     }}
+                    onClick={() => {navigate(`/board/detail/?no=${board.id}`)}}
                   >
                     둘러보기
                   </button>
                 </div>
-                <small className="text-muted">9분 전 · by <b>유정석</b></small>
+                <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
               </div>
             </div>
           </div>

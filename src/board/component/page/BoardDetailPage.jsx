@@ -1,14 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
-import { Tooltip, Card, Badge, OverlayTrigger } from "react-bootstrap";
+import { Tooltip, Card, Badge, OverlayTrigger, Carousel } from "react-bootstrap";
 
 import Navbar from "../../../common/Navbar";
 import BoardApiClient from "../../service/BoardApiClient";
-import { useSearchParams, Link, useNavigate } from "react-router-dom";
+import { useSearchParams, Link, useNavigate, useLocation } from "react-router-dom";
 import CommentPage from "../../../comment/component/CommentPage";
-
 import FavoriteApiClient from "../../service/FavoriteApiClient";
 
 const categoryColors = {
@@ -21,12 +20,14 @@ const regionColors = {
 };
 
 const BoardDetailPage = () => {
+  const enterTime = useRef(Date.now());
+  const location = useLocation();
   const [searchParams] = useSearchParams();
   const no = searchParams.get('no');
   const navigate = useNavigate();
   const [board, setBoard] = useState({
     id: '', title: '', content: '', memberNickname: '',
-    travelPlace: '', address: '', category: '', region: '', images: [],
+    travelPlace: '', address: '', category: '', region: '', imagePaths: [],
     createdDate: '', modifiedDate: ''
   });
 
@@ -45,7 +46,17 @@ const BoardDetailPage = () => {
         .then(data => {
           if (res.ok) {
             setLiked(data);
-            data ? alert("찜 목록에 추가되었습니다.") : alert("찜 목록에서 삭제되었습니다.")
+            if (data) {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({
+                event: "travel_favorite_add",
+                boardId: no,
+              });
+              alert("찜 목록에 추가되었습니다.");
+            }
+            else {
+              alert("찜 목록에서 삭제되었습니다.")
+            }
           }
           else {
             alert("Error");
@@ -96,8 +107,25 @@ const BoardDetailPage = () => {
   }
 
   useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: "travel_detail_pageview", boardId: no });
     viewBoard();
     getLike();
+
+    enterTime.current = Date.now();
+    // 페이지 진입 시점 기록
+    return () => {
+      // 페이지를 벗어날 때
+      const leaveTime = Date.now();
+      const stayDuration = Math.floor((leaveTime - enterTime.current) / 1000); // 초 단위
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "travel_detail_exit",
+        boardId: no, // 여행지ID
+        staySeconds: stayDuration
+      });
+    }
+
   }, [no]);
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
@@ -153,6 +181,36 @@ const BoardDetailPage = () => {
                 flexDirection: "column"
               }}>
               <Card.Body className="pb-2 pt-4 d-flex flex-column" style={{ flex: 1 }}>
+                {/* 이미지 Carousel */}
+                {board.imagePaths && board.imagePaths.length > 0 && (
+                  <Carousel
+                    interval={null}
+                    indicators={board.imagePaths.length > 1}
+                    style={{
+                      maxWidth: 800,
+                      margin: "0 auto 24px auto",
+                      borderRadius: 16,
+                      overflow: "hidden",
+                      boxShadow: "0 6px 18px #0001"
+                    }}
+                  >
+                    {board.imagePaths.map(filename => (
+                      <Carousel.Item key={filename}>
+                        <img
+                          src={`http://localhost:8000/board${filename}`}
+                          alt="uploaded"
+                          style={{
+                            width: "100%",
+                            height: 400,
+                            objectFit: "cover",
+                            display: "block",
+                            background: "#eee"
+                          }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                )}
                 <div className="d-flex justify-content-between align-items-start mb-1">
                   <h4 className="fw-bold mb-1">{board.title}</h4>
                   <Badge bg={categoryColors[board.category] || "secondary"} style={{ fontSize: "1rem" }}>
@@ -175,7 +233,7 @@ const BoardDetailPage = () => {
                   {isLoggedIn && (
                     <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
                       <Link
-                        to={`/board/edit?no=${board.no}`}
+                        to={`/board/edit?no=${board.id}`}
                         className="btn btn-outline-primary btn-sm ms-2"
                         style={{ whiteSpace: "nowrap" }}
                       >
@@ -192,17 +250,16 @@ const BoardDetailPage = () => {
                 </Card>
                 {/* 하트/공유 버튼 (맨 하단으로 내리기 위해 mt-auto) */}
                 <div className="d-flex justify-content-between align-items-center mt-auto pt-3">
-
                   {/* 하트버튼 */}
                   <button
-                    className={`btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
+                    className={`favorite-btn btn btn-link p-0 heart-btn${liked ? " liked" : ""}`}
+                    data-travel="123"
                     onClick={handleLike}
                     style={{ textDecoration: "none" }}
                     aria-label={liked ? "찜 취소" : "찜하기"}
                   >
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
                   </button>
-
                   {/* 공유버튼 */}
                   <button
                     type="button"

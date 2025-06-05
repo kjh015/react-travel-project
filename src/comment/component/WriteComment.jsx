@@ -36,7 +36,8 @@ const WriteComment = ({ onAddComment }) => {
             alert("로그인 필요");
             navigate(-1);
             return;
-        }
+        }        
+
         if (onAddComment) onAddComment({ comment, rating });
         setComment("");
         setRating(0);

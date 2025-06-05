@@ -3,8 +3,7 @@ import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 import DeduplicationRow from './DeduplicationRow';
 
 const initialRow = {
-    format: '',
-    value: '',
+    conditions: [{ format: '', value: '' }],  // ← 기존 format/value 대신
     year: 0,
     month: 0,
     day: 0,
