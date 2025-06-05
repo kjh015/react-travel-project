@@ -67,9 +67,17 @@ const BoardWritePage = () => {
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setImages(files);
-        setImagePreviews(files.map(file => URL.createObjectURL(file)));
+
+        // (옵션) 중복 파일 막기: 파일명 기준 예시
+        const newFiles = files.filter(f => !images.some(img => img.name === f.name));
+
+        setImages(prev => [...prev, ...newFiles]);
+        setImagePreviews(prev => [
+            ...prev,
+            ...newFiles.map(file => URL.createObjectURL(file))
+        ]);
     };
+
 
     const handleImageRemove = (idx) => {
         setImages(prev => prev.filter((_, i) => i !== idx));
@@ -79,17 +87,14 @@ const BoardWritePage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const formData = new FormData();
-        // Object.entries(board).forEach(([key, value]) => {
-        //     formData.append(key, value);
-        // });
-        // images.forEach((file) => {
-        //     formData.append('images', file);
-        // });
-        console.log(board);
-
+        const formData = new FormData();
+        const boardBlob = new Blob([JSON.stringify(board)], { type: "application/json" });
+        formData.append('board', boardBlob);
+        images.forEach((file) => {
+            formData.append('images', file);
+        });
         try {
-            const response = await BoardApiClient.addBoard(board);
+            const response = await BoardApiClient.addBoard(formData);
             if (response.ok) {
                 alert('글 작성이 완료되었습니다.');
                 navigate('/board/list');

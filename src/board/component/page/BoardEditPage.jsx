@@ -23,7 +23,8 @@ const BoardEditPage = () => {
         travelPlace: '',
         address: '',
         category: '',
-        region: ''
+        region: '',
+        imagePaths: []
     });
 
     const [images, setImages] = useState([]);
@@ -35,6 +36,8 @@ const BoardEditPage = () => {
                 if (res.ok) {
                     res.json().then(data => {
                         setBoard(data);
+                        setImages(data.imagePaths);
+                        setImagePreviews(data.imagePaths);
                     });
                 } else {
                     console.log('에러');
@@ -70,8 +73,6 @@ const BoardEditPage = () => {
 
     }, [no]);
 
-    const isLoggedIn = !!localStorage.getItem('accessToken');
-
 
     const handleChange = (e) => {
         const { id, value } = e.target;
@@ -97,8 +98,15 @@ const BoardEditPage = () => {
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-        setImages(files);
-        setImagePreviews(files.map(file => URL.createObjectURL(file)));
+
+        // (옵션) 중복 파일 막기: 파일명 기준 예시
+        const newFiles = files.filter(f => !images.some(img => img.name === f.name));
+
+        setImages(prev => [...prev, ...newFiles]);
+        setImagePreviews(prev => [
+            ...prev,
+            ...newFiles.map(file => URL.createObjectURL(file))
+        ]);
     };
 
     const handleImageRemove = (idx) => {
@@ -109,16 +117,15 @@ const BoardEditPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // const formData = new FormData();
-        // Object.entries(board).forEach(([key, value]) => {
-        //     formData.append(key, value);
-        // });
-        // images.forEach((file) => {
-        //     formData.append('images', file);
-        // });
+        const formData = new FormData();
+        const boardBlob = new Blob([JSON.stringify(board)], { type: "application/json" });
+        formData.append('board', boardBlob);
+        images.forEach((file) => {
+            formData.append('images', file);
+        });
 
         try {
-            const response = await BoardApiClient.editBoard(board);
+            const response = await BoardApiClient.editBoard(formData);
             if (response.ok) {
                 alert('글 수정이 완료되었습니다.');
                 navigate('/board/list');
@@ -265,7 +272,11 @@ const BoardEditPage = () => {
                                     {imagePreviews.map((src, idx) => (
                                         <div key={idx} style={{ position: 'relative' }}>
                                             <img
-                                                src={src}
+                                                src={
+                                                    src.startsWith('/images/')
+                                                        ? `http://localhost:8000/board${src}`
+                                                        : src
+                                                }
                                                 alt={`preview-${idx}`}
                                                 style={{
                                                     width: 100,
@@ -286,6 +297,7 @@ const BoardEditPage = () => {
                                             >×</button>
                                         </div>
                                     ))}
+
                                 </div>
                             </div>
                         </div>

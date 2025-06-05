@@ -14,23 +14,17 @@ class BoardApiClient {
     static getBoard(no) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_VIEW + "?no=" + no);
     }
-    static addBoard(payload) {
+    static addBoard(formData) {
         return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_ADD, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload),
+            body: formData,
         });
 
     }
-    static editBoard(payload) {
+    static editBoard(formData) {
         return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_EDIT, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(payload),
+            body: formData,
         });
     }
     static removeBoard(no) {

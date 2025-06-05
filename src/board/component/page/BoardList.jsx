@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardApiClient from "../../service/BoardApiClient";
 
@@ -42,6 +42,7 @@ const BoardList = () => {
     }
   }
 
+  const location = useLocation();
   useEffect(() => {
     getBoardList();
   }, []);

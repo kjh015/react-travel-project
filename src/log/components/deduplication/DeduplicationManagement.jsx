@@ -45,7 +45,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
   useEffect(() => {
     getDeduplicationList();
     // eslint-disable-next-line
-  }, [processId]);
+  }, [showDetail, showInput]);
 
   return (
     <div>

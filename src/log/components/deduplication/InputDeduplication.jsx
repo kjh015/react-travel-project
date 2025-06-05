@@ -3,8 +3,7 @@ import DeduplicationRow from './DeduplicationRow';
 import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 
 const initialRow = {
-    format: '',
-    value: '',
+    conditions: [{ format: '', value: '' }],  // ← 기존 format/value 대신
     year: 0,
     month: 0,
     day: 0,
@@ -37,6 +36,7 @@ const InputDeduplication = ({ processId, onClose }) => {
     };
 
     const handleSubmit = () => {
+        console.log(rows);
         try {
             DeduplicationApiClient.addDeduplication({
                 processId,
