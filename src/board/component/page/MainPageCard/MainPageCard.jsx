@@ -43,49 +43,74 @@ const MainPageCard = ({ boardId }) => {
               boxShadow: "0 8px 32px rgba(60,60,100,0.14)"
             }}
           >
-            {/* 이미지를 카드에 딱 맞게 꽉 채우기 */}
 
-            <img
-              src={`http://localhost:8000/board${board.imagePaths[0]}`}
-              alt="uploaded"
-              className="card-img-top" // Bootstrap의 card 상단 이미지 전용 클래스!
-              style={{
-                height: '340px',        // 원하는 비율로 조정
-                width: '100%',          // 카드 가로를 꽉 채움
-                objectFit: 'cover',     // 이미지를 잘라서 빈 공간 없이 채움
-                filter: "brightness(98%)",
-                display: 'block'        // 여백 방지
-              }}
-            />
+            {/* 이미지 + 오버레이 문구 */}
+            <div style={{ position: "relative", width: "100%" }}>
+              <img
+                src={`http://localhost:8000/board${board.imagePaths[0]}`}
+                alt="Main visual"
+                className="card-img-top"
+                style={{
+                  height: '340px',
+                  width: '100%',
+                  objectFit: 'cover',
+                  filter: "brightness(98%)",
+                  display: 'block'
+                }}
+              />
+              {/* 오버레이 문구 */}
+              <div style={{
+                position: "absolute",
+                bottom: "18px",
+                left: "20px",
+                background: "rgba(30,30,55,0.56)",
+                color: "#fff",
+                padding: "0.75rem 1.25rem",
+                borderRadius: "1.2rem",
+                fontWeight: 600,
+                fontSize: "1.2rem",
+                letterSpacing: "-0.01em",
+                boxShadow: "0 2px 8px rgba(0,0,0,0.07)",
+                display: "flex",
+                alignItems: "center",
+                gap: "0.6rem"
+              }}>
+                <span style={{ fontSize: "1.35em" }}>🚂</span>
+                특별한 여행, <span style={{ color: "#e0c3fc", fontWeight: 700 }}>지금 시작!</span>
+              </div>
+            </div>
 
             <div className="card-body px-4 py-4">
-              <h4 className="card-title mb-3 fw-bold">{board.title}</h4>
-              <p className="card-text text-secondary mb-4" style={{ fontSize: "1.1rem" }}>
-                {board.content}
-              </p>
-              <div className="d-flex justify-content-between align-items-center mt-3">
+              <div className="mb-3" style={{ fontSize: "1.09rem", color: "#333", fontWeight: 500 }}>
+                {board.title}
+              </div>
+              <div className="d-flex justify-content-between align-items-center mt-2">
                 <div className="btn-group gap-2">
                   <button
                     type="button"
                     className="btn btn-primary px-4 d-flex align-items-center gap-2"
                     style={{
-                      transition: "background 0.2s, box-shadow 0.2s"
+                      borderRadius: "2rem",
+                      fontWeight: 500,
+                      boxShadow: "0 2px 8px rgba(160,120,240,0.07)"
                     }}
                   >
-                    글쓰기
+                    <span role="img" aria-label="write">✏️</span> 글쓰기
                   </button>
                   <button
                     type="button"
                     className="btn btn-outline-secondary px-4 d-flex align-items-center gap-2"
                     style={{
-                      transition: "color 0.2s, border 0.2s"
+                      borderRadius: "2rem",
+                      fontWeight: 500
                     }}
                     onClick={() => {navigate(`/board/detail/?no=${board.id}`)}}
                   >
-                    둘러보기
+                    <span role="img" aria-label="search">🔍</span> 둘러보기
                   </button>
                 </div>
                 <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
+
               </div>
             </div>
           </div>

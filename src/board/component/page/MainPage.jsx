@@ -26,11 +26,11 @@ const MainPage = () => {
   return (
     <div
       style={{
-        minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-        width: "100vw",               // 가로폭: 브라우저 창 전체
-        overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
+        minHeight: "100vh",
+        width: "100vw",
+        overflowX: "hidden",
         background: "linear-gradient(135deg, #f0f8ff 0%, #e0c3fc 100%)",
-        position: "relative"          // 하위 요소 레이아웃 보호
+        position: "relative",
       }}
     >
       <Navbar />
@@ -41,10 +41,11 @@ const MainPage = () => {
           <MainPageCard boardId={board.boardNo} />
         ))}
 
+
         <Footers />
       </div>
     </div>
   );
 };
 
-export default MainPage;    
+export default MainPage;
