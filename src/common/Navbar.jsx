@@ -82,22 +82,7 @@ const Navbar = () => {
         </div>
         {/* 가운데: 검색 */}
         <div className="flex-grow-1 d-flex justify-content-center">
-          {/* 검색 폼 */}
-          <Form className="d-flex  justify-content-center" role="search" style={{ width: '30%' }}>
-            <Form.Control
-              type="search"
-              placeholder="검색"
-              className="me-2"
-              aria-label="검색"
-            />
-            <Button
-              variant="outline-light btn-sm"
-              type="submit"
-              style={{ whiteSpace: 'nowrap', padding: '0.2rem 0.35rem' }}
-            >
-              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="mx-3" role="img" viewBox="0 0 24 24"><title>Search</title><circle cx="10.5" cy="10.5" r="7.5"></circle><path d="M21 21l-5.2-5.2"></path></svg>
-            </Button>
-          </Form>
+
         </div>
         {/* 오른쪽: 햄버거(오프캔버스) 버튼 */}
         <div style={{ minWidth: "54px" }} className="d-flex justify-content-end">

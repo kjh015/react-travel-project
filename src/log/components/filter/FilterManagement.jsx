@@ -49,6 +49,19 @@ const FilterManagement = ({ processId, onMenuClick }) => {
 
     return (
         <div>
+            {/* 인라인 스타일. App.css로 빼도 됩니다 */}
+            <style>{`
+                .filter-name-hover {
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transition: text-decoration 0.13s;
+                }
+                .filter-name-hover:hover {
+                    text-decoration: underline;
+                }
+            `}</style>
+
             <div className="container" style={{ marginTop: '80px' }}>
                 <h4 className="mb-4 fw-bold">필터링 목록</h4>
                 <div className="d-flex justify-content-end mb-3">
@@ -67,7 +80,7 @@ const FilterManagement = ({ processId, onMenuClick }) => {
                     <thead className="table-light">
                         <tr>
                             <th style={{ width: '10%' }}>ID</th>
-                            <th style={{ width: '30%' }}>이름</th>
+                            <th className="text-start" style={{ width: '30%' }}>이름</th>
                             <th>생성 날짜</th>
                             <th>수정 날짜</th>
                             <th style={{ width: '10%' }}>활성화</th>
@@ -82,11 +95,10 @@ const FilterManagement = ({ processId, onMenuClick }) => {
                             <React.Fragment key={filter.id}>
                                 <tr>
                                     <td>{filter.id}</td>
-                                    <td>
+                                    <td className="text-start">
                                         <span
-                                            className="px-2 py-1 bg-light text-primary rounded-pill d-inline-block fw-semibold"
+                                            className="filter-name-hover"
                                             role="button"
-                                            style={{ cursor: 'pointer', transition: '0.2s' }}
                                             onClick={() => setDetailComp(detailComp === filter.id ? 0 : filter.id)}
                                             title={filter.name}
                                         >
