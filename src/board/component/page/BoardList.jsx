@@ -24,8 +24,9 @@ const BoardList = () => {
       setSearched(true);
       getBoardList();
     } else {
-      setBoards([]);
-      setSearched(false);
+      getBoardList();
+      setSearched(true);
+      
     }
     // eslint-disable-next-line
   }, [location.search, sort]);

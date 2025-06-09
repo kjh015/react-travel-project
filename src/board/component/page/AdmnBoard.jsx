@@ -1,53 +1,67 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import BoardApiClient from "../../service/BoardApiClient";
 
 const AdmnBoard = () => {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const fetchBoards = async () => {
+    const navigate = useNavigate();
+    const getBoards = async () => {
         setLoading(true);
         try {
-            const response = await fetch("http://localhost:8000/board/list");
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-            const data = await response.json();
-            console.log("서버 응답:", data);
-
-            // 서버 응답이 객체 형태일 경우 배열로 변환
-            const boardList = Object.entries(data).map(([id, item]) => ({
-                board_id: id,
-                title: item.title ?? "제목 없음",
-                writer: item.memberId ?? "작성자 없음",
-                date: item.regDate ?? "날짜 없음"
-            }));
-
-            console.log("변환된 boardList:", boardList);
-            setBoards(boardList);
+            const res = await BoardApiClient.getBoardList();
+            const data = await res.json();
+            setBoards(data);
         } catch (e) {
             setError(e);
         } finally {
             setLoading(false);
         }
     };
+    const removeBoard = ({ no }) => {
+        if (window.confirm("정말 삭제하시겠습니까?")) {
+            BoardApiClient.removeBoard(no).then(
+                res => {
+                    if (res.ok) {
+                        alert("삭제 성공");
+                        navigate('/board/list');
+                    } else {
+                        alert("삭제 실패");
+                    }
+                }
+            )
+        }
+
+    }
+    const migrateData = () => {
+        if (window.confirm("정말 적재하시겠습니까?")) {
+            BoardApiClient.migrateBoard().then(
+                res => res.text().then(
+                    message => alert(message)
+                )
+            )
+        }
+    }
 
     useEffect(() => {
-        fetchBoards();
+        getBoards();
     }, []);
 
-    if (loading) return <div className="text-center mt-5">로딩 중...</div>;
-    if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
+    if (loading) return <div className="text-center mt-5" style={{ marginTop: 80 }}>로딩 중...</div>;
+    if (error) return <div className="text-danger mt-5" style={{ marginTop: 80 }}>에러 발생: {error.message}</div>;
 
     return (
         <div>
 
             <div className="container">
                 <h4 style={{ marginTop: '80px' }}>게시판 관리 페이지</h4>
+                <button className="btn btn-danger" onClick={migrateData}>데이터 적재하기(MySQL - ElasticSearch)</button>
                 <div className="container mt-4">
-
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <h4 style={{ marginTop: '80px' }}>게시판 목록</h4>
-                        <Link to="/board/BoardWritePage" className="btn btn-primary">글쓰기</Link>
+                        <Link to="/board/write" className="btn btn-primary">글쓰기</Link>
                     </div>
 
                     <table className="table table-hover">
@@ -64,27 +78,27 @@ const AdmnBoard = () => {
                         </thead>
                         <tbody>
                             {boards.map((board, idx) => (
-                                <tr key={board.board_id}>
-                                    <td>{idx + 1}</td>
+                                <tr key={board.id}>
+                                    <td>{board.id}</td>
                                     <td>
-                                        <Link to={`/component/place/${board.board_id}`} className="text-decoration-none">
+                                        <Link to={`/board/detail?no=${board.id}`} className="text-decoration-none">
                                             {board.title}
                                         </Link>
                                     </td>
-                                    <td>{board.writer}</td>
-                                    <td>{board.date}</td>
+                                    <td>{board.memberNickname}</td>
+                                    <td>{board.modifiedDate}</td>
                                     <td>
-                                        <Link to="/component/page/BoardEditPage" className="btn btn-sm btn-outline-primary">
+                                        <Link to={`/board/edit?no=${board.id}`} className="btn btn-sm btn-outline-primary">
                                             수정
                                         </Link>
                                     </td>
                                     <td>
-                                        <Link to="/component/page/BoardEditPage" className="btn btn-sm btn-outline-primary">
+                                        <button className="btn btn-sm btn-outline-primary" onClick={() => removeBoard({ no: board.id })}>
                                             삭제
-                                        </Link>
+                                        </button>
                                     </td>
                                     <td>
-                                        <Link to="/component/page/BoardEditPage" className="btn btn-sm btn-outline-primary">
+                                        <Link to="/board/page/BoardEditPage" className="btn btn-sm btn-outline-primary">
                                             숨김
                                         </Link>
                                     </td>
@@ -92,20 +106,7 @@ const AdmnBoard = () => {
                             ))}
                         </tbody>
                     </table>
-                    <footer className="text-body-secondary py-4 bg-light">
-                        <div className="container">
-                            <p className="float-end mb-1">
-                                <a href="/">Back to Top</a>
-                            </p>
-                            <p className="mb-1">Album example is © Bootstrap, customize it as you like!</p>
-                            <p className="mb-0">
-                                New to Bootstrap? <a href="/">Visit the homepage</a> or read the{" "}
-                                <a href="/docs/5.3/getting-started/introduction/">getting started guide</a>.
-                            </p>
-                        </div>
-                    </footer>
                 </div>
-                );
             </div>
         </div>
     );
