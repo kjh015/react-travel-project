@@ -2,11 +2,12 @@ import { authFetch } from "../../AuthFetch";
 
 class BoardApiClient {
     static SERVER_URL = "http://localhost:8000/api/board";
-    static GET_LIST = "/list"
-    static GET_VIEW = "/view"
-    static POST_ADD = "/add"
-    static POST_EDIT = "/edit"
-    static POST_REMOVE = "/remove"
+    static GET_LIST = "/list";
+    static GET_VIEW = "/view";
+    static POST_ADD = "/add";
+    static POST_EDIT = "/edit";
+    static POST_REMOVE = "/remove";
+    static POST_MIGRATE = "/migrate-data";
 
     static getBoardList() {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_LIST);
@@ -35,6 +36,14 @@ class BoardApiClient {
             },
             body: JSON.stringify({
             }),
+        });
+    }
+    static migrateBoard() {
+        return authFetch(BoardApiClient.SERVER_URL + BoardApiClient.POST_MIGRATE, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
         });
     }
 

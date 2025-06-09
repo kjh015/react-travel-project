@@ -20,7 +20,7 @@ const MainPage = () => {
       evt.close();
     };
 
-  }, [top5Board]);
+  }, []);
 
 
 
@@ -34,7 +34,6 @@ const MainPage = () => {
         position: "relative",
       }}
     >
-      <Navbar />
 
       {/* 본문 영역 */}
       <div style={{ marginTop: "80px" }}>
@@ -60,10 +59,9 @@ const MainPage = () => {
           새로운 인연을 만나보세요.<br />
           이곳에서 사진, 후기, 꿀팁을 자유롭게 공유할 수 있습니다.
         </div>
-        {top5Board.map((board) => (
+        {top5Board.map((board, idx) => (
           <div>
-            <MainPageCard boardId={board.boardNo} />
-            {/* <MainPageCard2 /> */}
+            {idx === 0 ? <MainPageCard boardId={board.boardNo} /> : <MainPageCard2 boardId={board.boardNo}/>}            
           </div>
 
         ))}

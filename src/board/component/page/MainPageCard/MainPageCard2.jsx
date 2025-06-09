@@ -1,8 +1,32 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import trainImg from '../../imgs/train.jpg';
+import { useEffect, useState } from 'react';
+import BoardApiClient from '../../../service/BoardApiClient';
 
-const MainPageCard2 = () => {
+const MainPageCard2 = ({boardId}) => {
+  const [board, setBoard] = useState({
+      id: '', title: '', content: '', memberNickname: '',
+      travelPlace: '', address: '', category: '', region: '', imagePaths: [],
+      createdDate: '', modifiedDate: ''
+    });
+  
+    const viewBoard = () => {
+      BoardApiClient.getBoard(boardId).then(
+        res => {
+          if (res.ok) {
+            res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
+          } else {
+            console.log('게시글을 불러오지 못했습니다.');
+          }
+        }
+      )
+    }
+    useEffect(() => {
+      console.log(boardId);
+      viewBoard()
+    }, [boardId]);
+
   return (
     <div className="container my-5">
       <div className="row justify-content-center">
@@ -39,12 +63,10 @@ const MainPageCard2 = () => {
 
             <div className="card-body p-4">
               <h5 className="card-title mb-3 fw-bold" style={{ color: "#6247aa", fontSize: "1.13rem" }}>
-                추억이 남는 여행 한 컷!
+                {board.title}
               </h5>
               <p className="card-text mb-4" style={{ color: "#555", fontSize: "1.04rem" }}>
-                기차를 타고 떠난 그 순간,<br />
-                새로운 풍경과 인연이 기다리고 있습니다.<br />
-                #여행 #설렘 #기차여행
+                {board.content}
               </p>
               <div className="d-flex justify-content-between align-items-center mt-2">
                 <div className="btn-group gap-2">
@@ -63,7 +85,7 @@ const MainPageCard2 = () => {
                     type="button"
                     className="btn btn-outline-secondary px-4"
                     style={{
-                      borderRadius: "2rem",
+                      borderRadius: "2rem", 
                       fontWeight: 500
                     }}
                   >

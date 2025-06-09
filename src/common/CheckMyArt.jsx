@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import CommonApiClient from "./service/CommonApiClient";
 
 //작성 글 파일
 const CheckMyArt = () => {
@@ -8,10 +9,34 @@ const CheckMyArt = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
+    const nickname = localStorage.getItem("nickname");    
+
+    const getMyBoardList = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await CommonApiClient.getMyBoard(nickname);
+            if (res.ok) {
+                const data = await res.json();
+                setBoards(data);
+            } else {
+                setError(new Error("서버 응답 에러"));
+            }
+        } catch (e) {
+            setError(e);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    useEffect(() => {
+        getMyBoardList();
+    }, []);
 
 
-    if (loading) return <div className="text-center mt-5">로딩 중...</div>;
-    if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
+
+    if (loading) return <div className="text-center mt-5" style={{paddingTop: "100px"}}>로딩 중...</div>;
+    if (error) return <div className="text-danger mt-5" style={{paddingTop: "100px"}}>에러 발생: {error.message}</div>;
 
     return (
         <div className="container mt-4">
@@ -27,25 +52,19 @@ const CheckMyArt = () => {
                         <th scope="col">제목</th>
                         <th scope="col">작성자</th>
                         <th scope="col">날짜</th>
-                        <th scope="col">수정</th> {/* 수정 열 추가 */}
                     </tr>
                 </thead>
                 <tbody>
                     {boards.map((board, idx) => (
-                        <tr key={board.board_id}>
-                            <td>{idx + 1}</td>
+                        <tr key={board.id}>
+                            <td>{board.id}</td>
                             <td>
-                                <Link to={`/component/place/${board.board_id}`} className="text-decoration-none">
+                                <Link to={`/board/detail?no=${board.id}`} className="text-decoration-none">
                                     {board.title}
                                 </Link>
                             </td>
-                            <td>{board.writer}</td>
-                            <td>{board.date}</td>
-                            <td>
-                                <Link to="/component/page/change" className="btn btn-sm btn-outline-primary">
-                                    수정
-                                </Link>
-                            </td>
+                            <td>{board.memberNickname}</td>
+                            <td>{board.modifiedDate}</td>
                         </tr>
                     ))}
                 </tbody>

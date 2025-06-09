@@ -73,7 +73,7 @@ const Navbar = () => {
 
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
-      <div className="container-fluid px-3 d-flex align-items-center" style={{ minHeight: "40px" }}>
+      <div className="container-fluid px-3 d-flex align-items-center" style={{ minHeight: "60px" }}>
         {/* 왼쪽: 브랜드 */}
         <div style={{ minWidth: "130px" }}>
           <Link className="navbar-brand mb-0 h1" to="/" style={{ fontWeight: 600 }}>

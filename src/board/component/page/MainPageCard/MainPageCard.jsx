@@ -19,7 +19,7 @@ const MainPageCard = ({ boardId }) => {
         if (res.ok) {
           res.json().then(data => setBoard({ ...data, images: data.images || [] }));
         } else {
-          alert('게시글을 불러오지 못했습니다.');
+          console.log('게시글을 불러오지 못했습니다.');
         }
       }
     )

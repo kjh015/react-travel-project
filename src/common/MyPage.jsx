@@ -3,11 +3,13 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 import SignApiClient from '../sign/service/SignApiClient';
 
+
 // 기본 이미지 URL
 const myPageImage = "#";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  
 
   // 회원 탈퇴
   const handleDelete = () => {
@@ -72,7 +74,7 @@ const MyPage = () => {
                       <Link to="/sign/component/SignUpdatePage" className="btn btn-primary rounded-pill px-3 btn-sm w-25 text-truncate">
                         회원 정보 수정
                       </Link>
-                      <Link to="/board/component/page/LikeListPage" className="btn btn-danger rounded-pill px-3 btn-sm w-25 text-truncate">
+                      <Link to="/board/favorite-list" className="btn btn-danger rounded-pill px-3 btn-sm w-25 text-truncate">
                         찜목록
                       </Link>
                       <Link to="/board/component/page/MyPlace" className="btn btn-info text-white rounded-pill px-3 btn-sm w-25 text-truncate">
@@ -82,7 +84,7 @@ const MyPage = () => {
 
                     {/* 작성글/댓글 */}
                     <div className="mb-4 d-flex justify-content-center gap-2">
-                      <Link to="/page/checkmyart" className="btn btn-outline-secondary btn-sm">
+                      <Link to="/board/my-article" className="btn btn-outline-secondary btn-sm">
                         작성 글
                       </Link>
                       <Link to="/page/chckmycom" className="btn btn-outline-secondary btn-sm">

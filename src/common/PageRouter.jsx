@@ -15,12 +15,12 @@ import MyPage from '../common/MyPage';
 import CampaignPlan from "../board/component/page/CampaignPlan";
 import BoardWritePage from "../board/component/page/BoardWritePage";
 import BoardEditPage from "../board/component/page/BoardEditPage";
-import LikeListPage from '../board/component/page/LikeListPage';
-import CheckMyArt from "../board/component/page/CheckMyArt";
+import LikeListPage from "./LikeListPage";
+import CheckMyArt from "./CheckMyArt";
 import MyPlace from "../board/component/page/MyPlace";
 
 //comment
-import ChckMyCom from '../comment/component/ChckMyCom';
+import ChckMyCom from "./ChckMyCom";
 
 //others
 import BoardList from "../board/component/page/BoardList";
@@ -44,7 +44,7 @@ const PageRouter = () => {
                 {/* board */}
                 <Route path="/board/list" element={<BoardList />} />
                 <Route path="/board/detail" element={<BoardDetailPage />} />
-                <Route path="/board/component/page/LikeListPage" element={<LikeListPage />} />
+                <Route path="/board/favorite-list" element={<LikeListPage />} />
                 <Route path="/board/component/page/MyPlace" element={<MyPlace />} />
                 <Route path="/board/write" element={<BoardWritePage />} />
                 <Route path="/board/edit" element={<BoardEditPage />} />
@@ -70,7 +70,7 @@ const PageRouter = () => {
                 <Route index path="/component/campaignplan" element={<CampaignPlan />}></Route>
 
 
-                <Route path="page/checkmyart" element={<CheckMyArt />} />
+                <Route path="/board/my-article" element={<CheckMyArt />} />
                 <Route path="/common/MyPage" element={<MyPage />} />
             </Routes>
         </BrowserRouter>
