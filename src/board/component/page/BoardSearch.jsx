@@ -79,14 +79,7 @@ const RegionRadioCard = ({ selectedRegion, setRegion }) => {
                             }}
                             role="button"
                         >
-                            <i
-                                className="bi bi-geo-alt-fill me-1"
-                                style={{
-                                    fontSize: "1.05rem",
-                                    color: selectedRegion === city ? "#1976d2" : "#b0b7be",
-                                    transition: "color 0.15s"
-                                }}
-                            />
+                            
                             {city}
                         </div>
                     </div>
