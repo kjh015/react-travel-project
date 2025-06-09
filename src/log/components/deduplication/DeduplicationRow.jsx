@@ -15,7 +15,7 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
 
     // 조건 배열 조작 함수들
     const handleConditionChange = (condIdx, field, value) => {
-        const newConditions = data.conditions.map((c, i) => 
+        const newConditions = data.conditions.map((c, i) =>
             i === condIdx ? { ...c, [field]: value } : c
         );
         onChange(index, { ...data, conditions: newConditions });
@@ -39,7 +39,7 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
     };
 
     // 스타일 유틸
-    const inputBoxStyle = { width: 90, textAlign: 'center', display: 'inline-block' };
+    const inputBoxStyle = { width: 90, textAlign: 'right', display: 'inline-block' };
     const labelStyle = { minWidth: 28, textAlign: 'center', display: 'inline-block' };
 
     return (
@@ -92,29 +92,29 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
                 <div className="p-3 border rounded bg-light d-inline-block">
                     <div className="d-flex flex-row mb-2 justify-content-center gap-3">
                         <div className="d-flex align-items-center gap-1">
-                            <input name="year" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.year} onChange={handleTimeChange}/>
+                            <input name="year" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.year} onChange={handleTimeChange} />
                             <span style={labelStyle}>년</span>
                         </div>
                         <div className="d-flex align-items-center gap-1">
-                            <input name="month" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.month} onChange={handleTimeChange}/>
+                            <input name="month" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.month} onChange={handleTimeChange} />
                             <span style={labelStyle}>월</span>
                         </div>
                         <div className="d-flex align-items-center gap-1">
-                            <input name="day" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.day} onChange={handleTimeChange}/>
+                            <input name="day" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.day} onChange={handleTimeChange} />
                             <span style={labelStyle}>일</span>
                         </div>
                     </div>
                     <div className="d-flex flex-row justify-content-center gap-3">
                         <div className="d-flex align-items-center gap-1">
-                            <input name="hour" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.hour} onChange={handleTimeChange}/>
+                            <input name="hour" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.hour} onChange={handleTimeChange} />
                             <span style={labelStyle}>시</span>
                         </div>
                         <div className="d-flex align-items-center gap-1">
-                            <input name="minute" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.minute} onChange={handleTimeChange}/>
+                            <input name="minute" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.minute} onChange={handleTimeChange} />
                             <span style={labelStyle}>분</span>
                         </div>
                         <div className="d-flex align-items-center gap-1">
-                            <input name="second" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.second} onChange={handleTimeChange}/>
+                            <input name="second" type="number" min="0" className="form-control" style={inputBoxStyle} value={data.second} onChange={handleTimeChange} />
                             <span style={labelStyle}>초</span>
                         </div>
                     </div>

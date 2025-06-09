@@ -26,7 +26,6 @@ const FormatManagement = ({ processId, onMenuClick }) => {
     const handleInputComp = () => setInputComp(false);
     const handleDetailComp = () => setDetailComp(0);
 
-
     const formatDate = (isoString) => {
         if (!isoString) return "";
         return isoString.substring(0, 16).replace("T", " ");
@@ -34,21 +33,32 @@ const FormatManagement = ({ processId, onMenuClick }) => {
 
     return (
         <div>
+            {/* 인라인 스타일(또는 App.css에 추가해도 됨) */}
+            <style>{`
+                .format-name-hover {
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transition: text-decoration 0.13s;
+                }
+                .format-name-hover:hover {
+                    text-decoration: underline;
+                }
+            `}</style>
+
             <div className="container" style={{ marginTop: '80px' }}>
                 <h4 className="mb-4 fw-bold">포맷 목록</h4>
 
-                {/* 상단 우측 버튼 영역 */}
                 <div className="d-flex justify-content-end mb-3">
                     <button className="btn btn-primary me-2" onClick={() => setInputComp(true)}>포맷 추가</button>
                     <button className="btn btn-secondary" onClick={() => onMenuClick('filter')}>필터링 관리 ➡</button>
                 </div>
 
-                {/* 포맷 테이블 */}
                 <table className="table table-bordered text-center align-middle">
                     <thead className="table-light">
                         <tr>
                             <th style={{ width: '10%' }}>ID</th>
-                            <th style={{ width: '25%' }}>이름</th>
+                            <th className="text-start" style={{ width: '25%' }}>이름</th>
                             <th>생성 날짜</th>
                             <th>수정 날짜</th>
                             <th style={{ width: '10%' }}>활성화</th>
@@ -59,11 +69,10 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                             <React.Fragment key={format.id}>
                                 <tr>
                                     <td>{format.id}</td>
-                                    <td>
+                                    <td className="text-start">
                                         <span
-                                            className="px-2 py-1 bg-light text-primary rounded-pill d-inline-block fw-semibold"
+                                            className="format-name-hover"
                                             role="button"
-                                            style={{ cursor: 'pointer', transition: '0.2s' }}
                                             onClick={() => setDetailComp(detailComp === format.id ? 0 : format.id)}
                                         >
                                             {format.name}
@@ -91,15 +100,12 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                     </tbody>
                 </table>
 
-                {/* 포맷 추가 입력 폼 */}
                 {inputComp && (
                     <div className="mt-4">
                         <InputFormat onClose={handleInputComp} processId={processId} />
                     </div>
                 )}
             </div>
-
-
         </div>
     );
 };

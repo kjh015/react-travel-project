@@ -22,13 +22,7 @@ const ChckMyCom = () => {
 
             <table className="table table-hover">
                 <thead className="table-light">
-                    <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">제목</th>
-                        <th scope="col">작성자</th>
-                        <th scope="col">날짜</th>
-                        <th scope="col">수정</th> {/* 수정 열 추가 */}
-                    </tr>
+
                 </thead>
                 <tbody>
                     {boards.map((board, idx) => (

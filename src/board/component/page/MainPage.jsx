@@ -6,7 +6,8 @@ import MainPageCard from "./MainPageCard/MainPageCard";
 import MainPageCard2 from "./MainPageCard/MainPageCard2";
 import Footers from '../../../common/Footers';
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import BoardSearch from "./BoardSearch";
+import tgd3 from '../imgs/tgd3.jpg';
 
 const MainPage = () => {
   const [top5Board, setTop5Board] = useState([]);
@@ -19,10 +20,7 @@ const MainPage = () => {
     return () => {
       evt.close();
     };
-
   }, [top5Board]);
-
-
 
   return (
     <div
@@ -36,40 +34,50 @@ const MainPage = () => {
     >
       <Navbar />
 
-      {/* 본문 영역 */}
-      <div style={{ marginTop: "80px" }}>
+      {/* 사진+오버레이 통합 컨테이너 */}
+      <div style={{ position: "relative", width: "100vw", height: "700px" }}>
+        {/* 배경 이미지 */}
+        {/* <img
+          src={tgd3}
+          alt="메인 배경"
+          style={{
+            width: "100vw",
+            height: "700px",
+            objectFit: "cover",
+            position: "absolute",
+            top: 0,
+            left: 0,
+            zIndex: 1,
+            pointerEvents: "none"
+          }}
+        /> */}
+
+        {/* 본문(오버레이) */}
         <div
           style={{
-            margin: "0 auto 24px auto",
-            background: "rgba(255,255,255,0.83)",
-            padding: "0.8rem 1.2rem",
-            borderRadius: "1.1rem",
-            boxShadow: "0 2px 12px rgba(90,90,120,0.10)",
-            textAlign: "center",
-            width: "82%",
-            maxWidth: "440px",
-            fontSize: "0.98rem",
-            fontWeight: "500",
-            color: "#333"
+            position: "absolute",
+            top: "60px", // 네비바 높이만큼 띄움(필요시 조정)
+            left: "50%",
+            transform: "translateX(-50%)",
+            width: "100%",
+            maxWidth: "960px",
+            zIndex: 2,
+            padding: "0 24px",
+            // 반투명 박스 배경을 원할 경우 아래 주석 해제
+            // background: "rgba(255,255,255,0.9)",
+            // borderRadius: "1.2rem",
+            // boxShadow: "0 6px 24px rgba(60,60,100,0.13)",
           }}
         >
-          <h4 className="card-title mb-2 fw-bold" style={{ fontSize: "1.07rem" }}>
-            여행의 모든 순간, 함께!
-          </h4>
-          여러분의 소중한 여행 경험을 나누고,<br />
-          새로운 인연을 만나보세요.<br />
-          이곳에서 사진, 후기, 꿀팁을 자유롭게 공유할 수 있습니다.
+          <BoardSearch />
+          <MainPageCard boardId={1} />
+          <MainPageCard2 />
         </div>
-        {top5Board.map((board) => (
-          <div>
-            <MainPageCard boardId={board.boardNo} />
-            {/* <MainPageCard2 /> */}
-          </div>
+      </div>
 
-        ))}
-
-
-        <Footers />
+      {/* 하단 푸터 등 기타 영역 */}
+      <div>
+        {/* <Footers /> */}
       </div>
     </div>
   );

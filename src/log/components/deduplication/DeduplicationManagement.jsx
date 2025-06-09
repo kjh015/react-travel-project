@@ -49,6 +49,19 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
 
   return (
     <div>
+      {/* 인라인 스타일 또는 App.css로 분리 가능 */}
+      <style>{`
+        .dedup-name-hover {
+          font-weight: bold;
+          cursor: pointer;
+          text-decoration: none;
+          transition: text-decoration 0.13s;
+        }
+        .dedup-name-hover:hover {
+          text-decoration: underline;
+        }
+      `}</style>
+
       <div className="container" style={{ marginTop: '80px' }}>
         <h4 className="mb-4 fw-bold">중복 제거 목록</h4>
 
@@ -66,7 +79,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
           <thead className="table-light">
             <tr>
               <th style={{ width: '10%' }}>ID</th>
-              <th style={{ width: '30%' }}>이름</th>
+              <th className="text-start" style={{ width: '30%' }}>이름</th>
               <th>생성 날짜</th>
               <th>수정 날짜</th>
               <th style={{ width: '10%' }}>활성화</th>
@@ -82,11 +95,10 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
                 <React.Fragment key={ddp.id}>
                   <tr>
                     <td>{ddp.id}</td>
-                    <td>
+                    <td className="text-start">
                       <span
-                        className="px-2 py-1 bg-light text-primary rounded-pill d-inline-block fw-semibold"
+                        className="dedup-name-hover"
                         role="button"
-                        style={{ cursor: 'pointer', transition: '0.2s' }}
                         onClick={() => setShowDetail(showDetail === ddp.id ? 0 : ddp.id)}
                         title={ddp.name}
                       >

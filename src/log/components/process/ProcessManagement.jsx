@@ -41,11 +41,23 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                 maxWidth: '980px'
             }}
         >
+            {/* 인라인 CSS, 혹은 App.css에 넣어도 OK */}
+            <style>{`
+                .process-name-hover {
+                    font-weight: bold;
+                    cursor: pointer;
+                    text-decoration: none;
+                    transition: text-decoration 0.1s;
+                }
+                .process-name-hover:hover {
+                    text-decoration: underline;
+                }
+            `}</style>
+
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h3 className="fw-bold mb-0" style={{ letterSpacing: '1px' }}>
                     <span style={{ color: "#34a853" }}>●</span> Process 관리
                 </h3>
-
             </div>
             <div className="card shadow-sm rounded-4 mb-4">
                 <div className="card-body p-4">
@@ -53,7 +65,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                         <thead className="table-light">
                             <tr>
                                 <th style={{ width: '15%' }}>ID</th>
-                                <th>이름</th>
+                                <th className="text-start">이름</th>
                                 <th>생성 날짜</th>
                                 <th>수정 날짜</th>
                                 <th style={{ width: '15%' }}>수정</th>
@@ -69,10 +81,9 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                                 <React.Fragment key={process.id}>
                                     <tr>
                                         <td>{process.id}</td>
-                                        <td>
+                                        <td className="text-start">
                                             <span
-                                                className="px-2 py-1 bg-light text-primary rounded-pill d-inline-block fw-semibold"
-                                                style={{ cursor: 'pointer', fontWeight: 600 }}
+                                                className="process-name-hover"
                                                 onClick={() => {
                                                     setPID(process.id);
                                                     onMenuClick('format');
@@ -136,7 +147,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                     <div
                         className="modal-dialog modal-dialog-centered"
                         style={{ maxWidth: 480 }}
-                        onClick={e => e.stopPropagation()} // 모달 안 클릭 시 닫히지 않게
+                        onClick={e => e.stopPropagation()}
                     >
                         <div className="modal-content rounded-4">
                             <div className="modal-header">

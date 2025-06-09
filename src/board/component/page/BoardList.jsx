@@ -83,7 +83,6 @@ const BoardList = () => {
             }}
           >
             <div className="container py-4">
-              <BoardSearch />
               <div className="card-header bg-white d-flex justify-content-between align-items-center py-3 px-0 border-0" style={{ background: "none" }}>
                 <h4 className="mb-0 fw-bold">게시판 목록</h4>
                 <div className="d-flex gap-2 align-items-center">
