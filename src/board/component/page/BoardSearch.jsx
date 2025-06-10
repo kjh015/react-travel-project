@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Form, Button, Card, Row, Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
@@ -131,13 +131,14 @@ const BoardSearch = () => {
             <Card className="shadow-sm rounded-4 mx-auto" style={{ maxWidth: 700, padding: '32px 36px', background: '#fff' }}>
                 <Form className="mb-4" onSubmit={handleSubmit}>
                     {/* 안내문 박스 */}
-                    <div>
-                        <h4 className="card-title mb-2 fw-bold " style={{ fontSize: "1.07rem" }}>
+                    <div className="text-center">
+                        <h4 className="card-title mb-2 fw-bold" style={{ fontSize: "1.07rem" }}>
                             여행의 모든 순간, 함께!
                         </h4>
                         여러분의 소중한 여행 경험을 나누고,<br />
                         새로운 인연을 만나보세요.<br />
                         이곳에서 사진, 후기, 꿀팁을 자유롭게 공유할 수 있습니다.
+                        <Link to={"/board/list?keyword=전체보기"} className="btn btn-danger">전체 보기</Link>
                     </div>
                     <Row className="g-2 align-items-center">
                         <Col xs={9}>

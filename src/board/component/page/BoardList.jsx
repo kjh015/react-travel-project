@@ -20,15 +20,13 @@ const BoardList = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   useEffect(() => {
-    if (category || region || keyword) {
+    if (category || region || keyword) {      
       setSearched(true);
-      getBoardList();
+      keyword == "전체보기" ? getBoardListAll() : getBoardList();
     } else {
-      getBoardList();
-      setSearched(true);
+      setSearched(false);
       
     }
-    // eslint-disable-next-line
   }, [location.search, sort]);
 
   const goToWrite = () => {
@@ -39,11 +37,29 @@ const BoardList = () => {
     }
   };
 
+  const getBoardListAll = async () => {
+    setLoading(true);
+    setError(null);
+    try {      
+      const res = await BoardApiClient.getBoardList();
+      if (res.ok) {
+        const data = await res.json();
+        setBoards(data);
+      } else {
+        setError(new Error("서버 응답 에러"));
+      }
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const getBoardList = async () => {
     setLoading(true);
     setError(null);
-    try {
-      const res = await BoardApiClient.getBoardList({ category, region, keyword, sort });
+    try {      
+      const res = await BoardApiClient.getBoardListBySearch({ category, region, keyword });
       if (res.ok) {
         const data = await res.json();
         setBoards(data);
@@ -67,8 +83,8 @@ const BoardList = () => {
     getBoardList();
   }, []);
 
-  if (loading) return <div className="text-center mt-5">로딩 중...</div>;
-  if (error) return <div className="text-danger mt-5">에러 발생: {error.message}</div>;
+  if (loading) return <div className="text-center mt-5" style={{paddingTop: 80}}>로딩 중...</div>;
+  if (error) return <div className="text-danger mt-5" style={{paddingTop: 80}}>에러 발생: {error.message}</div>;
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
@@ -97,11 +113,12 @@ const BoardList = () => {
                       정렬
                     </button>
                     <ul className="dropdown-menu">
-                      <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("rate")}>평점순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("new")}>최신순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("view")}>조회수순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("comment")}>댓글많은순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("popular")}>추천 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("rate")}>평점 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("new")}>최신 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("view")}>조회수 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("comment")}>댓글많은 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("comment")}>찜 순</button></li>
                     </ul>
                   </div>
                   {isLoggedIn && (
@@ -143,7 +160,7 @@ const BoardList = () => {
                     {searched && !loading && boards.length > 0 && (
                       boards.map((board, idx) => (
                         <tr key={board.id}>
-                          <td className="text-center">{boards.length - idx}</td>
+                          <td className="text-center">{idx + 1}</td>
                           <td className="text-center">
                             <Link
                               to={`/board/detail?no=${board.id}`}
