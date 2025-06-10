@@ -9,7 +9,7 @@ const myPageImage = "#";
 
 const MyPage = () => {
   const navigate = useNavigate();
-  
+
 
   // 회원 탈퇴
   const handleDelete = () => {
@@ -84,9 +84,7 @@ const MyPage = () => {
 
                     {/* 작성글/댓글 */}
                     <div className="mb-4 d-flex justify-content-center gap-2">
-                      <Link to="/board/my-article" className="btn btn-outline-secondary btn-sm">
-                        작성 글
-                      </Link>
+
                       <Link to="/page/chckmycom" className="btn btn-outline-secondary btn-sm">
                         작성 댓글
                       </Link>

@@ -1,14 +1,11 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useNavigate } from 'react-router-dom';
-import RadioPage from './RegionRadioComp';
+import RegionRadioComp from './RegionRadioComp';
 
 import BoardApiClient from '../../service/BoardApiClient';
-import { useState, useRef, useEffect } from 'react';
-
-const categoryList = [
-    "축제", "공연", "행사", "체험", "쇼핑", "자연", "역사", "가족", "음식"
-];
+import { useState, useEffect } from 'react';
+import CategoryCard from './CategoryCard';
 
 const BoardWritePage = () => {
     const navigate = useNavigate();
@@ -25,21 +22,20 @@ const BoardWritePage = () => {
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
 
-    // 드롭다운 상태와 ref
-    const [dropdownOpen, setDropdownOpen] = useState(false);
-    const dropdownRef = useRef();
-
-    // 바깥 클릭시 드롭다운 닫힘
+    // 로그인 체크 및 닉네임 셋팅
     useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-                setDropdownOpen(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+        let nickname = localStorage.getItem("nickname");
+        if (!nickname) {
+            alert("로그인 필요");
+            navigate(-1);
+        }
+        setBoard(prev => ({
+            ...prev,
+            memberNickname: nickname
+        }));
+    }, [navigate]);
 
+    // 입력 값 변경
     const handleChange = (e) => {
         const { id, value } = e.target;
         setBoard(prev => ({
@@ -48,16 +44,15 @@ const BoardWritePage = () => {
         }));
     };
 
-
-
+    // 카테고리 카드 선택
     const handleCategorySelect = (cat) => {
         setBoard(prev => ({
             ...prev,
             category: cat
         }));
-        setDropdownOpen(false); // 선택 후 닫기
     };
 
+    // 지역 라디오 변경
     const handleRegionChange = (regionValue) => {
         setBoard(prev => ({
             ...prev,
@@ -65,12 +60,10 @@ const BoardWritePage = () => {
         }));
     };
 
+    // 이미지 업로드
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-
-        // (옵션) 중복 파일 막기: 파일명 기준 예시
         const newFiles = files.filter(f => !images.some(img => img.name === f.name));
-
         setImages(prev => [...prev, ...newFiles]);
         setImagePreviews(prev => [
             ...prev,
@@ -78,12 +71,13 @@ const BoardWritePage = () => {
         ]);
     };
 
-
+    // 이미지 제거
     const handleImageRemove = (idx) => {
         setImages(prev => prev.filter((_, i) => i !== idx));
         setImagePreviews(prev => prev.filter((_, i) => i !== idx));
     };
 
+    // 글 작성 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -107,37 +101,15 @@ const BoardWritePage = () => {
         }
     };
 
-    const handleMember = () => {
-        setBoard(prev => ({
-            ...prev,
-            memberNickname: localStorage.getItem("nickname")
-        }));
-    };
-    useEffect(() => {
-        let nickname = localStorage.getItem("nickname");
-        if (nickname == null) {
-            alert("로그인 필요");
-            navigate(-1);
-        }
-        setBoard(prev => ({
-            ...prev,
-            memberNickname: nickname
-        }));
-    }, []);
-
     return (
         <div
-
             style={{
-                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-                width: "100vw",               // 가로폭: 브라우저 창 전체
-                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
-
-
-                position: "relative"          // 하위 요소 레이아웃 보호
+                minHeight: "100vh",
+                width: "100vw",
+                overflowX: "hidden",
+                position: "relative"
             }}
-
-            className="" >
+        >
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 text-center fw-bold" style={{ letterSpacing: '2px' }}>글 작성</h2>
@@ -146,7 +118,7 @@ const BoardWritePage = () => {
                     </div>
                     <form onSubmit={handleSubmit}>
 
-                        {/* 제목 단독 줄 */}
+                        {/* 제목 */}
                         <div className="mb-4">
                             <label htmlFor="title" className="form-label fw-semibold">제목</label>
                             <input
@@ -161,7 +133,7 @@ const BoardWritePage = () => {
                             />
                         </div>
 
-                        {/* 여행지 이름 + 주소 한 줄 */}
+                        {/* 여행지 이름 + 주소 */}
                         <div className="row g-3 mb-4">
                             <div className="col-md-5">
                                 <label htmlFor="travelPlace" className="form-label fw-semibold">여행지 이름</label>
@@ -189,46 +161,31 @@ const BoardWritePage = () => {
                             </div>
                         </div>
 
-                        {/* 카테고리/지역 한 줄 */}
+                        {/* 카테고리/지역 */}
                         <div className="row g-3 mb-4">
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">카테고리</label>
-                                <div className="dropdown" ref={dropdownRef}>
-                                    <button
-                                        className="btn btn-outline-primary w-100"
-                                        type="button"
-                                        onClick={() => setDropdownOpen(open => !open)}
-                                        style={{ fontWeight: '500', fontSize: '1.08rem' }}
-                                    >
-                                        {board.category || "카테고리 선택"}
-                                    </button>
-                                    <ul className={`dropdown-menu w-100${dropdownOpen ? " show" : ""}`}>
-                                        {categoryList.map((cat, idx) => (
-                                            <li key={idx}>
-                                                <button
-                                                    className={`dropdown-item${board.category === cat ? ' active' : ''}`}
-                                                    type="button"
-                                                    onClick={() => handleCategorySelect(cat)}
-                                                    style={{ fontWeight: '500' }}
-                                                >
-                                                    {cat}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                <CategoryCard
+                                    selected={board.category}
+                                    onSelect={handleCategorySelect}
+                                />
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">지역 선택</label>
                                 <div className="bg-light rounded-4 p-2 px-3 border">
-                                    <RadioPage selectedRegion={board.region} setRegion={handleRegionChange} />
+                                    <RegionRadioComp
+                                        selectedRegion={board.region}
+                                        setRegion={handleRegionChange}
+                                    />
                                 </div>
                             </div>
                         </div>
 
                         {/* 사진 첨부 */}
                         <div className="mb-4">
-                            <label className="form-label fw-semibold">사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(여러 장 첨부 가능)</span></label>
+                            <label className="form-label fw-semibold">
+                                사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(여러 장 첨부 가능)</span>
+                            </label>
                             <div className="bg-light rounded-4 p-3 px-4 border">
                                 <input
                                     type="file"
