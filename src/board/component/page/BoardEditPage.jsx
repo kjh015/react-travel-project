@@ -4,11 +4,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import RadioPage from './RegionRadioComp';
 import { useEffect, useState } from 'react';
 import BoardApiClient from '../../service/BoardApiClient';
-
-const categoryList = [
-    "축제", "공연", "행사", "체험", "쇼핑", "자연", "역사", "가족", "음식"
-];
-
+import CategoryCard from './CategoryCard'; // ← 추가
 
 //글 수정파일
 const BoardEditPage = () => {
@@ -140,44 +136,30 @@ const BoardEditPage = () => {
 
     return (
         <div className="py-5"
-
             style={{
-                minHeight: "100vh",           // 최소 높이: 브라우저 창 높이
-                width: "100vw",               // 가로폭: 브라우저 창 전체
-                overflowX: "hidden",          // 가로 스크롤 방지 (필요시)
-
-                position: "relative"          // 하위 요소 레이아웃 보호
+                minHeight: "100vh",
+                width: "100vw",
+                overflowX: "hidden",
+                position: "relative"
             }}
         >
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
-                    <h2 className="mb-3 
-                     fw-bold" style={{ textAlign: 'center', letterSpacing: '2px' }}>글 수정</h2>
+                    <h2 className="mb-3 fw-bold" style={{ textAlign: 'center', letterSpacing: '2px' }}>글 수정</h2>
                     <div className="text-secondary text-center mb-4" style={{ fontSize: '1.07rem' }}>
                         여행지, 사진, 지역, 카테고리, 후기를 모두 입력해 주세요!
                     </div>
                     <div className="mb-4 d-flex justify-content-end">
-                        <span
-                            className="fw-semibold"
-                            style={{ fontSize: '1.08rem', color: '#222', marginRight: 6 }}
-                        >
+                        <span className="fw-semibold" style={{ fontSize: '1.08rem', color: '#222', marginRight: 6 }}>
                             작성자:
                         </span>
-                        <span
-                            className="fw-bold"
-                            style={{
-                                fontSize: '1.08rem',
-                                minWidth: 80,
-                                display: 'inline-block'
-                            }}
-                        >
+                        <span className="fw-bold" style={{ fontSize: '1.08rem', minWidth: 80, display: 'inline-block' }}>
                             {board.memberNickname || ""}
                         </span>
                     </div>
 
                     <form onSubmit={handleSubmit}>
-
-                        {/* 제목 단독 줄 */}
+                        {/* 제목 */}
                         <div className="mb-4">
                             <label htmlFor="title" className="form-label fw-semibold">제목</label>
                             <input
@@ -192,7 +174,7 @@ const BoardEditPage = () => {
                             />
                         </div>
 
-                        {/* 여행지 이름 + 주소 한 줄 */}
+                        {/* 여행지 이름 + 주소 */}
                         <div className="row g-3 mb-4">
                             <div className="col-md-5">
                                 <label htmlFor="travelPlace" className="form-label fw-semibold">여행지 이름</label>
@@ -220,34 +202,16 @@ const BoardEditPage = () => {
                             </div>
                         </div>
 
-                        {/* 카테고리/지역 한 줄 */}
+                        {/* 카테고리/지역 */}
                         <div className="row g-3 mb-4">
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">카테고리</label>
-                                <div className="dropdown">
-                                    <button
-                                        className="btn btn-outline-primary dropdown-toggle w-100"
-                                        type="button"
-                                        data-bs-toggle="dropdown"
-                                        style={{ fontWeight: '500', fontSize: '1.08rem' }}
-                                    >
-                                        {board.category || "카테고리 선택"}
-                                    </button>
-                                    <ul className="dropdown-menu w-100">
-                                        {categoryList.map((cat, idx) => (
-                                            <li key={idx}>
-                                                <button
-                                                    className={`dropdown-item${board.category === cat ? ' active' : ''}`}
-                                                    type="button"
-                                                    onClick={() => handleCategorySelect(cat)}
-                                                    style={{ fontWeight: '500' }}
-                                                >
-                                                    {cat}
-                                                </button>
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </div>
+                                {/* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */}
+                                <CategoryCard
+                                    selected={board.category || ''}
+                                    onSelect={handleCategorySelect}
+                                />
+                                {/* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */}
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">지역 선택</label>
@@ -257,7 +221,8 @@ const BoardEditPage = () => {
                             </div>
                         </div>
 
-                        {/* 사진 첨부 */}
+                        {/* 사진 첨부, 내용, 버튼 등 이하 동일 */}
+                        {/* ...중략... */}
                         <div className="mb-4">
                             <label className="form-label fw-semibold">사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(여러 장 첨부 가능)</span></label>
                             <div className="bg-light rounded-4 p-3 px-4 border">
@@ -297,7 +262,6 @@ const BoardEditPage = () => {
                                             >×</button>
                                         </div>
                                     ))}
-
                                 </div>
                             </div>
                         </div>
@@ -319,7 +283,6 @@ const BoardEditPage = () => {
                         </div>
 
                         {/* 버튼 */}
-
                         <div className="d-flex justify-content-between pt-2">
                             <button className="btn btn-danger px-5 py-2 fs-5 fw-bold rounded-pill shadow"
                                 type="button"

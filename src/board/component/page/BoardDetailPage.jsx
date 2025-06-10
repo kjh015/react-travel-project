@@ -218,8 +218,14 @@ const BoardDetailPage = () => {
                   </Badge>
                 </div>
                 <div className="mb-2 text-muted" style={{ fontSize: "0.96rem" }}>
-                  글 번호: <span className="fw-semibold">{board.id}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span>
+                  {/* 조회수 */}
+                  조회수: <span className="fw-semibold">{ }</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span> |
+
+
                 </div>
+
+
+
                 <hr className="my-2" />
                 <div className="mb-2">
                   <span className="fw-semibold"><i className="bi bi-geo-alt-fill"></i> 여행지:</span> {board.travelPlace}
@@ -258,8 +264,16 @@ const BoardDetailPage = () => {
                     style={{ textDecoration: "none" }}
                     aria-label={liked ? "찜 취소" : "찜하기"}
                   >
-                    <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}></i>
+                    <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}>
+
+                      {/* 찜개수 */}
+                      0 <span className="fw-semibold">{board.liked}</span>
+                    </i>
                   </button>
+
+
+
+
                   {/* 공유버튼 */}
                   <button
                     type="button"

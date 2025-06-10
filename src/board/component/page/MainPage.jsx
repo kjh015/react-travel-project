@@ -50,6 +50,8 @@ const MainPage = () => {
           }}
         >
           <BoardSearch />
+          <MainPageCard boardId={1} />
+          <MainPageCard2 boardId={2} />
           {top5Board.map((board, idx) => (
             <div>
               {idx === 0 ? <MainPageCard boardId={board.boardNo} /> : <MainPageCard2 boardId={board.boardNo} />}
