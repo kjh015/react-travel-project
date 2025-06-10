@@ -11,10 +11,11 @@ import tgd3 from '../imgs/tgd3.jpg';
 
 const MainPage = () => {
   const [top5Board, setTop5Board] = useState([]);
-
+  
   useEffect(() => {
     const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
+      console.log(JSON.parse(e.data));
       setTop5Board(JSON.parse(e.data));
     };
     return () => {

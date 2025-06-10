@@ -28,7 +28,7 @@ const BoardDetailPage = () => {
   const [board, setBoard] = useState({
     id: '', title: '', content: '', memberNickname: '',
     travelPlace: '', address: '', category: '', region: '', imagePaths: [],
-    createdDate: '', modifiedDate: ''
+    createdDate: '', modifiedDate: '', ratingAvg: '', viewCount: '', favoriteCount: '', commentCount: ''
   });
 
   const [liked, setLiked] = useState(false);

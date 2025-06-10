@@ -4,10 +4,15 @@ class BoardApiClient {
     static SERVER_URL = "http://localhost:8000/api/board";
     static GET_LIST = "/list";
     static GET_VIEW = "/view";
+    static GET_SEARCH = "/search";
     static POST_ADD = "/add";
     static POST_EDIT = "/edit";
     static POST_REMOVE = "/remove";
     static POST_MIGRATE = "/migrate-data";
+
+    static getBoardListBySearch({keyword, category, region, sort, direction, page}){
+        return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_SEARCH + `?keyword=${keyword}&category=${category}&region=${region}&sort=${sort}&direction=${direction}&page=${page}`);
+    }
 
     static getBoardList() {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_LIST);

@@ -36,6 +36,7 @@ const PageRouter = () => {
     return (
         <BrowserRouter>
             <Navbar />
+            <div style={{marginTop: 80}}/>
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
