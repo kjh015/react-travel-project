@@ -12,10 +12,10 @@ const BoardWritePage = () => {
     const [board, setBoard] = useState({
         title: '',
         content: '',
-        memberNickname: 'user01',
+        memberNickname: '',
         travelPlace: '',
         address: '',
-        category: '',
+        category: '축제',
         region: '서울'
     });
 
@@ -78,15 +78,20 @@ const BoardWritePage = () => {
     };
 
     // 글 작성 제출
+    // 글 작성 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        if (!images || images.length === 0) {
+            alert("사진을 한 장 이상 첨부해 주세요!");
+            return;
+        }
 
         const formData = new FormData();
         const boardBlob = new Blob([JSON.stringify(board)], { type: "application/json" });
         formData.append('board', boardBlob);
-        images.forEach((file) => {
-            formData.append('images', file);
-        });
+        images.forEach(file => formData.append('images', file));
+
         try {
             const response = await BoardApiClient.addBoard(formData);
             if (response.ok) {
@@ -100,6 +105,7 @@ const BoardWritePage = () => {
             console.error(err);
         }
     };
+
 
     return (
         <div
@@ -163,12 +169,15 @@ const BoardWritePage = () => {
 
                         {/* 카테고리/지역 */}
                         <div className="row g-3 mb-4">
-                            <div className="col-md-6">
+                            <div className="col-md-6 ">
                                 <label className="form-label fw-semibold">카테고리</label>
-                                <CategoryCard
-                                    selected={board.category}
-                                    onSelect={handleCategorySelect}
-                                />
+                                <div className="bg-light rounded-4 p-2 px-3 border">
+                                    <CategoryCard
+                                        selectedCategory={board.category}
+                                        setCategory={handleCategorySelect}
+                                    />
+                                </div>
+
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">지역 선택</label>
@@ -245,9 +254,11 @@ const BoardWritePage = () => {
                                 type="submit"
                                 className="btn btn-primary px-5 py-2 fs-5 fw-bold rounded-pill shadow"
                                 style={{ minWidth: 140, letterSpacing: '1px' }}
+                                disabled={images.length === 0}
                             >
                                 글쓰기
                             </button>
+
                         </div>
                     </form>
                 </div>

@@ -111,7 +111,7 @@ const Navbar = () => {
           <Offcanvas.Title id="offcanvasNavbarLabel">메뉴</Offcanvas.Title>
         </Offcanvas.Header>
         <Offcanvas.Body>
-          <div className="d-flex flex-column justify-content-between h-100 my-3">
+          <div className="d-flex flex-column justify-content-between h-100">
             {/* 위쪽: 메뉴들 */}
             <div className="d-flex flex-column align-items-stretch gap-2">
               <div className="mb-2">
@@ -147,6 +147,7 @@ const Navbar = () => {
               )}
               {isLoggedIn && (
                 <>
+                {}
                   <div className="mb-2">
                     <Link
                       className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"

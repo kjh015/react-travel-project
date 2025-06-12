@@ -10,6 +10,7 @@ import FilterManagement from '../log/components/filter/FilterManagement';
 import LogManagement from '../log/components/db/LogManagement';
 import DeduplicationManagement from '../log/components/deduplication/DeduplicationManagement';
 import Kibana from '../log/components/dashboard/Kibana';
+import MemberManagement from '../sign/component/MemberManagement';
 
 
 import AdmnBoard from '../board/component/page/AdmnBoard';
@@ -21,8 +22,8 @@ const AdmnPage = () => {
   // 렌더링할 컴포넌트 결정
   const renderContent = () => {
     switch (activeMenu) {
-      case 'campaign':
-        return <CampaignPlan />;
+      case 'member':
+        return <MemberManagement />;
       case 'process':
         return <ProcessManagement setPID={setProcessId} onMenuClick={setActiveMenu} />;
       case 'board':

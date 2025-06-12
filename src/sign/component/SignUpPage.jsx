@@ -3,6 +3,35 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
 
+const cardStyle = {
+    maxWidth: "410px",
+    width: "95%",
+    margin: "0 auto",
+    borderRadius: "1.5rem",
+    boxShadow: "0 6px 32px 0 rgba(54,69,79,0.13)",
+    border: "none"
+};
+
+const titleGradient = {
+    fontWeight: "bold",
+    fontSize: "2.05rem",
+    background: "#000000",
+    WebkitBackgroundClip: "text",
+    WebkitTextFillColor: "transparent",
+    marginBottom: "24px"
+};
+
+const btnStyle = {
+    fontWeight: "bold",
+    fontSize: "1.08rem",
+    letterSpacing: "0.03em",
+    borderRadius: "2rem",
+    padding: "0.75rem",
+    marginTop: "12px",
+    background: "#3f51b5",
+    border: "none"
+};
+
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
         loginId: '',
@@ -10,7 +39,6 @@ const SignUpPage = () => {
         email: '',
         nickname: '',
         gender: '',
-        role: 'user'
     });
 
     const handleChange = (e) => {
@@ -40,63 +68,93 @@ const SignUpPage = () => {
     }, []);
 
     return (
-        <div className="min-vh-100 d-flex flex-column">
-
+        <div className="min-vh-100 d-flex flex-column" style={{
+            background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)"
+        }}>
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
-                <div className="col-md-6 col-lg-5">
-                    <div className="card shadow-sm">
-                        <div className="card-body p-4">
-                            <h2 className="text-center mb-4">회원가입</h2>
-                            <form className="needs-validation" noValidate onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                                    <label htmlFor="loginId" className="form-label">아이디</label>
-                                    <input type="text" className="form-control" id="loginId" name="loginId" value={formData.loginId} onChange={handleChange} required />
-                                </div>
+                <div style={cardStyle} className="card shadow-sm">
+                    <div className="card-body p-4">
+                        <div className="text-center" style={titleGradient}>회원가입</div>
+                        <form className="needs-validation" noValidate onSubmit={handleSubmit}>
 
-                                <div className="mb-3">
-                                    <label htmlFor="password" className="form-label">비밀번호</label>
-                                    <input type="password" className="form-control" id="password" name="password" value={formData.password} onChange={handleChange} required />
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="loginId" className="form-label fw-semibold">아이디</label>
+                                <input type="text" className="form-control"
+                                    id="loginId" name="loginId"
+                                    value={formData.loginId}
+                                    onChange={handleChange}
+                                    placeholder="아이디를 입력하세요"
+                                    required />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="nickname" className="form-label">닉네임</label>
-                                    <input type="text" className="form-control" id="nickname" name="nickname" value={formData.nickname} onChange={handleChange} required />
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label fw-semibold">비밀번호</label>
+                                <input type="password" className="form-control"
+                                    id="password" name="password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    placeholder="비밀번호를 입력하세요"
+                                    required />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">이메일</label>
-                                    <input type="email" className="form-control" id="email" name="email" value={formData.email} onChange={handleChange} placeholder="you@example.com" />
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="nickname" className="form-label fw-semibold">닉네임</label>
+                                <input type="text" className="form-control"
+                                    id="nickname" name="nickname"
+                                    value={formData.nickname}
+                                    onChange={handleChange}
+                                    placeholder="닉네임을 입력하세요"
+                                    required />
+                            </div>
 
-                                <div className="mb-3">
-                                    <label className="form-label d-block">성별</label>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="gender" id="genderMale" value="male" checked={formData.gender === 'male'} onChange={handleChange} />
-                                        <label className="form-check-label" htmlFor="genderMale">남</label>
-                                    </div>
-                                    <div className="form-check form-check-inline">
-                                        <input className="form-check-input" type="radio" name="gender" id="genderFemale" value="female" checked={formData.gender === 'female'} onChange={handleChange} />
-                                        <label className="form-check-label" htmlFor="genderFemale">여</label>
-                                    </div>
-                                </div>
+                            <div className="mb-3">
+                                <label htmlFor="email" className="form-label fw-semibold">이메일 <span className="text-body-secondary fs-7">(선택)</span></label>
+                                <input type="email" className="form-control"
+                                    id="email" name="email"
+                                    value={formData.email}
+                                    onChange={handleChange}
+                                    placeholder="you@example.com" />
+                            </div>
 
-                                <div className="d-grid mt-4">
-                                    <button type="submit" className="btn btn-primary">회원가입 완료</button>
+                            {/* 성별 */}
+                            <div className="mb-3">
+                                <label className="form-label fw-semibold d-block mb-2">성별</label>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderMale"
+                                        value="male"
+                                        checked={formData.gender === 'male'}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label className="form-check-label" htmlFor="genderMale">남</label>
                                 </div>
-                            </form>
-                        </div>
+                                <div className="form-check form-check-inline">
+                                    <input className="form-check-input"
+                                        type="radio"
+                                        name="gender"
+                                        id="genderFemale"
+                                        value="female"
+                                        checked={formData.gender === 'female'}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                    <label className="form-check-label" htmlFor="genderFemale">여</label>
+                                </div>
+                                {!formData.gender &&
+                                    <div className="form-text text-danger mt-1">성별을 선택하세요.</div>
+                                }
+                            </div>
+
+                            <div className="d-grid">
+                                <button type="submit" className="btn text-white shadow" style={btnStyle}>회원가입 완료</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </main>
-
-            <footer className="text-center text-muted py-4 small">
-                <p className="mb-1">© 2017–2025 Company Name</p>
-                <ul className="list-inline">
-                    <li className="list-inline-item"><a href="#">Privacy</a></li>
-                    <li className="list-inline-item"><a href="#">Terms</a></li>
-                    <li className="list-inline-item"><a href="#">Support</a></li>
-                </ul>
-            </footer>
         </div>
     );
 };
