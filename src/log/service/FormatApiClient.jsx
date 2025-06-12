@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class FormatApiClient {
-    static SERVER_URL = "http://localhost:8000/api/format";
+    static SERVER_URL = "http://localhost:8000/api/format/admin";
     static GET_LIST = "/list"
     static GET_VIEW = "/view"
     static POST_ADD = "/add"; 

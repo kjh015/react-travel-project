@@ -5,6 +5,7 @@ import SignApiClient from "../sign/service/SignApiClient";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // 아이콘 사용을 위해 import
+import UserAuthentication from '../sign/service/UserAuthentication';
 
 const Navbar = () => {
   const [curUser, setCurUser] = useState('');
@@ -12,6 +13,7 @@ const Navbar = () => {
   const navigate = useNavigate();
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  
 
   const handleLogout = () => {
     SignApiClient.signOut().then(
@@ -66,10 +68,12 @@ const Navbar = () => {
     setCurUser(localStorage.getItem('nickname'));
     document.body.style.overflow = 'auto';
     document.body.classList.remove('offcanvas-backdrop', 'modal-open');
+    
   }, [handleShow]);
 
   // 로그인 여부 체크
   const isLoggedIn = !!localStorage.getItem('accessToken');
+  const isAdmin = UserAuthentication.isAdmin();
 
   return (
     <nav className="navbar navbar-dark bg-dark fixed-top">
@@ -147,16 +151,19 @@ const Navbar = () => {
               )}
               {isLoggedIn && (
                 <>
-                {}
-                  <div className="mb-2">
-                    <Link
-                      className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                      to="/component/admnpage"
-                      onClick={handleClose}
-                    >
-                      <i className="bi bi-gear me-2"></i>관리자 메뉴
-                    </Link>
-                  </div>
+                  {isAdmin &&
+                    <div className="mb-2">
+                      <Link
+                        className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
+                        to="/component/admnpage"
+                        onClick={handleClose}
+                      >
+                        <i className="bi bi-gear me-2"></i>관리자 메뉴
+                      </Link>
+                    </div>
+                  }
+                  
+
                   <div className="mb-2">
                     <Link
                       className="nav-link w-100 fs-5 text-light                                                                                                                                                                                                                                                                                                                                                                             bg-opacity-75 rounded px-3 py-2"

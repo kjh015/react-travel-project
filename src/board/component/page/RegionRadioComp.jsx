@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const RegionRadioCard = ({ selectedRegion, setRegion }) => {
-    const cities = ["서울", "부산", "대구", "인천", "광주", "대전", "울산", "세종", "경기"];
+    const cities = ["강원", "경기", "대구", "부산", "서울", "인천", "전남", "제주", "기타"];
     return (
         <div style={{ minWidth: 240, maxWidth: 350 }}>
             <div className="fw-bold mb-3 d-flex align-items-center" style={{ color: "#1565c0", fontSize: "1.18rem" }}>

@@ -72,7 +72,7 @@ const MemberManagement = () => {
                                         <td>{member.email}</td>
                                         <td>{member.gender}</td>
                                         <td>{member.regDate}</td>
-                                        <td>{member.roles}</td>
+                                        <td>{member.roles?.includes("ROLE_ADMIN") ? "관리자" : "회원"}</td>
                                         <td>
                                             <button className="btn btn-sm btn-outline-danger" title="삭제">
                                                 <FaTrash />

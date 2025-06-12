@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class FilterApiClient {
-    static SERVER_URL = "http://localhost:8000/api/filter";
+    static SERVER_URL = "http://localhost:8000/api/filter/admin";
     static GET_LIST = "/list"
     static GET_VIEW = "/view"
     static POST_ADD = "/add"

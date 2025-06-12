@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class ProcessApiClient {
-    static SERVER_URL = "http://localhost:8000/api/process";
+    static SERVER_URL = "http://localhost:8000/api/process/admin";
     static GET_LIST = "/list"
     static POST_ADD = "/add"
     static POST_UPDATE = "/update"
