@@ -4,7 +4,27 @@ import BoardApiClient from '../../../service/BoardApiClient';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const MainPageCard = ({ boardId, score }) => {
+// 1등 왕관 배지 스타일
+const firstRankBadgeStyle = {
+  position: 'absolute',
+  top: 22,
+  left: 22,
+  background: 'linear-gradient(135deg, #ffd700 70%, #fff9c4 100%)',
+  color: "#725b10",
+  fontWeight: 900,
+  borderRadius: "50%",
+  width: 54,
+  height: 54,
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  fontSize: "2rem",
+  boxShadow: "0 4px 12px rgba(180,140,20,0.13)",
+  border: "3px solid #fffbe8",
+  zIndex: 5
+};
+
+const MainPageCard = ({ boardId, score, rank }) => {
   const navigate = useNavigate();
   const [board, setBoard] = useState({
     id: '', title: '', content: '', memberNickname: '',
@@ -23,7 +43,14 @@ const MainPageCard = ({ boardId, score }) => {
   }, [boardId]);
 
   return (
-    <div className="w-100 h-100 d-flex align-items-stretch">
+    <div className="w-100 h-100 d-flex align-items-stretch position-relative">
+      {/* --- 1등 왕관 배지 --- */}
+      {(rank === 1 || rank === undefined) && (
+        <div style={firstRankBadgeStyle}>
+          <span role="img" aria-label="king-crown" style={{ fontSize: "2.2rem", marginTop: "-4px" }}>👑</span>
+        </div>
+      )}
+
       <div
         className="card border-0 shadow-lg rounded-4 overflow-hidden w-100"
         style={{

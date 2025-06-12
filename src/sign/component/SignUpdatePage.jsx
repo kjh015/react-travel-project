@@ -44,6 +44,8 @@ const SignUpdatePage = () => {
         email: '',
         nickname: '',
         gender: '',
+        roles: [],
+        regDate: ''
     });
     const navigate = useNavigate();
 
