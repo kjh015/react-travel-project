@@ -5,7 +5,7 @@ const Kibana = () => {
         <div style={{
             width: '80vw',
             height: '100vh',
-            margin: 0,
+            marginTop: "-75px",
             padding: 0,
             overflow: 'hidden',
         }}>

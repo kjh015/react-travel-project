@@ -15,14 +15,8 @@ const renderStarsStatic = (score = 0) => (
         ))}
     </span>
 );
-const rating = 4.7;
-const getAverageRating = (comments) => {
-    if (!comments.length) return 0;
-    const sum = comments.reduce((acc, c) => acc + (c.rating || 0), 0);
-    return (sum / comments.length).toFixed(1); // 소수점 한자리
-};
 
-const CommentList = ({ comments = [], onRemoveComment }) => {
+const CommentList = ({ comments = [], onRemoveComment, ratingAvg }) => {
     return (
         <div className="container my-4">
             <div className="card shadow-sm border-1 rounded-4 mx-auto" style={{ maxWidth: 520, background: "#fafdffcc" }}>
@@ -32,14 +26,18 @@ const CommentList = ({ comments = [], onRemoveComment }) => {
                         <h5 className="mb-0 fw-bold">댓글 목록</h5>
                         <div className="d-flex align-items-center" style={{ gap: "1.1rem" }}>
                             <span className="text-secondary" style={{ fontSize: "1rem" }}>
-                                댓글수 <span className="fw-semibold">{comments.length}</span>
+                                댓글 수 <span className="fw-semibold">{comments.length}</span>
                             </span>
                             <span className="text-secondary" style={{ fontSize: "1rem" }}>
-                                평점 <span className="fw-semibold">{rating}</span>
-                                {/* 별점 평균도 같이 표기 (선택) */}
-                                <span className="ms-1">
-                                    {renderStarsStatic(Math.round(getAverageRating(rating)))}
+                                <span
+                                    className="ms-1"
+                                    style={{
+                                        fontSize: "1.15rem",
+                                        color: "#ffc107"
+                                    }}
+                                >★
                                 </span>
+                                <span className="fw-semibold"> {ratingAvg }</span>
                             </span>
                         </div>
                     </div>

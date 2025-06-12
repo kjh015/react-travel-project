@@ -1,5 +1,4 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 
 const RegionRadioCard = ({ selectedRegion, setRegion }) => {
@@ -24,7 +23,7 @@ const RegionRadioCard = ({ selectedRegion, setRegion }) => {
                         <div
                             className={`text-center region-card-btn shadow-sm
                                 ${selectedRegion === city ? "region-card-active" : ""}`}
-                            onClick={() => setRegion(city)}
+                            onClick={() => setRegion(selectedRegion === city ? "" : city)}
                             style={{
                                 borderRadius: "18px",
                                 background: selectedRegion === city

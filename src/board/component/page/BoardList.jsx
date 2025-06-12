@@ -9,7 +9,10 @@ const BoardList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("ratingAvg");
+  const [direction, setDirection] = useState("desc");
+  const [page, setPage] = useState(0);
+
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
@@ -20,14 +23,9 @@ const BoardList = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   useEffect(() => {
-    if (category || region || keyword) {      
-      setSearched(true);
-      keyword == "전체보기" ? getBoardListAll() : getBoardList();
-    } else {
-      setSearched(false);
-      
-    }
-  }, [location.search, sort]);
+    setSearched(true);
+    getBoardList();
+  }, [location.search, sort, direction]);
 
   const goToWrite = () => {
     if (isLoggedIn) {
@@ -40,7 +38,7 @@ const BoardList = () => {
   const getBoardListAll = async () => {
     setLoading(true);
     setError(null);
-    try {      
+    try {
       const res = await BoardApiClient.getBoardList();
       if (res.ok) {
         const data = await res.json();
@@ -58,8 +56,8 @@ const BoardList = () => {
   const getBoardList = async () => {
     setLoading(true);
     setError(null);
-    try {      
-      const res = await BoardApiClient.getBoardListBySearch({ category, region, keyword });
+    try {
+      const res = await BoardApiClient.getBoardListBySearch({ category, region, keyword, sort, direction, page });
       if (res.ok) {
         const data = await res.json();
         setBoards(data);
@@ -78,28 +76,39 @@ const BoardList = () => {
     return isoString.substring(0, 16).replace("T", " ");
   };
 
-  const handleSort = (type) => setSort(type);
-  useEffect(() => {
-    getBoardList();
-  }, []);
+  const handleSort = (type) => {
+    if (type === sort) {
+      direction === "asc" ? setDirection("desc") : setDirection("asc")
+    }
+    else {
+      setDirection("desc");
+      setSort(type);
+    }
+  }
 
-  if (loading) return <div className="text-center mt-5" style={{paddingTop: 80}}>로딩 중...</div>;
-  if (error) return <div className="text-danger mt-5" style={{paddingTop: 80}}>에러 발생: {error.message}</div>;
+  if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
+  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
-    <div className="bg-light min-vh-100 py-4">
-      <div className="row justify-content-center mt-3">
-        <div className="col-lg-10 col-md-12">
+    <div
+      className="bg-light min-vh-100 py-4"
+      style={{ overflowX: "hidden" }}
+    >
+      <div className="row justify-content-center mt-3" style={{ margin: 0 }}>
+        <div className="col-lg-10 col-md-12" style={{ padding: 0 }}>
           <div
-            className="card shadow-lg border-0 mb-5"
+            className="card border-1 mb-5"
             style={{
-              borderRadius: "2rem",   // 아주 크게 둥글게
-              overflow: "hidden",     // 둥근모서리 따라 내용 잘리게
-              background: "#fff"
+              borderRadius: "2rem",
+              overflow: "hidden",
+              background: "#fff",
+              width: "100%",            // 3. 카드가 col보다 더 커지는 걸 막음
+              maxWidth: "100%",         // 가로폭 절대 넘지 않음
             }}
           >
             <div className="container py-4">
+              <BoardSearch />
               <div className="card-header bg-white d-flex justify-content-between align-items-center py-3 px-0 border-0" style={{ background: "none" }}>
                 <h4 className="mb-0 fw-bold">게시판 목록</h4>
                 <div className="d-flex gap-2 align-items-center">
@@ -110,15 +119,15 @@ const BoardList = () => {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      정렬
+                      {sort}
                     </button>
                     <ul className="dropdown-menu">
-                      <li><button className="dropdown-item" onClick={() => handleSort("popular")}>추천 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("rate")}>평점 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("new")}>최신 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("view")}>조회수 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("comment")}>댓글많은 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("comment")}>찜 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
+                      <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
                     </ul>
                   </div>
                   {isLoggedIn && (

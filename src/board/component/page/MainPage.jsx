@@ -1,21 +1,17 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
-import Navbar from '../../../common/Navbar';
-
-import MainPageCard from "./MainPageCard/MainPageCard";
-import MainPageCard2 from "./MainPageCard/MainPageCard2";
-import Footers from '../../../common/Footers';
 import { useEffect, useState } from "react";
 import BoardSearch from "./BoardSearch";
 import tgd3 from '../imgs/tgd3.jpg';
+import MainPageCardsLayout from "./MainPageCardsLayout";
+import Footers from "../../../common/Footers";
 
 const MainPage = () => {
   const [top5Board, setTop5Board] = useState([]);
-  
+
   useEffect(() => {
     const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
-      console.log(JSON.parse(e.data));
       setTop5Board(JSON.parse(e.data));
     };
     return () => {
@@ -27,47 +23,85 @@ const MainPage = () => {
     <div
       style={{
         minHeight: "100vh",
-        width: "100vw",
-        overflowX: "hidden",
-        background: "linear-gradient(135deg, #f0f8ff 0%, #e0c3fc 100%)",
-        position: "relative",
+        background: "#F5F6FF"
       }}
     >
-
-      {/* 사진+오버레이 통합 컨테이너 */}
-      <div style={{ position: "relative", width: "100vw", height: "700px" }}>
-
-        {/* 본문(오버레이) */}
+      {/* Hero 이미지 영역 */}
+      <div
+        style={{
+          width: "100%",
+          minHeight: "370px",
+          background: `linear-gradient(180deg, rgba(70,70,110,0.14) 15%, rgba(255,255,255,0.91) 65%), url(${tgd3}) center/cover no-repeat`,
+          position: "relative",
+        }}
+      >
+        {/* 오버레이 텍스트 */}
         <div
           style={{
             position: "absolute",
-            top: "60px", // 네비바 높이만큼 띄움(필요시 조정)
+            top: 50, // 네비바 높이
             left: "50%",
             transform: "translateX(-50%)",
             width: "100%",
-            maxWidth: "960px",
-            zIndex: 2,
-            padding: "0 24px",
+            maxWidth: "920px",
+            zIndex: 3,
+            textAlign: "center",
+            padding: "56px 0 24px 0"
           }}
         >
-          <BoardSearch />
-          <MainPageCard boardId={1} />
-          <MainPageCard2 boardId={2} />
-          {top5Board.map((board, idx) => (
-            <div>
-              {idx === 0 ? <MainPageCard boardId={board.boardNo} /> : <MainPageCard2 boardId={board.boardNo} />}
-            </div>
-          ))}
+          <h2 style={{
+            color: "#272444",
+            fontWeight: 800,
+            fontSize: "2.25rem",
+            letterSpacing: "-0.04em",
+            textShadow: "0 1px 10px rgba(160,160,220,0.13)"
+          }}>
+            ✨ 여행의 모든 순간, 함께 모으는 이야기
+          </h2>
+          <p style={{
+            color: "#584e88",
+            fontWeight: 500,
+            fontSize: "1.19rem",
+            margin: "18px 0 0 0",
+            textShadow: "0 1px 8px rgba(255,255,255,0.08)"
+          }}>
+            여러분의 소중한 경험과 인연을 이곳에! <br />
+            사진, 후기, 꿀팁, 그리고 여행 설렘까지 자유롭게 나누세요.
+          </p>
         </div>
+        {/* 하단 Blur/그라데이션 오버레이 효과 */}
+        <div style={{
+          position: "absolute",
+          left: 0, right: 0, bottom: 0,
+          height: "100px",
+          background: "linear-gradient(180deg, rgba(245,245,255,0) 0%, rgba(245,245,255,0.84) 100%)",
+          zIndex: 2
+        }} />
+      </div>
 
-
-
-
-
-        < div >
-          {/* <Footers /> */}
+      {/* 본문 컨테이너 (검색 + 카드영역) */}
+      <div
+        style={{
+          position: "relative",
+          left: "50%",
+          transform: "translateX(-50%)",
+          width: "100%",
+          maxWidth: "1020px",
+          zIndex: 2,
+          padding: "0 16px",
+          marginTop: "-120px"
+        }}
+      >
+        {/* 카드박스: 그림자+라운드 효과 */}
+        <div
+         
+        >
+          <BoardSearch />
+          <MainPageCardsLayout top5Board={top5Board} />
         </div>
       </div>
+
+      <Footers />
     </div>
   );
 };

@@ -71,7 +71,7 @@ const MyPage = () => {
 
                     {/* 버튼 3개 1/4씩 가로배치 */}
                     <div className="d-flex justify-content-between gap-2 mb-3">
-                      <Link to="/sign/component/SignUpdatePage" className="btn btn-primary rounded-pill px-3 btn-sm w-25 text-truncate">
+                      <Link to="/sign/update" className="btn btn-primary rounded-pill px-3 btn-sm w-25 text-truncate">
                         회원 정보 수정
                       </Link>
                       <Link to="/board/favorite-list" className="btn btn-danger rounded-pill px-3 btn-sm w-25 text-truncate">

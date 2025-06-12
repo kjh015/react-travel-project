@@ -19,6 +19,7 @@ const LikeListPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 setBoards(data);
+                
             } else {
                 setError(new Error("서버 응답 에러"));
             }

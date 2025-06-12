@@ -6,6 +6,7 @@ import SignUpPage from '../sign/component/SignUpPage';
 import SignUpdatePage from "../sign/component/SignUpdatePage";
 import LogIn from "../notUse/LogIn";
 import SignInPage from "../sign/component/SignInPage";
+import PasswordChangePage from "../sign/component/PasswordChangePage";
 
 //board
 import MainPage from "../board/component/page/MainPage";
@@ -30,13 +31,13 @@ import FilterManagement from "../log/components/filter/FilterManagement";
 import LogManagement from "../log/components/db/LogManagement";
 import Navbar from "./Navbar";
 import DeduplicationManagement from "../log/components/deduplication/DeduplicationManagement";
-
+import Footers from "./Footers";
 
 const PageRouter = () => {
     return (
         <BrowserRouter>
             <Navbar />
-            <div style={{marginTop: 80}}/>
+            <div style={{paddingTop: 75}}/>
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
@@ -52,9 +53,10 @@ const PageRouter = () => {
 
                 {/* sign */}
                 <Route index path="/component/login" element={<LogIn />}></Route>
-                <Route path="/sign/component/signupdatepage" element={<SignUpdatePage />} />
+                <Route path="/sign/update" element={<SignUpdatePage />} />
                 <Route path="/sign/component/SignUpPage" element={<SignUpPage />} />
                 <Route path="/sign/component/SignInPage" element={<SignInPage />} />
+                <Route path="/sign/update/password" element={<PasswordChangePage />} />
 
                 {/* log */}
                 <Route index path="/log/format" element={<FormatManagement />}></Route>
@@ -74,6 +76,7 @@ const PageRouter = () => {
                 <Route path="/board/my-article" element={<CheckMyArt />} />
                 <Route path="/common/MyPage" element={<MyPage />} />
             </Routes>
+            
         </BrowserRouter>
     );
 };

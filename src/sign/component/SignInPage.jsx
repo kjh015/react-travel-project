@@ -23,7 +23,7 @@ const SignInPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('accessToken', data.accessToken);
-                const resNN = await SignApiClient.getNickname(getUserIdFromToken());
+                const resNN = await SignApiClient.getNickname(getLoginIdFromToken());
                 const message = await resNN.text();
                 if (resNN.ok) {
                     localStorage.setItem('nickname', message);
@@ -43,7 +43,7 @@ const SignInPage = () => {
         }
     };
 
-    const getUserIdFromToken = () => {
+    const getLoginIdFromToken = () => {
         const token = localStorage.getItem("accessToken");
         if (!token) return null;
         try {

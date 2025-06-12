@@ -30,6 +30,7 @@ const BoardDetailPage = () => {
     travelPlace: '', address: '', category: '', region: '', imagePaths: [],
     createdDate: '', modifiedDate: '', ratingAvg: '', viewCount: '', favoriteCount: '', commentCount: ''
   });
+  const [commentFlag, setCommentFlag] = useState(false);
 
   const [liked, setLiked] = useState(false);
   const [shared, setShared] = useState(false);
@@ -126,7 +127,7 @@ const BoardDetailPage = () => {
       });
     }
 
-  }, [no]);
+  }, [no, liked, commentFlag]);
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   return (
@@ -219,7 +220,7 @@ const BoardDetailPage = () => {
                 </div>
                 <div className="mb-2 text-muted" style={{ fontSize: "0.96rem" }}>
                   {/* 조회수 */}
-                  조회수: <span className="fw-semibold">{ }</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span> |
+                  조회수: <span className="fw-semibold">{board.viewCount}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span> |
 
 
                 </div>
@@ -267,7 +268,7 @@ const BoardDetailPage = () => {
                     <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}>
 
                       {/* 찜개수 */}
-                      0 <span className="fw-semibold">{board.liked}</span>
+                      <span className="fw-semibold">{board.favoriteCount}</span>
                     </i>
                   </button>
 
@@ -297,7 +298,7 @@ const BoardDetailPage = () => {
               }}>
               {board.id &&
                 <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} />
+                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} ratingAvg={board.ratingAvg} setCommentFlag={setCommentFlag} />
                 </Card.Body>}
             </Card>
           </div>
