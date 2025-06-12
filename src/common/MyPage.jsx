@@ -3,13 +3,11 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 import SignApiClient from '../sign/service/SignApiClient';
 
-
-// 기본 이미지 URL
-const myPageImage = "#";
+// 프로필 이미지 예시 (실제 사용자 이미지 URL로 대체 가능)
+const myPageImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
-
 
   // 회원 탈퇴
   const handleDelete = () => {
@@ -42,70 +40,66 @@ const MyPage = () => {
   };
 
   return (
-    <div style={{ backgroundColor: '#eaf4fc', minHeight: '100vh' }}>
+    <div style={{ background: 'linear-gradient(135deg,#eaf4fc 60%,#fff 100%)', minHeight: '100vh' }}>
       {/* 헤더 */}
-      <header className="container d-flex align-items-center py-3">
-        <span className="navbar-brand d-flex align-items-center text-primary">
-          <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="me-2" viewBox="0 0 24 24">
-            <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-            <circle cx="12" cy="13" r="4"></circle>
-          </svg>
-          <strong>My Page</strong>
+      <header className="container py-4 mb-3">
+        <span className="navbar-brand d-flex align-items-center text-primary fs-3 fw-bold">
+          <i className="bi bi-person-circle me-2 fs-2" />
+          My Page
         </span>
       </header>
 
+      {/* 메인 카드 */}
       <main>
-        <div className="album py-5">
-          <div className="container">
-            <div className="row justify-content-center">
-              <div className="col-lg-8 col-md-10">
-                <div className="card shadow-sm" style={{ backgroundColor: '#fff', color: '#003e6b' }}>
-                  <img
-                    src={myPageImage}
-                    alt="나의 여행지"
-                    className="card-img-top"
-                    style={{ width: '100%', height: '320px', objectFit: 'cover', background: '#eee' }}
-                  />
-                  <div className="card-body">
-                    <p className="card-text mb-4">나의 여행지 소개</p>
-
-                    {/* 버튼 3개 1/4씩 가로배치 */}
-                    <div className="d-flex justify-content-between gap-2 mb-3">
-                      <Link to="/sign/update" className="btn btn-primary rounded-pill px-3 btn-sm w-25 text-truncate">
-                        회원 정보 수정
-                      </Link>
-                      <Link to="/board/favorite-list" className="btn btn-danger rounded-pill px-3 btn-sm w-25 text-truncate">
-                        찜목록
-                      </Link>
-                      <Link to="/board/component/page/MyPlace" className="btn btn-info text-white rounded-pill px-3 btn-sm w-25 text-truncate">
-                        나의 여행지 관리
-                      </Link>
-                    </div>
-
-                    {/* 작성글/댓글 */}
-                    <div className="mb-4 d-flex justify-content-center gap-2">
-
-                      <Link to="/page/chckmycom" className="btn btn-outline-secondary btn-sm">
-                        작성 댓글
-                      </Link>
-                    </div>
-
-                    {/* 회원 탈퇴 */}
-                    <div className="mb-3 text-center">
-                      <button className="btn btn-danger btn-sm" onClick={handleDelete}>
-                        회원 탈퇴
-                      </button>
-                    </div>
-
-                    {/* 로그아웃 */}
-                    <div className="mb-2 text-center">
-                      <button className="btn btn-secondary btn-sm" onClick={handleLogout}>
-                        로그아웃
-                      </button>
-                    </div>
-                  </div>
-                </div>
+        <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '70vh' }}>
+          <div className="card shadow rounded-4 p-4" style={{ maxWidth: 460, width: "100%", background: '#ffffffd9', border: 0 }}>
+            {/* 프로필 */}
+            <div className="d-flex flex-column align-items-center mb-4">
+              <img
+                src={myPageImage}
+                alt="프로필"
+                className="rounded-circle shadow"
+                style={{ width: 112, height: 112, objectFit: 'cover', background: '#f4f6fa', border: '4px solid #dee7ee' }}
+              />
+              <div className="mt-3 text-center">
+                <h4 className="fw-bold mb-1" style={{ color: "#253e6b" }}>닉네임</h4>
+                <span className="badge rounded-pill bg-primary-subtle text-primary">일반 회원</span>
+                {/* 필요시 등급/이메일 등 표시 */}
               </div>
+            </div>
+
+            {/* 버튼 영역 */}
+            <div className="d-flex justify-content-between mb-4">
+              <Link to="/sign/update" className="btn btn-outline-primary rounded-pill w-100 me-2">
+                <i className="bi bi-pencil-square me-1" /> 정보수정
+              </Link>
+              <Link to="/board/favorite-list" className="btn btn-outline-danger rounded-pill w-100 mx-2">
+                <i className="bi bi-heart-fill me-1" /> 찜목록
+              </Link>
+              <Link to="/board/component/page/MyPlace" className="btn btn-outline-info rounded-pill w-100 ms-2 text-dark">
+                <i className="bi bi-geo-alt-fill me-1" /> 여행지관리
+              </Link>
+            </div>
+
+            {/* 작성글/댓글 등 추가 메뉴 */}
+            <div className="d-flex justify-content-center gap-2 mb-4">
+              <Link to="/page/chckmycom" className="btn btn-light border rounded-pill px-3 shadow-sm">
+                <i className="bi bi-chat-text me-1" /> 작성 댓글
+              </Link>
+              {/* <Link ...>작성글</Link> 등 추가 가능 */}
+            </div>
+
+            {/* 구분선 */}
+            <hr className="my-3" />
+
+            {/* 탈퇴/로그아웃 */}
+            <div className="d-flex flex-column gap-2">
+              <button className="btn btn-outline-danger rounded-pill" onClick={handleDelete}>
+                <i className="bi bi-person-x me-1" /> 회원 탈퇴
+              </button>
+              <button className="btn btn-outline-secondary rounded-pill" onClick={handleLogout}>
+                <i className="bi bi-box-arrow-right me-1" /> 로그아웃
+              </button>
             </div>
           </div>
         </div>

@@ -94,9 +94,28 @@ const MainPage = () => {
       >
         {/* 카드박스: 그림자+라운드 효과 */}
         <div
-         
+
         >
           <BoardSearch />
+          <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
+
+          <h4
+            className="text-center my-4"
+            style={{
+              fontFamily: "'Gowun Dodum', 'Noto Sans KR', sans-serif",
+              fontWeight: 700,
+              fontSize: "2rem",
+              letterSpacing: "1px",
+              background: "linear-gradient(90deg, #64b5f6 10%, #ba68c8 90%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              padding: "8px 0",
+              borderRadius: "1rem",
+
+            }}
+          >
+            실시간 인기 여행지
+          </h4>
           <MainPageCardsLayout top5Board={top5Board} />
         </div>
       </div>

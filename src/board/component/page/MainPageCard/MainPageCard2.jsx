@@ -3,7 +3,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import BoardApiClient from '../../../service/BoardApiClient';
 import { useEffect, useState } from 'react';
 
-const MainPageCard2 = ({ boardId, score }) => {
+// 1~5위 색상 예시(원하는 대로 변경 가능)
+const rankColors = ["#ffd700", "#C0C0C0", "#cd7f32", "#90caf9", "#b39ddb"];
+
+const MainPageCard2 = ({ boardId, score, rank }) => {
   const [board, setBoard] = useState({
     id: '', title: '', content: '', memberNickname: '',
     travelPlace: '', address: '', category: '', region: '', imagePaths: [],
@@ -21,11 +24,32 @@ const MainPageCard2 = ({ boardId, score }) => {
   }, [boardId]);
 
   return (
-    <div className="w-100 h-100 d-flex align-items-stretch">
+    <div className="w-100 h-100 d-flex align-items-stretch position-relative">
+      {/* --- 순위 뱃지 --- */}
+      {rank &&
+        <div style={{
+          position: 'absolute',
+          top: 12, left: 12,
+          background: rankColors[(rank - 1) % 5],
+          color: "#fff",
+          fontWeight: 900,
+          borderRadius: "50%",
+          width: 40, height: 40,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          fontSize: "1.2rem",
+          boxShadow: "0 2px 8px rgba(0,0,0,0.10)",
+          zIndex: 2
+        }}>
+          {rank}
+        </div>
+      }
+
       <div
         className="card border-0 shadow rounded-4 overflow-hidden w-100"
         style={{
-          height: '100%',         // 부모에서 height 강제
+          height: '100%',
           width: "100%",
           borderRadius: "1.3rem",
           display: "flex",
