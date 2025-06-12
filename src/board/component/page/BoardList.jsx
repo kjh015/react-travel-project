@@ -20,12 +20,12 @@ const BoardList = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   useEffect(() => {
-    if (category || region || keyword) {      
+    if (category || region || keyword) {
       setSearched(true);
       keyword == "전체보기" ? getBoardListAll() : getBoardList();
     } else {
       setSearched(false);
-      
+
     }
   }, [location.search, sort]);
 
@@ -40,7 +40,7 @@ const BoardList = () => {
   const getBoardListAll = async () => {
     setLoading(true);
     setError(null);
-    try {      
+    try {
       const res = await BoardApiClient.getBoardList();
       if (res.ok) {
         const data = await res.json();
@@ -58,7 +58,7 @@ const BoardList = () => {
   const getBoardList = async () => {
     setLoading(true);
     setError(null);
-    try {      
+    try {
       const res = await BoardApiClient.getBoardListBySearch({ category, region, keyword });
       if (res.ok) {
         const data = await res.json();
@@ -79,12 +79,9 @@ const BoardList = () => {
   };
 
   const handleSort = (type) => setSort(type);
-  useEffect(() => {
-    getBoardList();
-  }, []);
 
-  if (loading) return <div className="text-center mt-5" style={{paddingTop: 80}}>로딩 중...</div>;
-  if (error) return <div className="text-danger mt-5" style={{paddingTop: 80}}>에러 발생: {error.message}</div>;
+  if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
+  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
