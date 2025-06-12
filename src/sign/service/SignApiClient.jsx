@@ -2,6 +2,7 @@ import { authFetch } from "../../AuthFetch";
 
 class SignApiClient {
     static SERVER_URL = "http://localhost:8000/api/sign";
+    static ADMIN = "/admin";
     static SIGN_UP = "/sign-up";
     static SIGN_IN = "/sign-in";
     static SIGN_OUT = "/sign-out";
@@ -12,7 +13,7 @@ class SignApiClient {
     static POST_LIST = "/list";
     static POST_DELEGATE = "/delegate";
     static GET_NICKNAME = "/nickname";
-
+    
 
     static signUp(payload) {
         return fetch(SignApiClient.SERVER_URL + SignApiClient.SIGN_UP, {
@@ -56,14 +57,14 @@ class SignApiClient {
     }
 
     static getMemberList() {
-        return authFetch(SignApiClient.SERVER_URL + SignApiClient.POST_LIST, {
+        return authFetch(SignApiClient.SERVER_URL + SignApiClient.ADMIN + SignApiClient.POST_LIST, {
             method: 'POST',
             credentials: 'include',
         });
 
     }
     static delegateAdmin({ loginId }) {
-        return authFetch(SignApiClient.SERVER_URL + SignApiClient.POST_DELEGATE + `?loginId=${loginId}`, {
+        return authFetch(SignApiClient.SERVER_URL + SignApiClient.ADMIN + SignApiClient.POST_DELEGATE + `?loginId=${loginId}`, {
             method: 'POST',
             credentials: 'include',
         });

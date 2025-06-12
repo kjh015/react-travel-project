@@ -5,6 +5,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import SignApiClient from '../service/SignApiClient';
+import UserAuthentication from '../service/UserAuthentication';
 
 const inputBoxStyle = {
     width: "100%",
@@ -48,7 +49,7 @@ const SignUpdatePage = () => {
     const navigate = useNavigate();
 
     const getMember = () => {
-        SignApiClient.getMemberDetail({ loginId: getLoginIdFromToken() })
+        SignApiClient.getMemberDetail({ loginId: UserAuthentication.getLoginIdFromToken() })
             .then(res => {
                 if (res.ok) {
                     res.json().then(data => {
@@ -59,18 +60,6 @@ const SignUpdatePage = () => {
                     alert("회원 정보 조회 실패");
                 }
             })
-    }
-
-    const getLoginIdFromToken = () => {
-        const token = localStorage.getItem("accessToken");
-        if (!token) return null;
-        try {
-            const payload = JSON.parse(atob(token.split('.')[1]));
-            return payload.sub || payload.loginId;
-        } catch (e) {
-            console.error("토큰 디코딩 실패:", e);
-            return null;
-        }
     }
 
     const handleChange = (e) => {

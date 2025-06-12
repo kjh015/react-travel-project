@@ -1,13 +1,13 @@
 import { authFetch } from "../../AuthFetch";
 
 class DeduplicationApiClient {
-    static SERVER_URL = "http://localhost:8000/api/deduplication";
-    static GET_LIST = "/list"
-    static GET_VIEW = "/view"
-    static POST_ADD = "/add"
-    static POST_UPDATE = "/update"
-    static POST_REMOVE = "/remove"
-    static GET_KEYS = "/keys"
+    static SERVER_URL = "http://localhost:8000/api/deduplication/admin";
+    static GET_LIST = "/list";
+    static GET_VIEW = "/view";
+    static POST_ADD = "/add";
+    static POST_UPDATE = "/update";
+    static POST_REMOVE = "/remove";
+    static GET_KEYS = "/keys";
 
     static getDeduplicationList(processId) {
         return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_LIST + "?processId=" + processId);

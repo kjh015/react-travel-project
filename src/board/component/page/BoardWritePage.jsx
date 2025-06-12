@@ -15,8 +15,8 @@ const BoardWritePage = () => {
         memberNickname: '',
         travelPlace: '',
         address: '',
-        category: '축제',
-        region: '서울'
+        category: '',
+        region: ''
     });
 
     const [images, setImages] = useState([]);

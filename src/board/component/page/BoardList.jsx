@@ -25,7 +25,7 @@ const BoardList = () => {
   useEffect(() => {
     setSearched(true);
     getBoardList();
-  }, [location.search, sort, direction]);
+  }, [location.search, sort, direction, page]);
 
   const goToWrite = () => {
     if (isLoggedIn) {
@@ -84,6 +84,13 @@ const BoardList = () => {
       setDirection("desc");
       setSort(type);
     }
+  }
+
+  const handleNextPage = () => {
+    setPage(p => p + 1);
+  }
+  const handlePrevPage = () => {
+    setPage(p => p - 1);
   }
 
   if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
@@ -169,7 +176,7 @@ const BoardList = () => {
                     {searched && !loading && boards.length > 0 && (
                       boards.map((board, idx) => (
                         <tr key={board.id}>
-                          <td className="text-center">{idx + 1}</td>
+                          <td className="text-center">{idx + 1 + page*10}</td>
                           <td className="text-center">
                             <Link
                               to={`/board/detail?no=${board.id}`}
@@ -186,6 +193,7 @@ const BoardList = () => {
                           <td className="text-center">{formatDate(board.modifiedDate)}</td>
                         </tr>
                       ))
+                      
                     )}
                     {loading && (
                       <tr>
@@ -201,6 +209,8 @@ const BoardList = () => {
                     에러 발생: {error.message}
                   </div>
                 )}
+                <button onClick={handlePrevPage}>이전</button>
+                <button onClick={handleNextPage}>다음</button>
               </div>
             </div>
           </div>

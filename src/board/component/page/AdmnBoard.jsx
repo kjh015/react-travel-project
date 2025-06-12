@@ -26,7 +26,7 @@ const AdmnBoard = () => {
                 res => {
                     if (res.ok) {
                         alert("삭제 성공");
-                        navigate('/board/list');
+                        getBoards();
                     } else {
                         alert("삭제 실패");
                     }

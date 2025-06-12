@@ -34,6 +34,7 @@ const BoardEditPage = () => {
                         setBoard(data);
                         setImages(data.imagePaths);
                         setImagePreviews(data.imagePaths);
+                        
                     });
                 } else {
                     console.log('에러');
@@ -206,12 +207,13 @@ const BoardEditPage = () => {
                         <div className="row g-3 mb-4">
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">카테고리</label>
-                                {/* ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓ */}
-                                <CategoryCard
-                                    selected={board.category || ''}
-                                    onSelect={handleCategorySelect}
-                                />
-                                {/* ↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑↑ */}
+                                <div className="bg-light rounded-4 p-2 px-3 border">
+                                    <CategoryCard
+                                        selectedCategory={board.category || ''}
+                                        setCategory={handleCategorySelect}
+                                    />
+                                </div>
+
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">지역 선택</label>
@@ -222,7 +224,6 @@ const BoardEditPage = () => {
                         </div>
 
                         {/* 사진 첨부, 내용, 버튼 등 이하 동일 */}
-                        {/* ...중략... */}
                         <div className="mb-4">
                             <label className="form-label fw-semibold">사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(여러 장 첨부 가능)</span></label>
                             <div className="bg-light rounded-4 p-3 px-4 border">
