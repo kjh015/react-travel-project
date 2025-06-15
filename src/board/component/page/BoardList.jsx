@@ -95,7 +95,7 @@ const BoardList = () => {
   }
 
   if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
-  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
+  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>!!!!에러 발생: {error.message}</div>;
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
