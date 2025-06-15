@@ -83,6 +83,7 @@ const BoardList = () => {
     else {
       setDirection("desc");
       setSort(type);
+      setPage(0);
     }
   }
 
