@@ -20,10 +20,10 @@ const AdmnMenu = ({ onMenuClick }) => {
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('dashboard')}>
                 DashBoard
             </button>
-            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:9080')}>
+            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://14.63.178.161:9080')}>
                 Matomo
             </button>
-            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:8085')}>
+            <button className="list-group-item list-group-item-action" onClick={() => window.open('http://14.63.178.160:8085')}>
                 Kibana
             </button>
             
