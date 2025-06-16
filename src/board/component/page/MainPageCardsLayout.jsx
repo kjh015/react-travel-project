@@ -5,8 +5,7 @@ import MainPageCard2 from './MainPageCard/MainPageCard2';
 const mainCardHeight = 520;
 
 const MainPageCardsLayout = ({ top5Board }) => {
-    // 임시 데이터로 대체되어 있는데, 실제에선 top5Board를 사용하세요!
-    // if (!top5Board || top5Board.length < 5) return null;
+    if (!top5Board || top5Board.length < 5) return null;
 
     return (
         <div
@@ -41,7 +40,7 @@ const MainPageCardsLayout = ({ top5Board }) => {
                     gap: "18px"
                 }}
             >
-                {[2, 3, 4, 5].map((board, idx) => (
+                {top5Board.slice(1, 5).map((board, idx) => (
                     <div
                         key={idx}
                         style={{

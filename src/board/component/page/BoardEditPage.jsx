@@ -191,7 +191,7 @@ const BoardEditPage = () => {
                                     className="form-control form-control-lg"
                                     id="title"
                                     required
-                                    maxLength={30}
+                                    maxLength={40}
                                     placeholder="제목을 입력하세요"
                                     value={board.title}
                                     onChange={handleChange}

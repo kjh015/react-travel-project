@@ -39,7 +39,7 @@ const BoardList = () => {
     // setLoading(true);
     // setError(true);
     setSearched(true);
-    getBoardListAll();
+    getBoardList();
   }, [location.search, sort, direction, page]);
 
   const goToWrite = () => {
@@ -68,6 +68,24 @@ const BoardList = () => {
     }
   };
 
+  const getBoardList = async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const res = await BoardApiClient.getBoardListBySearch({ category, region, keyword, sort, direction, page });
+      if (res.ok) {
+        const data = await res.json();
+        setBoards(data);
+      } else {
+        setError(new Error("서버 응답 에러"));
+      }
+    } catch (e) {
+      setError(e);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const formatDate = (isoString) => {
     if (!isoString) return "";
@@ -81,6 +99,7 @@ const BoardList = () => {
     else {
       setDirection("desc");
       setSort(type);
+      setPage(0);
     }
   }
 
