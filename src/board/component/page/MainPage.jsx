@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import BoardSearch from "./BoardSearch";
 import tgd3 from '../imgs/tgd3.jpg';
 import MainPageCardsLayout from "./MainPageCardsLayout";
+import MainPageCardsLayout2 from "./MainPageCardsLayout2";
 import Footers from "../../../common/Footers";
 
 const MainPage = () => {
@@ -98,27 +99,37 @@ const MainPage = () => {
         >
           <BoardSearch />
           <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
+          <div
 
-          <h4
-            className="text-center my-4"
-            style={{
-              fontFamily: "'Gowun Dodum', 'Noto Sans KR', sans-serif",
-              fontWeight: 700,
-              fontSize: "2rem",
-              letterSpacing: "1px",
-              background: "linear-gradient(90deg, #64b5f6 10%, #ba68c8 90%)",
-              WebkitBackgroundClip: "text",
-              WebkitTextFillColor: "transparent",
-              padding: "8px 0",
-              borderRadius: "1rem",
-
-            }}
           >
-            실시간 인기 여행지
-          </h4>
-          <MainPageCardsLayout top5Board={top5Board} />
+            <h2 style={{
+              textAlign: "center",
+              width: "100%",
+              color: "#998fc7",
+              fontWeight: 800,
+              fontSize: "2.3rem",
+              margin: "0 0 24px 0",
+              letterSpacing: "-0.04em"
+            }}>
+              실시간 인기 여행지
+            </h2>
+            <MainPageCardsLayout top5Board={top5Board} />
+          </div>
+        </div>
+
+      </div>
+
+      <div style={{ width: "100%", minHeight: "100vh", background: "#f5f6ff" }}>
+        <div className="my-5">
+          <h4 className="text-center mb-4">지역별 순위</h4>
+          <MainPageCardsLayout2 top5Board={top5Board} />
+        </div>
+        <div className="my-5">
+          <h4 className="text-center mb-4">카테고리별 순위</h4>
+          <MainPageCardsLayout2 top5Board={top5Board} />
         </div>
       </div>
+
 
       <Footers />
     </div>

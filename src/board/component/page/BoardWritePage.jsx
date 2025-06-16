@@ -2,7 +2,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useNavigate } from 'react-router-dom';
 import RegionRadioComp from './RegionRadioComp';
-
 import BoardApiClient from '../../service/BoardApiClient';
 import { useState, useEffect } from 'react';
 import CategoryCard from './CategoryCard';
@@ -21,13 +20,24 @@ const BoardWritePage = () => {
 
     const [images, setImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
+    // Bootstrap Alert 상태 (처음에 show: false)
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
+    // Alert 메시지 자동 닫힘 (1.8초)
+    useEffect(() => {
+        if (alert.show) {
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1800);
+            return () => clearTimeout(timer);
+        }
+    }, [alert.show]);
 
     // 로그인 체크 및 닉네임 셋팅
     useEffect(() => {
         let nickname = localStorage.getItem("nickname");
         if (!nickname) {
-            alert("로그인 필요");
-            navigate(-1);
+            setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
+            setTimeout(() => navigate(-1), 1200); // 1.2초 후 뒤로가기
+            return;
         }
         setBoard(prev => ({
             ...prev,
@@ -78,12 +88,11 @@ const BoardWritePage = () => {
     };
 
     // 글 작성 제출
-    // 글 작성 제출
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         if (!images || images.length === 0) {
-            alert("사진을 한 장 이상 첨부해 주세요!");
+            setAlert({ show: true, message: "사진을 한 장 이상 첨부해 주세요!", type: "danger" });
             return;
         }
 
@@ -95,17 +104,16 @@ const BoardWritePage = () => {
         try {
             const response = await BoardApiClient.addBoard(formData);
             if (response.ok) {
-                alert('글 작성이 완료되었습니다.');
-                navigate('/board/list');
+                setAlert({ show: true, message: "글 작성이 완료되었습니다.", type: "success" });
+                setTimeout(() => navigate('/board/list'), 900); // 0.9초 후 이동, 잔상 없음
             } else {
-                alert('글 작성에 실패했습니다.');
+                setAlert({ show: true, message: "글 작성에 실패하였습니다.", type: "danger" });
             }
         } catch (err) {
-            alert('오류가 발생했습니다.');
+            setAlert({ show: true, message: "오류가 발생했습니다.", type: "danger" });
             console.error(err);
         }
     };
-
 
     return (
         <div
@@ -116,6 +124,21 @@ const BoardWritePage = () => {
                 position: "relative"
             }}
         >
+            {/* Bootstrap Alert 메시지 (화면 상단 고정) */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} text-center mb-3`} role="alert"
+                    style={{
+                        position: "fixed",
+                        top: 80,
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        minWidth: 220,
+                        zIndex: 2000
+                    }}>
+                    {alert.message}
+                </div>
+            )}
+
             <div className="container my-5" style={{ maxWidth: '900px' }}>
                 <div className="card shadow-lg border-0 rounded-4 p-4" style={{ background: "#ffffffeb" }}>
                     <h2 className="mb-3 text-center fw-bold" style={{ letterSpacing: '2px' }}>글 작성</h2>
@@ -177,7 +200,6 @@ const BoardWritePage = () => {
                                         setCategory={handleCategorySelect}
                                     />
                                 </div>
-
                             </div>
                             <div className="col-md-6">
                                 <label className="form-label fw-semibold">지역 선택</label>
@@ -258,7 +280,6 @@ const BoardWritePage = () => {
                             >
                                 글쓰기
                             </button>
-
                         </div>
                     </form>
                 </div>

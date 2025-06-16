@@ -9,6 +9,8 @@ const SignInPage = () => {
         loginId: '',
         password: ''
     });
+    // alert 상태 추가
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // type: 'success' | 'danger'
     const navigate = useNavigate();
 
     const handleChange = (e) => {
@@ -27,19 +29,17 @@ const SignInPage = () => {
                 const message = await resNN.text();
                 if (resNN.ok) {
                     localStorage.setItem('nickname', message);
-                    alert("로그인 성공!");
-                    navigate("/");
-                }
-                else {
-                    alert(message);
+                    setAlert({ show: false, message: "로그인 성공!", type: "success" });    //사용자 눈에 안보임
+                    setTimeout(() => navigate("/"), 1000); // 1.2초 후 이동
+                } else {
+                    setAlert({ show: true, message, type: "danger" });
                 }
             } else {
                 const message = await res.text();
-                alert(message);
+                setAlert({ show: true, message: "아이디 또는 비밀번호 오류.", type: "danger" });
             }
         } catch (error) {
-            console.error("에러 발생:", error);
-            alert("에러가 발생했습니다.");
+            setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
     };
 
@@ -50,10 +50,17 @@ const SignInPage = () => {
             const payload = JSON.parse(atob(token.split('.')[1]));
             return payload.sub || payload.loginId;
         } catch (e) {
-            console.error("토큰 디코딩 실패:", e);
             return null;
         }
-    }
+    };
+
+    // alert 자동 사라짐 (2초)
+    useEffect(() => {
+        if (alert.show) {
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 2000);
+            return () => clearTimeout(timer);
+        }
+    }, [alert.show]);
 
     useEffect(() => {
         document.body.classList.add('bg-body-tertiary');
@@ -69,12 +76,19 @@ const SignInPage = () => {
                 background: "linear-gradient(135deg, #a8edea 0%, #fed6e3 100%)",
                 position: "relative"
             }}
-            className="min-vh-100 d-flex flex-column">
+            className="min-vh-100 d-flex flex-column"
+        >
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
                 <div className="col-md-5 col-lg-4">
                     <div className="card shadow-sm">
                         <div className="card-body p-4">
                             <h2 className="text-center mb-4">로그인</h2>
+                            {/* Alert 메시지 */}
+                            {alert.show && (
+                                <div className={`alert alert-${alert.type} text-center`} role="alert">
+                                    {alert.message}
+                                </div>
+                            )}
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
                                     <label htmlFor="loginId" className="form-label">아이디</label>
@@ -88,7 +102,6 @@ const SignInPage = () => {
                                         required
                                     />
                                 </div>
-
                                 <div className="mb-3">
                                     <label htmlFor="password" className="form-label">비밀번호</label>
                                     <input
@@ -101,7 +114,6 @@ const SignInPage = () => {
                                         required
                                     />
                                 </div>
-
                                 {/* 버튼 영역: 회원가입 왼쪽, 로그인 오른쪽 */}
                                 <div className="d-flex justify-content-between mt-4">
                                     <button
@@ -137,3 +149,7 @@ const SignInPage = () => {
 };
 
 export default SignInPage;
+
+
+
+// const handleSubmit에 로그인 성공, 아이디 또는 비밀번호 오류 경고창

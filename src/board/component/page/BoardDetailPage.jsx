@@ -34,6 +34,8 @@ const BoardDetailPage = () => {
 
   const [liked, setLiked] = useState(false);
   const [shared, setShared] = useState(false);
+  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
   const handleShare = () => setShared(prev => !prev);
 
   const handleLike = () => {
@@ -42,29 +44,41 @@ const BoardDetailPage = () => {
       boardId: no,
       memberNickname: nickname
     }
-    FavoriteApiClient.toggleFavorite(payload)
-      .then(res => res.json()
-        .then(data => {
-          if (res.ok) {
-            setLiked(data);
-            if (data) {
-              window.dataLayer = window.dataLayer || [];
-              window.dataLayer.push({
-                event: "travel_favorite_add",
-                boardId: no,
-              });
-              alert("찜 목록에 추가되었습니다.");
+
+    try {
+      FavoriteApiClient.toggleFavorite(payload)
+        .then(res => res.json()
+          .then(data => {
+            let nickname = localStorage.getItem("nickname");
+            if (nickname == null) {
+              setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
+              setTimeout(() => navigate(-1), 1200);
+              return;
+            }
+            if (res.ok) {
+              setLiked(data);
+              if (data) {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                  event: "travel_favorite_add",
+                  boardId: no,
+                });
+                setAlert({ show: false, message: "찜 목록에 추가되었습니다.", type: "success" });
+              }
+              else {
+                setAlert({ show: false, message: "찜 목록에서 삭제되었습니다.", type: "danger" });
+
+              }
             }
             else {
-              alert("찜 목록에서 삭제되었습니다.")
+              alert("Error");
             }
           }
-          else {
-            alert("Error");
-          }
-        }
+          )
         )
-      )
+    } catch {
+      alert('오류가 발생했습니다.');
+    }
   }
 
   const getLike = () => {
@@ -93,7 +107,7 @@ const BoardDetailPage = () => {
         if (res.ok) {
           res.json().then(data => setBoard({ ...data, images: data.images || [] }));
         } else {
-          alert('게시글을 불러오지 못했습니다.');
+          setAlert({ show: true, message: '게시글을 불러오지 못했습니다.', type: "danger" });
         }
       }
     )
@@ -103,11 +117,12 @@ const BoardDetailPage = () => {
       navigate(`/board/edit?no=${board.id}`);
     }
     else {
-      alert("권한이 없습니다.");
+      setAlert({ show: true, message: '권한이 없습니다.', type: "danger" });
     }
   }
 
   useEffect(() => {
+
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: "travel_detail_pageview", boardId: no });
     viewBoard();
@@ -309,3 +324,5 @@ const BoardDetailPage = () => {
 };
 
 export default BoardDetailPage;
+
+

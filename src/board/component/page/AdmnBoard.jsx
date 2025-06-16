@@ -6,6 +6,8 @@ const AdmnBoard = () => {
     const [boards, setBoards] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
 
     const navigate = useNavigate();
     const getBoards = async () => {
@@ -25,15 +27,14 @@ const AdmnBoard = () => {
             BoardApiClient.removeBoard(no).then(
                 res => {
                     if (res.ok) {
-                        alert("삭제 성공");
+                        setAlert({ show: true, message: "삭제 성공", type: "success" });
                         getBoards();
                     } else {
-                        alert("삭제 실패");
+                        setAlert({ show: true, message: "삭제 실패", type: "danger" });
                     }
                 }
             )
         }
-
     }
     const migrateData = () => {
         if (window.confirm("정말 적재하시겠습니까?")) {
@@ -113,3 +114,4 @@ const AdmnBoard = () => {
 };
 
 export default AdmnBoard;
+

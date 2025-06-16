@@ -25,15 +25,15 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
   const handleDetailClose = (refresh = false) => {
     setShowDetail(0);
     if (refresh) getDeduplicationList();
-  };
+  }
 
   // 활성화 토글
   const handleToggleActive = (id, current) => {
-    DeduplicationApiClient.updateActive(id, !current)
-      .then(res => {
-        if (res.ok) getDeduplicationList();
-        else alert('활성화 변경 실패');
-      });
+    // DeduplicationApiClient.updateActive(id, !current)
+    //   .then(res => {
+    //     if (res.ok) getDeduplicationList();
+    //     else alert('활성화 변경 실패');
+    //   });
   };
 
   // 날짜 포맷

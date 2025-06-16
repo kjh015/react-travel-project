@@ -3,17 +3,30 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardApiClient from "../../service/BoardApiClient";
 import BoardSearch from "./BoardSearch";
+import { Tooltip, Card, Badge, OverlayTrigger, Carousel } from "react-bootstrap";
+
 
 const BoardList = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("ratingAvg");
+  const [sort, setSort] = useState("정렬");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
-
-
+  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+  const [board, setBoard] = useState({
+    id: '', title: '', content: '', memberNickname: '',
+    travelPlace: '', address: '', category: '', region: '', imagePaths: [],
+    createdDate: '', modifiedDate: '', ratingAvg: '', viewCount: '', favoriteCount: '', commentCount: ''
+  });
+  const categoryColors = {
+    축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
+    쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
+  };
+  const regionColors = {
+    서울: "primary", 부산: "info", 제주: "success",
+  };
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("category") || "";
@@ -23,6 +36,8 @@ const BoardList = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   useEffect(() => {
+    // setLoading(true);
+    // setError(true);
     setSearched(true);
     getBoardList();
   }, [location.search, sort, direction, page]);
@@ -31,7 +46,7 @@ const BoardList = () => {
     if (isLoggedIn) {
       navigate("/board/write");
     } else {
-      alert("로그인 필요");
+      setAlert({ show: true, message: "로그인 필요", type: "danger" });
     }
   };
 
@@ -71,6 +86,7 @@ const BoardList = () => {
     }
   };
 
+
   const formatDate = (isoString) => {
     if (!isoString) return "";
     return isoString.substring(0, 16).replace("T", " ");
@@ -95,7 +111,7 @@ const BoardList = () => {
   }
 
   if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
-  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
+  if (error) return <div className="text-center text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
@@ -154,7 +170,11 @@ const BoardList = () => {
                   <thead className="table-light">
                     <tr>
                       <th className="text-center" style={{ width: "8%" }}>#</th>
+                      <th className="text-center" style={{ width: "8%" }}>지역</th>
+                      <th className="text-center" style={{ width: "8%" }}>카테고리</th>
                       <th className="text-center">제목</th>
+
+
                       <th className="text-center" style={{ width: "15%" }}>작성자</th>
                       <th className="text-center" style={{ width: "20%" }}>날짜</th>
                     </tr>
@@ -162,14 +182,14 @@ const BoardList = () => {
                   <tbody>
                     {!searched && (
                       <tr>
-                        <td colSpan={4} className="text-center py-5 text-secondary">
+                        <td colSpan={6} className="text-center py-5 text-secondary">
                           게시글이 없습니다. 검색해주세요.
                         </td>
                       </tr>
                     )}
                     {searched && !loading && boards.length === 0 && (
                       <tr>
-                        <td colSpan={4} className="text-center py-5 text-secondary">
+                        <td colSpan={6} className="text-center py-5 text-secondary">
                           게시글이 없습니다.
                         </td>
                       </tr>
@@ -177,28 +197,33 @@ const BoardList = () => {
                     {searched && !loading && boards.length > 0 && (
                       boards.map((board, idx) => (
                         <tr key={board.id}>
-                          <td className="text-center">{idx + 1 + page*10}</td>
+                          <td className="text-center">{idx + 1 + page * 10}</td>
+                          <td className="text-center">
+                            {/* 게시판 표시 */}
+                            <Badge bg="primary">서울</Badge>    {/* 테스트용. {board.region} 사용 */}
+
+                          </td>
+                          <td className="text-center">
+                            <Badge bg="secondary">관광</Badge>  {/* 테스트용. {board.category} 사용 */}
+                          </td>
                           <td className="text-center">
                             <Link
                               to={`/board/detail?no=${board.id}`}
-                              className="text-decoration-none d-inline-block w-100"
-                              style={{
-                                textAlign: "center",
-                                fontWeight: "500"
-                              }}
+                              className="text-decoration-none fw-medium"
                             >
                               {board.title}
                             </Link>
                           </td>
+
+
                           <td className="text-center">{board.memberNickname}</td>
                           <td className="text-center">{formatDate(board.modifiedDate)}</td>
                         </tr>
                       ))
-                      
                     )}
                     {loading && (
                       <tr>
-                        <td colSpan={4} className="text-center py-5">
+                        <td colSpan={6} className="text-center py-5">
                           로딩 중...
                         </td>
                       </tr>
