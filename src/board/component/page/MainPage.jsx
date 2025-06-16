@@ -11,7 +11,7 @@ const MainPage = () => {
   const [top5Board, setTop5Board] = useState([]);
 
   useEffect(() => {
-    const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
+    const evt = new EventSource('http://14.63.178.161:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
       setTop5Board(JSON.parse(e.data));
     };
