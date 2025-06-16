@@ -24,7 +24,7 @@ const BoardList = () => {
 
   useEffect(() => {
     setSearched(true);
-    getBoardListAll();
+    getBoardList();
   }, [location.search, sort, direction, page]);
 
   const goToWrite = () => {
