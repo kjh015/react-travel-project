@@ -213,7 +213,7 @@ const BoardDetailPage = () => {
                     {board.imagePaths.map(filename => (
                       <Carousel.Item key={filename}>
                         <img
-                          src={`http://localhost:8000/board${filename}`}
+                          src={`http://14.63.178.161${filename}`}
                           alt="uploaded"
                           style={{
                             width: "100%",
