@@ -13,7 +13,7 @@ const MainPage = () => {
   useEffect(() => {
     const evt = new EventSource('http://14.63.178.161:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
-      setTop5Board(JSON.parse(e.data));
+      setTop5Board(e.data);
       console.log(e.data);
     };
     return () => {
