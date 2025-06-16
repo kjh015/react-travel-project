@@ -6,6 +6,7 @@ const cardWidth = 240;
 const cardHeight = 200;
 
 const MainPageCardsLayout2 = ({ top5Board }) => {
+    if (!top5Board || top5Board.length < 5) return null;
     // 실제로는 top5Board 배열을 map으로!
     // 임시 예시용 데이터
     const cardRanks = [1, 2, 3, 4, 5];
