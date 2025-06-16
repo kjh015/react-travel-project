@@ -18,47 +18,18 @@ const LogManagement = ({ onMenuClick }) => {
 
     useEffect(() => {
         LogDBApiClient.getSuccessList().then(res => {
-            if (res.ok) {
-                res.json().then(data => {
-                    console.log("[성공 로그] raw data:", data);
-                    setSuccessList(data);
-                    // 특정 row, 필드 직접 찍어보기
-                    if (data.length > 0) {
-                        console.log("[성공 로그] 첫 row:", data[0]);
-                        console.log("[성공 로그] process:", data[0].process);
-                        console.log("[성공 로그] process.name:", data[0].process?.name);
-                    }
-                });
-            } else alert("Success Log DB get fail");
+            if (res.ok) res.json().then(setSuccessList);
+            else alert("Success Log DB get fail");
         });
         LogDBApiClient.getFailListByFilter().then(res => {
-            if (res.ok) {
-                res.json().then(data => {
-                    console.log("[필터 실패] raw data:", data);
-                    setFailFilterList(data);
-                    if (data.length > 0) {
-                        console.log("[필터 실패] 첫 row:", data[0]);
-                        console.log("[필터 실패] filter:", data[0].filter);
-                        console.log("[필터 실패] filter.name:", data[0].filter?.name);
-                    }
-                });
-            } else alert("Fail-Filter Log DB get fail");
+            if (res.ok) res.json().then(setFailFilterList);
+            else alert("Fail-Filter Log DB get fail");
         });
         LogDBApiClient.getFailListByDeduplication().then(res => {
-            if (res.ok) {
-                res.json().then(data => {
-                    console.log("[중복 실패] raw data:", data);
-                    setFailDedupList(data);
-                    if (data.length > 0) {
-                        console.log("[중복 실패] 첫 row:", data[0]);
-                        console.log("[중복 실패] deduplication:", data[0].deduplication);
-                        console.log("[중복 실패] deduplication.name:", data[0].deduplication?.name);
-                    }
-                });
-            } else alert("Fail-Deduplication Log DB get fail");
+            if (res.ok) res.json().then(setFailDedupList);
+            else alert("Fail-Deduplication Log DB get fail");
         });
     }, []);
-
 
     const columnsSuccess = [
         { key: 'id', label: 'Log ID', width: '20%', sortable: true },
@@ -80,14 +51,14 @@ const LogManagement = ({ onMenuClick }) => {
         { key: 'createdTime', label: '생성 시간', sortable: true },
     ];
 
-    const nestedProcess = item => item.process.name;
-    const nestedFilter = item => item.filter.name;
-    const nestedDedup = item => item.deduplication.name;
+    const nestedProcess = item => item.process;
+    const nestedFilter = item => item.filter;
+    const nestedDedup = item => item.deduplication;
 
     return (
-        <div className="container mt-4" style={{ paddingTop: '50px' }}>
+        <div className="container mt-4" style={{ paddingTop: '50px'}}>
             <h1>결과 화면</h1>
-
+            
             <div className="row">
                 <p>Test용 p태그</p>
                 <div className="col-12 mb-4">
@@ -130,7 +101,7 @@ const LogManagement = ({ onMenuClick }) => {
                     />
                 </div>
             </div>
-
+            
         </div>
     );
 };
