@@ -11,7 +11,7 @@ const BoardList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("정렬");
+  const [sort, setSort] = useState("regDate");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
