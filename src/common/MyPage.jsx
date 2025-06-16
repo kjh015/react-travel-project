@@ -2,28 +2,44 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { Link, useNavigate } from 'react-router-dom';
 import SignApiClient from '../sign/service/SignApiClient';
+import { useState, useEffect } from "react";
 
-// 프로필 이미지 예시 (실제 사용자 이미지 URL로 대체 가능)
+// 프로필 이미지 예시
 const myPageImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
 
 const MyPage = () => {
   const navigate = useNavigate();
+  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+  const [showConfirm, setShowConfirm] = useState(false);
+  const [nickname, setNickname] = useState("");
 
-  // 회원 탈퇴
+  useEffect(() => {
+    setNickname(localStorage.getItem("nickname") || "닉네임");
+  }, []);
+
+  // Alert 띄우기
+  const showAlert = (message, type = "success", delay = 1600, redirect) => {
+    setAlert({ show: true, message, type });
+    setTimeout(() => {
+      setAlert({ show: false, message: '', type: '' });
+      if (redirect) redirect();
+    }, delay);
+  };
+
+  // 회원 탈퇴 (모달에서 OK 클릭 시)
   const handleDelete = () => {
-    if (window.confirm('정말 탈퇴하시겠습니까?')) {
-      SignApiClient.withdraw().then(res => {
-        res.text().then(message => {
-          if (res.ok) {
-            localStorage.removeItem('accessToken');
-            alert(message);
-            window.location.href = '/';
-          } else {
-            alert(message);
-          }
-        });
+    setShowConfirm(false);
+    SignApiClient.withdraw().then(res => {
+      res.text().then(message => {
+        if (res.ok) {
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('nickname');
+          showAlert(message, "success", 1200, () => window.location.href = '/');
+        } else {
+          showAlert(message, "danger");
+        }
       });
-    }
+    });
   };
 
   // 로그아웃
@@ -31,16 +47,51 @@ const MyPage = () => {
     SignApiClient.signOut().then(res => {
       if (res.ok) {
         localStorage.removeItem('accessToken');
-        window.location.href = '/';
-        alert("로그아웃 성공");
+        localStorage.removeItem('nickname');
+        showAlert("로그아웃 성공", "success", 1000, () => window.location.href = '/');
       } else {
-        alert("로그아웃 실패");
+        showAlert("로그아웃 실패", "danger");
       }
     });
   };
 
   return (
     <div style={{ background: 'linear-gradient(135deg,#eaf4fc 60%,#fff 100%)', minHeight: '100vh' }}>
+      {/* Bootstrap Alert */}
+      {alert.show && (
+        <div className={`alert alert-${alert.type} text-center`}
+          style={{
+            position: "fixed",
+            top: 60, left: "50%", transform: "translateX(-50%)",
+            minWidth: 200, zIndex: 2000
+          }}
+          role="alert"
+        >
+          {alert.message}
+        </div>
+      )}
+
+      {/* Confirm Modal */}
+      {showConfirm && (
+        <div className="modal show fade d-block" tabIndex={-1} style={{ background: 'rgba(0,0,0,0.28)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title text-danger">회원 탈퇴</h5>
+                <button type="button" className="btn-close" onClick={() => setShowConfirm(false)} />
+              </div>
+              <div className="modal-body">
+                <p>정말 탈퇴하시겠습니까?</p>
+              </div>
+              <div className="modal-footer">
+                <button className="btn btn-secondary" onClick={() => setShowConfirm(false)}>취소</button>
+                <button className="btn btn-danger" onClick={handleDelete}>탈퇴</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* 헤더 */}
       <header className="container py-4 mb-3">
         <span className="navbar-brand d-flex align-items-center text-primary fs-3 fw-bold">
@@ -62,9 +113,8 @@ const MyPage = () => {
                 style={{ width: 112, height: 112, objectFit: 'cover', background: '#f4f6fa', border: '4px solid #dee7ee' }}
               />
               <div className="mt-3 text-center">
-                <h4 className="fw-bold mb-1" style={{ color: "#253e6b" }}>닉네임</h4>
+                <h4 className="fw-bold mb-1" style={{ color: "#253e6b" }}>{nickname}</h4>
                 <span className="badge rounded-pill bg-primary-subtle text-primary">일반 회원</span>
-                {/* 필요시 등급/이메일 등 표시 */}
               </div>
             </div>
 
@@ -86,15 +136,13 @@ const MyPage = () => {
               <Link to="/page/chckmycom" className="btn btn-light border rounded-pill px-3 shadow-sm">
                 <i className="bi bi-chat-text me-1" /> 작성 댓글
               </Link>
-              {/* <Link ...>작성글</Link> 등 추가 가능 */}
             </div>
 
-            {/* 구분선 */}
             <hr className="my-3" />
 
             {/* 탈퇴/로그아웃 */}
             <div className="d-flex flex-column gap-2">
-              <button className="btn btn-outline-danger rounded-pill" onClick={handleDelete}>
+              <button className="btn btn-outline-danger rounded-pill" onClick={() => setShowConfirm(true)}>
                 <i className="bi bi-person-x me-1" /> 회원 탈퇴
               </button>
               <button className="btn btn-outline-secondary rounded-pill" onClick={handleLogout}>

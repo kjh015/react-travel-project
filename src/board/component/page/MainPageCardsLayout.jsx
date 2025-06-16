@@ -27,7 +27,7 @@ const MainPageCardsLayout = ({ top5Board }) => {
                     alignItems: 'stretch'
                 }}
             >
-                <MainPageCard boardId={top5Board[0].boardNo} score={top5Board[0].score} rank={1} />
+                <MainPageCard boardId={1} score={100} rank={1} />
             </div>
 
             {/* 오른쪽 카드2 2~5위 */}
@@ -50,7 +50,7 @@ const MainPageCardsLayout = ({ top5Board }) => {
                             display: 'flex'
                         }}
                     >
-                        <MainPageCard2 boardId={board.boardNo} score={board.score} rank={idx + 2} />
+                        <MainPageCard2 boardId={board} score={20} rank={idx + 2} />
                     </div>
                 ))}
             </div>

@@ -4,7 +4,7 @@ import BoardApiClient from '../../../service/BoardApiClient';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-// 1등 왕관 배지 스타일
+// 1등 왕관 배지 스타일 (z-index: 99, pointerEvents: "none")
 const firstRankBadgeStyle = {
   position: 'absolute',
   top: 22,
@@ -21,7 +21,8 @@ const firstRankBadgeStyle = {
   fontSize: "2rem",
   boxShadow: "0 4px 12px rgba(180,140,20,0.13)",
   border: "3px solid #fffbe8",
-  zIndex: 5
+  zIndex: 99,            // 왕관을 카드보다 항상 위에!
+  pointerEvents: "none", // 카드 클릭 방해 X
 };
 
 const MainPageCard = ({ boardId, score, rank }) => {
@@ -43,23 +44,31 @@ const MainPageCard = ({ boardId, score, rank }) => {
   }, [boardId]);
 
   return (
-    <div className="w-100 h-100 d-flex align-items-stretch position-relative">
-      {/* --- 1등 왕관 배지 --- */}
+    <div
+      className="w-100 h-100 d-flex align-items-stretch position-relative"
+      style={{ position: 'relative' }} // 반드시 필요!
+    >
+      {/* 1등 왕관 배지 (hover와 무관, 항상 위) */}
       {(rank === 1 || rank === undefined) && (
         <div style={firstRankBadgeStyle}>
           <span role="img" aria-label="king-crown" style={{ fontSize: "2.2rem", marginTop: "-4px" }}>👑</span>
         </div>
       )}
 
+      {/* 카드 본문 */}
       <div
-        className="card border-0 shadow-lg rounded-4 overflow-hidden w-100"
+        className="mainpage-card-hover card border-0 shadow-lg rounded-4 overflow-hidden w-100"
         style={{
           background: "rgba(250,250,255,0.96)",
           boxShadow: "0 8px 32px rgba(60,60,100,0.14)",
           height: "100%",
           display: "flex",
           flexDirection: "column",
+          transition: "transform 0.25s cubic-bezier(.19,1,.22,1), box-shadow 0.22s",
+          cursor: "pointer",
+          zIndex: 1, // 왕관보다 낮음 (중요)
         }}
+        onClick={() => navigate(`/board/detail/?no=${board.id}`)}
       >
         {/* 이미지 */}
         <div style={{ position: "relative", width: "100%" }}>
@@ -104,34 +113,20 @@ const MainPageCard = ({ boardId, score, rank }) => {
             {board.title}
           </div>
           <div className="d-flex justify-content-between align-items-center mt-2">
-            <div className="btn-group gap-2">
-              <button
-                type="button"
-                className="btn btn-primary px-4 d-flex align-items-center gap-2"
-                style={{
-                  borderRadius: "2rem",
-                  fontWeight: 500,
-                  boxShadow: "0 2px 8px rgba(160,120,240,0.07)"
-                }}
-              >
-                <span role="img" aria-label="write">✏️</span> 글쓰기
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-secondary px-4 d-flex align-items-center gap-2"
-                style={{
-                  borderRadius: "2rem",
-                  fontWeight: 500
-                }}
-                onClick={() => { navigate(`/board/detail/?no=${board.id}`); }}
-              >
-                <span role="img" aria-label="search">🔍</span> 둘러보기
-              </button>
-            </div>
             <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
           </div>
         </div>
       </div>
+      {/* Hover 효과 CSS */}
+      <style>
+        {`
+          .mainpage-card-hover:hover {
+            transform: scale(1.035);
+            box-shadow: 0 12px 36px 0 rgba(100,100,150,0.19);
+            z-index: 2; /* 이 값도 왕관(99)보다 낮아야 함 */
+          }
+        `}
+      </style>
     </div>
   );
 };

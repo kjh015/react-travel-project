@@ -38,9 +38,7 @@ const BoardSearch = () => {
                 <Form className="mb-4" onSubmit={handleSubmit}>
                     {/* 안내문 박스 */}
                     <div className="text-center mb-3">
-                        <h4 className="card-title mb-2 fw-bold" style={{ fontSize: "1.07rem" }}>
-                            여행의 모든 순간, 함께!
-                        </h4>
+
                     </div>
                     <div className="d-flex" style={{ gap: 8 }}>
                         <Form.Control

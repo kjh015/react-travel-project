@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 const WriteComment = ({ onAddComment }) => {
     const [comment, setComment] = useState("");
     const [rating, setRating] = useState(0);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
     const navigate = useNavigate();
 
@@ -30,17 +31,23 @@ const WriteComment = ({ onAddComment }) => {
 
     // 제출 핸들러 (onAddComment 콜백 예시)
     const handleSubmit = (e) => {
-        e.preventDefault();
-        if (!comment.trim()) return;
-        if (localStorage.getItem('accessToken') == null) {
-            alert("로그인 필요");
-            navigate(-1);
-            return;
-        }        
+        try {
+            e.preventDefault();
+            if (!comment.trim()) return;
+            if (localStorage.getItem('accessToken') == null) {
+                setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
 
-        if (onAddComment) onAddComment({ comment, rating });
-        setComment("");
-        setRating(0);
+                navigate(-1);
+                return;
+            }
+
+            if (onAddComment) onAddComment({ comment, rating });
+            setComment("");
+            setRating(0);
+        } catch {
+
+        }
+
     };
 
     return (
