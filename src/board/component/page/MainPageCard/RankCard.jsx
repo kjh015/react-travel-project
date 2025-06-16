@@ -33,15 +33,15 @@ const RankCard = ({ boardId, score, rank }) => {
         createdDate: '', modifiedDate: ''
     });
 
-    useEffect(() => {
-        BoardApiClient.getBoard(boardId).then(
-            res => {
-                if (res.ok) {
-                    res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
-                }
-            }
-        );
-    }, [boardId]);
+    // useEffect(() => {
+    //     BoardApiClient.getBoard(boardId).then(
+    //         res => {
+    //             if (res.ok) {
+    //                 res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
+    //             }
+    //         }
+    //     );
+    // }, [boardId]);
 
     return (
         <div
