@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class BoardApiClient {
-    static SERVER_URL = "http://14.63.178.161:8000/api/board";
+    static SERVER_URL = "http://localhost:8000/api/board";
     static ADMIN = "/admin";
     static GET_LIST = "/list";
     static GET_VIEW = "/view";
@@ -11,7 +11,7 @@ class BoardApiClient {
     static POST_REMOVE = "/remove";
     static POST_MIGRATE = "/migrate-data";
 
-    static getBoardListBySearch({keyword, category, region, sort, direction, page}){
+    static getBoardListBySearch({ keyword, category, region, sort, direction, page }) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_SEARCH + `?keyword=${keyword}&category=${category}&region=${region}&sort=${sort}&direction=${direction}&page=${page}`);
     }
 

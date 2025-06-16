@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class LogDBApiClient {
-    static SERVER_URL = "http://14.63.178.161:8000/api/log-db/admin";
+    static SERVER_URL = "http://localhost:8000/api/log-db/admin";
     static GET_SUCCESS = "/success";
     static GET_FAIL = "/fail";
     static GET_PROCESS = "-process";
@@ -10,8 +10,8 @@ class LogDBApiClient {
 
     static getSuccessList() {
         return authFetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_SUCCESS);
-    }    
-    
+    }
+
     static getFailListByFilter() {
         return authFetch(LogDBApiClient.SERVER_URL + LogDBApiClient.GET_FAIL + LogDBApiClient.GET_FILTER);
     }

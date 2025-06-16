@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class DeduplicationApiClient {
-    static SERVER_URL = "http://14.63.178.161:8000/api/deduplication/admin";
+    static SERVER_URL = "http://localhost:8000/api/deduplication/admin";
     static GET_LIST = "/list";
     static GET_VIEW = "/view";
     static POST_ADD = "/add";
@@ -15,7 +15,7 @@ class DeduplicationApiClient {
     static viewDeduplication(deduplicationId) {
         return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.GET_VIEW + "?deduplicationId=" + deduplicationId);
     }
-    static addDeduplication({processId, name, active, rows}) {
+    static addDeduplication({ processId, name, active, rows }) {
         return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_ADD, {
             method: 'POST',
             headers: {
@@ -29,17 +29,17 @@ class DeduplicationApiClient {
             }),
         });
     }
-    static updateDeduplication({id, name, active, rows}) {
+    static updateDeduplication({ id, name, active, rows }) {
         return authFetch(DeduplicationApiClient.SERVER_URL + DeduplicationApiClient.POST_UPDATE, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
-                id: id,                
+                id: id,
                 name: name,
                 active: active,
-                rows: rows                
+                rows: rows
             }),
         });
     }
