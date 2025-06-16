@@ -5,7 +5,7 @@ import MainPageCard2 from './MainPageCard/MainPageCard2';
 const mainCardHeight = 520;
 
 const MainPageCardsLayout = ({ top5Board }) => {
-    if (!top5Board || top5Board.length < 5) return null;
+    if (!top5Board) return null;
 
     return (
         <div
