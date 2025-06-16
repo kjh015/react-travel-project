@@ -263,7 +263,7 @@ const BoardEditPage = () => {
                                                 <img
                                                     src={
                                                         src.startsWith('/images/')
-                                                            ? `http://localhost:8000/board${src}`
+                                                            ? `http://14.63.178.161${src}`
                                                             : src
                                                     }
                                                     alt={`preview-${idx}`}
