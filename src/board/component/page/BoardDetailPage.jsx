@@ -62,10 +62,21 @@ const BoardDetailPage = () => {
                 window.dataLayer.push({
                   event: "travel_favorite_add",
                   boardId: no,
+                  category: board.category,
+                  region: board.region,
+                  title: board.title
                 });
                 setAlert({ show: false, message: "찜 목록에 추가되었습니다.", type: "success" });
               }
               else {
+                window.dataLayer = window.dataLayer || [];
+                window.dataLayer.push({
+                  event: "travel_favorite_remove",  //matomo 추가해야함, comment도
+                  boardId: no,
+                  category: board.category,
+                  region: board.region,
+                  title: board.title
+                });
                 setAlert({ show: false, message: "찜 목록에서 삭제되었습니다.", type: "danger" });
 
               }
@@ -122,12 +133,8 @@ const BoardDetailPage = () => {
   }
 
   useEffect(() => {
-
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push({ event: "travel_detail_pageview", boardId: no });
     viewBoard();
     getLike();
-
     enterTime.current = Date.now();
     // 페이지 진입 시점 기록
     return () => {
@@ -138,11 +145,24 @@ const BoardDetailPage = () => {
       window.dataLayer.push({
         event: "travel_detail_exit",
         boardId: no, // 여행지ID
-        staySeconds: stayDuration
+        staySeconds: stayDuration,
+        title: board.title
       });
     }
 
   }, [no, liked, commentFlag]);
+  useEffect(() => {
+    if (board && board.category && board.region) { // board가 로딩된 이후에만
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: "travel_detail_pageview",
+        boardId: no,
+        category: board.category,
+        region: board.region,
+        title: board.title
+      });
+    }
+  }, [board, no]);
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   return (
@@ -313,7 +333,7 @@ const BoardDetailPage = () => {
               }}>
               {board.id &&
                 <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} ratingAvg={board.ratingAvg} setCommentFlag={setCommentFlag} />
+                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} ratingAvg={board.ratingAvg} setCommentFlag={setCommentFlag} category={board.category} region={board.region} />
                 </Card.Body>}
             </Card>
           </div>
