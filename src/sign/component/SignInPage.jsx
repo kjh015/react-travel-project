@@ -37,7 +37,7 @@ const SignInPage = () => {
                     setAlert({ show: false, message: "로그인 성공!", type: "success" });    //사용자 눈에 안보임
                     setTimeout(() => navigate("/"), 1000); // 1.2초 후 이동
                 } else {
-                    setAlert({ show: true, message, type: "danger" });
+                    setAlert({ show: true, message: "로그인 실패", type: "danger" });
                 }
             } else {
                 const message = await res.text();
@@ -62,7 +62,7 @@ const SignInPage = () => {
     // alert 자동 사라짐 (2초)
     useEffect(() => {
         if (alert.show) {
-            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 2000);
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(timer);
         }
     }, [alert.show]);

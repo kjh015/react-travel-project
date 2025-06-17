@@ -16,7 +16,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
                     setTimeout(() => {
                         setAlertMessage(null);
                         onClose();
-                    }, 1500);
+                    }, 500);
                 } else {
                     console.log("update fail");
                     setAlertMessage({ type: 'danger', text: '프로세스 수정 실패!' });
@@ -30,10 +30,13 @@ const EditProcess = ({ onClose, processId, _name }) => {
     const removeProcess = () => {
         ProcessApiClient.removeProcess(processId).then(res => {
             if (res.ok) {
-                console.log("remove success");
-                onClose();
+                setAlertMessage({ show: true, type: 'danger', text: '프로세스 삭제 성공!' });   // ✅ 경고창 추가
+                setTimeout(() => {
+                    setAlertMessage(null);
+                    onClose();
+                }, 500);
             } else {
-                console.log("remove fail");
+                setAlertMessage({ show: true, type: 'danger', text: '프로세스 실패' });
             }
         });
     };
@@ -61,7 +64,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
             <div className="d-flex justify-content-between">
                 <button className="btn btn-primary" onClick={updateProcess}>수정</button>
                 <button className="btn btn-danger" onClick={removeProcess}>삭제</button>
-                <button className="btn btn-secondary" onClick={onClose}>닫기</button>
+                <button className="btn btn-outline-secondary" onClick={onClose}>닫기</button>
             </div>
         </div>
 

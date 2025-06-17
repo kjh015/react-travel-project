@@ -1,28 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import FilterApiClient from '../../service/FilterApiClient';
 
-// 조건 필드 및 연산자 옵션 정의
 const operatorOptions = ['>', '<', '>=', '<=', '==', '!=', 'Equals'];
 
 const ConditionBuilder = ({ onClose, processId }) => {
     const [fieldList, setFieldList] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    // 조건식 구성 요소들을 저장하는 상태 (tokens)
     const [tokens, setTokens] = useState([
         { type: 'condition', field: '', operator: '>', value: '', groupId: 0 }
     ]);
 
-
+    // alert 상태
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
     useEffect(() => {
         FilterApiClient.getFormatKeys(processId)
             .then(res => res.json())
             .then(data => setFieldList(data));
-    }, []);
+    }, [processId]);
 
-
-    // AND + 조건 추가
     const addCondition = () => {
         const groupId = Date.now();
         setTokens([
@@ -32,7 +29,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
         ]);
     };
 
-    // AND + ( + 조건 추가
     const addParenAndConditionWithAnd = () => {
         const groupId = Date.now();
         setTokens([
@@ -43,7 +39,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
         ]);
     };
 
-    // ) 괄호 추가
     const addRightParen = () => {
         const groupId = Date.now();
         setTokens([
@@ -52,12 +47,10 @@ const ConditionBuilder = ({ onClose, processId }) => {
         ]);
     };
 
-    // 조건 그룹 삭제
     const deleteGroup = (groupId) => {
         setTokens(tokens.filter(token => token.groupId !== groupId));
     };
 
-    // 특정 token의 필드 업데이트
     const updateToken = (index, key, value) => {
         const updated = { ...tokens[index], [key]: value };
         const newTokens = [...tokens];
@@ -65,7 +58,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
         setTokens(newTokens);
     };
 
-    // 조건 그룹 이동
     const moveGroup = (groupId, direction) => {
         const groups = getGroups(tokens);
         const idx = groups.findIndex(g => g[0].groupId === groupId);
@@ -81,7 +73,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
         setTokens(newGroups.flat());
     };
 
-    // 토큰 배열을 표현식 문자열로 변환
     const buildExpression = () => {
         return tokens
             .map((token) => {
@@ -104,7 +95,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
             .join('');
     };
 
-    // 괄호 유효성 검사
     const validateParentheses = () => {
         let balance = 0;
         for (const token of tokens) {
@@ -115,13 +105,9 @@ const ConditionBuilder = ({ onClose, processId }) => {
         return balance === 0;
     };
 
-
-
-    // 전송 버튼 클릭 시 실행
     const handleSubmit = async (e) => {
-
         if (!validateParentheses()) {
-            alert('❌ 괄호 짝이 맞지 않습니다.');
+            setAlert({ show: true, message: '❌ 괄호 짝이 맞지 않습니다.', type: 'danger' });
             return;
         }
 
@@ -130,11 +116,10 @@ const ConditionBuilder = ({ onClose, processId }) => {
             (token.field === '' || token.operator === '' || token.value === '')
         );
         if (hasInvalid) {
-            alert('❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.');
+            setAlert({ show: true, message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
             return;
         }
 
-        //전송용 tokens 복사 후 valueType 추가
         const tokensWithType = tokens.map(token => {
             if (token.type === 'condition') {
                 return {
@@ -147,29 +132,41 @@ const ConditionBuilder = ({ onClose, processId }) => {
 
         const expr = buildExpression();
         console.log('전송 문자열:', expr);
-        console.log("✅ valueTypes 확인용 로그:");
-        tokensWithType
-            .filter(token => token.type === 'condition')
-            .forEach(token =>
-                console.log(`field=${token.field}, operator=${token.operator}, value=${token.value}, valueType=${token.valueType}`)
-            );
-
 
         FilterApiClient.addFilter(processId, name, active, expr, tokensWithType)
-            .then(res => res.ok ? onClose() : alert("실패"))
-            .catch(err => console.error(err));
+            .then(res => {
+                if (res.ok) {
+                    setAlert({ show: true, message: '필터가 성공적으로 추가되었습니다.', type: 'success' });
+                    setTimeout(() => {
+                        setAlert({ show: false, message: '', type: '' });
+                        onClose();
+                    }, 500);
+                } else {
+                    setAlert({ show: true, message: '실패', type: 'danger' });
+                }
+            })
+            .catch(err => {
+                setAlert({ show: true, message: '에러가 발생했습니다.', type: 'danger' });
+            });
     };
 
     return (
         <div className="container mt-4 text-center" style={{ maxWidth: '400px', margin: '0 auto' }}>
+            {/* Alert 메시지 */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             <h5>필터 추가</h5>
             <div className="mb-3">
-                <label className="form-label">Filter Name</label>
-                <input type="text" className="form-control" placeholder="filter name" value={name} onChange={e => setName(e.target.value)} />
+                <label className="form-label">필터 이름</label>
+                <input type="text" className="form-control" placeholder="필터 이름" value={name} onChange={e => setName(e.target.value)} />
             </div>
 
-
-            {/* 조건/괄호 추가 버튼 */}
             <div className="mt-3">
                 <label>추가:  </label>
                 <button className="btn btn-secondary me-2" onClick={addParenAndConditionWithAnd}>(</button>
@@ -177,15 +174,12 @@ const ConditionBuilder = ({ onClose, processId }) => {
                 <button className="btn btn-success me-2" onClick={addCondition}>조건</button>
             </div>
 
-            {/* 현재 표현식 출력 */}
             <div className="mt-4">
-
                 <strong>현재 표현식: </strong>
                 <div style={{ marginTop: '10px' }}></div>
                 <code>{buildExpression()}</code>
             </div>
 
-            {/* 조건 그룹 렌더링 */}
             {getGroups(tokens).map((group, idx) => {
                 const groupId = group[0].groupId;
                 return (
@@ -194,7 +188,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                             {group.map((t, i) => {
                                 const tokenIndex = tokens.findIndex(tok => tok === t);
 
-                                // AND/OR 버튼
                                 if (t.type === 'operator') {
                                     return (
                                         <div className="w-100 text-center mb-2" key={i}>
@@ -210,7 +203,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                                     );
                                 }
 
-                                // 여는 괄호 + 조건
                                 if (t.type === 'left-paren') {
                                     const nextToken = group[i + 1];
                                     if (nextToken?.type === 'condition') {
@@ -232,8 +224,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                                                 <input type="text" className="form-control me-2" style={{ width: '100px' }}
                                                     value={nextToken.value}
                                                     onChange={(e) => updateToken(condIndex, 'value', e.target.value)} />
-
-                                                {/* 삭제 및 이동 버튼 */}
                                                 {groupId !== 0 && (
                                                     <>
                                                         <button className="btn btn-danger btn-sm me-2" onClick={() => deleteGroup(groupId)}>X</button>
@@ -246,7 +236,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                                     }
                                 }
 
-                                // 일반 조건줄 (괄호 없이)
                                 if (t.type === 'condition' && group[i - 1]?.type !== 'left-paren') {
                                     return (
                                         <div className="d-flex align-items-center" key={i}>
@@ -264,8 +253,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                                             <input type="text" className="form-control me-2" style={{ width: '100px' }}
                                                 value={t.value}
                                                 onChange={(e) => updateToken(tokenIndex, 'value', e.target.value)} />
-
-                                            {/* 삭제 및 이동 버튼 */}
                                             {groupId !== 0 && (
                                                 <>
                                                     <button className="btn btn-danger btn-sm me-2" onClick={() => deleteGroup(groupId)}>X</button>
@@ -277,7 +264,6 @@ const ConditionBuilder = ({ onClose, processId }) => {
                                     );
                                 }
 
-                                // 닫는 괄호
                                 if (t.type === 'right-paren') {
                                     return (
                                         <div className="d-flex align-items-center" key={i}>
@@ -299,16 +285,19 @@ const ConditionBuilder = ({ onClose, processId }) => {
                     </div>
                 );
             })}
-            <button className="btn btn-secondary me-2" onClick={() => setActive(!active)}>
+            <button
+                className={`btn btn-sm ${active ? 'btn-success' : 'btn-outline-success'}`}
+                onClick={() => setActive(!active)}
+                type="button"
+            >
                 활성화: {active ? "On" : "Off"}
             </button>
-            <button className="btn btn-primary me-2" onClick={handleSubmit}>전송</button>
-            <button className="btn btn-outline-dark" onClick={onClose}>닫기</button>
+            <button className="btn btn-primary me-2" onClick={handleSubmit}>추가</button>
+            <button className="btn btn-danger" onClick={onClose}>닫기</button>
         </div>
     );
 };
 
-// 토큰들을 groupId 기준으로 그룹핑
 function getGroups(tokens) {
     const groups = [];
     let current = [];
@@ -339,6 +328,5 @@ function inferValueType(value, operator) {
     }
     return 'String';
 }
-
 
 export default ConditionBuilder;

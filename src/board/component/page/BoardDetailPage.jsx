@@ -52,7 +52,7 @@ const BoardDetailPage = () => {
             let nickname = localStorage.getItem("nickname");
             if (nickname == null) {
               setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
-              setTimeout(() => navigate(-1), 1200);
+              setTimeout(() => navigate(-1), 500);
               return;
             }
             if (res.ok) {
@@ -194,7 +194,7 @@ const BoardDetailPage = () => {
           <div className="d-flex justify-content-center mb-3">
             <Link to="/board/list" className="fw-bold text-dark text-decoration-none"
               style={{ fontSize: "2rem", letterSpacing: "1px" }}>
-              게시판 목록
+              여행지 목록
             </Link>
           </div>
 
@@ -333,7 +333,7 @@ const BoardDetailPage = () => {
               }}>
               {board.id &&
                 <Card.Body className="d-flex flex-column py-4" style={{ flex: 1 }}>
-                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} ratingAvg={board.ratingAvg} setCommentFlag={setCommentFlag} category={board.category} region={board.region} />
+                  <CommentPage no={board.id} isLoggedIn={isLoggedIn} ratingAvg={board.ratingAvg} setCommentFlag={setCommentFlag} category={board.category} region={board.region} title={board.title} />
                 </Card.Body>}
             </Card>
           </div>

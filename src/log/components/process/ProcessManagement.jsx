@@ -56,7 +56,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
 
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h3 className="fw-bold mb-0" style={{ letterSpacing: '1px' }}>
-                    <span style={{ color: "#34a853" }}>●</span> Process 관리
+                    <span style={{ color: "#34a853" }}>●</span> 프로세스 관리
                 </h3>
             </div>
             <div className="card shadow-sm rounded-4 mb-4">

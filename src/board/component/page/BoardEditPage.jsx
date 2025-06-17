@@ -30,7 +30,7 @@ const BoardEditPage = () => {
     // Alert 자동 사라짐
     useEffect(() => {
         if (alert.show) {
-            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1800);
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(timer);
         }
     }, [alert.show]);
@@ -54,7 +54,7 @@ const BoardEditPage = () => {
             res => {
                 if (res.ok) {
                     setAlert({ show: true, message: "삭제 성공", type: "success" });
-                    setTimeout(() => navigate('/board/list'), 900); // 성공 메시지 보여주고 이동
+                    setTimeout(() => navigate('/board/list'), 500); // 성공 메시지 보여주고 이동
                 } else {
                     setAlert({ show: true, message: "삭제 실패", type: "danger" });
                 }
@@ -67,7 +67,7 @@ const BoardEditPage = () => {
         let nickname = localStorage.getItem("nickname");
         if (nickname == null) {
             setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
-            setTimeout(() => navigate(-1), 1200);
+            setTimeout(() => navigate(-1), 500);
             return;
         }
         setBoard(prev => ({
@@ -130,7 +130,7 @@ const BoardEditPage = () => {
             const response = await BoardApiClient.addBoard(formData);
             if (response.ok) {
                 setAlert({ show: true, message: "글 수정이 완료되었습니다.", type: "success" });
-                setTimeout(() => navigate('/board/list'), 900); // 0.9초 후 이동, 잔상 없음
+                setTimeout(() => navigate('/board/list'), 500); // 0.5초 후 이동, 잔상 없음
             } else {
                 setAlert({ show: true, message: "글 수정에 실패하였습니다.", type: "danger" });
             }

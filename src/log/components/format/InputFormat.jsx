@@ -45,7 +45,7 @@ const InputFormatModal = ({ onClose, processId }) => {
                     setTimeout(() => {
                         setAlertMessage(null);
                         onClose();
-                    }, 1500);
+                    }, 500);
                 } else {
                     setAlertMessage({ type: 'danger', text: '포맷 추가 실패!' });
                 }
@@ -58,7 +58,7 @@ const InputFormatModal = ({ onClose, processId }) => {
             <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
-                        <h5 className="modal-title">Format 추가 화면</h5>
+                        <h5 className="modal-title">포맷 추가 화면</h5>
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body">
@@ -69,12 +69,12 @@ const InputFormatModal = ({ onClose, processId }) => {
                         )}
                         <form onSubmit={handleSubmit}>
                             <div className="mb-3">
-                                <label className="form-label">Format Name</label>
+                                <label className="form-label">포맷 이름</label>
                                 <input type="text" className="form-control"
                                     value={name} onChange={e => setName(e.target.value)} />
                             </div>
 
-                            <h5>Default Entry</h5>
+                            <h5>기본 정보</h5>
                             {defaultEntry.map((entry, index) => (
                                 <div key={`default-${index}`} className="d-flex mb-2">
                                     <input type="text" className="form-control me-2" placeholder="Key"
@@ -90,7 +90,7 @@ const InputFormatModal = ({ onClose, processId }) => {
                             <button type="button" className="btn btn-success btn-sm mb-3"
                                 onClick={() => addEntry(setDefaultEntry, defaultEntry)}>+ 추가</button>
 
-                            <h5>Format Entry</h5>
+                            <h5>포맷 정보</h5>
                             {formatEntry.map((entry, index) => (
                                 <div key={`format-${index}`} className="d-flex mb-2">
                                     <input type="text" className="form-control me-2" placeholder="Key"
@@ -109,10 +109,10 @@ const InputFormatModal = ({ onClose, processId }) => {
 
                             <div className="d-flex justify-content-between mt-4">
                                 <button type="button" className="btn btn-danger" onClick={onClose}>닫기</button>
-                                <button type="submit" className="btn btn-primary">포맷 전송</button>
-                                <button type="button" className={`btn ${active ? 'btn-success' : 'btn-secondary'}`}
+                                <button type="submit" className="btn btn-primary">추가 </button>
+                                <button type="button" className={`btn ${active ? 'btn-success' : 'btn-outline-success'}`}
                                     onClick={() => setActive(prev => !prev)}>
-                                    활성화: {active ? "True" : "False"}
+                                    활성화: {active ? "On" : "Off"}
                                 </button>
 
                             </div>

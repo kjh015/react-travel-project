@@ -22,7 +22,7 @@ const FilterManagement = ({ processId, onMenuClick }) => {
     useEffect(() => {
         getFilters();
         // eslint-disable-next-line
-    }, [processId]);
+    }, [processId, builderComp, detailComp]);
 
     // 디테일 닫기
     const handleDetailClose = (refresh = false) => {

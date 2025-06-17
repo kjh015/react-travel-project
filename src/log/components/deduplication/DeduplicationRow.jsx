@@ -51,7 +51,7 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
                 <label className="form-label d-flex mb-1 fw-bold justify-content-center">포맷/데이터 조건</label>
                 <div className="col-12">
                     {data.conditions.map((cond, condIdx) => (
-                        <div className="d-flex gap-2 mb-2 align-items-center" key={condIdx}>
+                        <div className="d-flex gap-2 mb-2 align-items-center justify-content-center" key={condIdx}>
                             <select
                                 name="format"
                                 className="form-select"
@@ -82,7 +82,7 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
                         </div>
                     ))}
                     <button className="btn btn-outline-success btn-sm mt-1" type="button" onClick={handleAddCondition}>
-                        + 조건 추가
+                        +
                     </button>
                 </div>
             </div>

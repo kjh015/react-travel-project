@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import SignApiClient from '../service/SignApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { FaTrash, FaUserAlt, FaUserAltSlash, FaUserAstronaut, FaUserClock, FaUserInjured, FaUserNinja, FaUserShield, FaUsersSlash } from 'react-icons/fa';
-import { FaUserCheck, FaUserSecret } from 'react-icons/fa6';
+import { FaTrash, FaUserShield } from 'react-icons/fa';
 
 const MemberManagement = () => {
     const [memberList, setMemberList] = useState([]);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // alert 상태 추가
 
     const getMemberList = () => {
         SignApiClient.getMemberList()
@@ -15,21 +15,20 @@ const MemberManagement = () => {
                         setMemberList(data);
                     }
                     else {
-                        alert("회원 조회 오류");
+                        setAlert({ show: true, message: "회원 조회 오류", type: "danger" });
                     }
                 }))
     }
 
-    const delegateAdmin = ({loginId}) => {
-        SignApiClient.delegateAdmin({loginId})
+    const delegateAdmin = ({ loginId }) => {
+        SignApiClient.delegateAdmin({ loginId })
             .then(res => res.text()
                 .then(msg => {
-                    alert(msg);
-                    if(res.ok){
+                    setAlert({ show: true, message: msg, type: res.ok ? "success" : "danger" });
+                    if (res.ok) {
                         getMemberList();
                     }
                 }))
-
     }
 
     useEffect(() => {
@@ -38,6 +37,15 @@ const MemberManagement = () => {
 
     return (
         <div className="container py-4">
+            {/* Alert 메시지 */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             <div className="card shadow-sm rounded-4 mx-auto" style={{ maxWidth: "1200px" }}>
                 <div className="card-body">
                     <h3 className="fw-bold mb-4 text-primary">회원 관리</h3>
@@ -51,15 +59,15 @@ const MemberManagement = () => {
                                     <th>E-mail</th>
                                     <th>성별</th>
                                     <th>가입일</th>
-                                    <th>권한</th>                                    
+                                    <th>권한</th>
                                     <th>삭제</th>
-                                    <th>관리자 위임</th>
+                                    <th className='text-center'>관리자 위임</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {memberList.length === 0 && (
                                     <tr>
-                                        <td colSpan={8} className="text-center text-secondary py-4">
+                                        <td colSpan={9} className="text-center text-secondary py-4">
                                             회원 정보가 없습니다.
                                         </td>
                                     </tr>
@@ -78,11 +86,14 @@ const MemberManagement = () => {
                                                 <FaTrash />
                                             </button>
                                         </td>
-                                        <td>
-                                            <button className="btn btn-sm btn-outline-success" title="관리자 위임" onClick={() => delegateAdmin({loginId: member.loginId})}>
+                                        <td className='text-center'>
+                                            <button
+                                                className="btn btn-sm btn-outline-success"
+                                                title="관리자 위임"
+                                                onClick={() => delegateAdmin({ loginId: member.loginId })}
+                                            >
                                                 <FaUserShield />
                                             </button>
-                                            
                                         </td>
                                     </tr>
                                 ))}

@@ -28,7 +28,7 @@ const Navbar = () => {
           setTimeout(() => {
             navigate("/");
             setAlert({ show: false, message: '', type: '' }); // 필요시 alert 제거
-          }, 1200);
+          }, 500);
         } else {
           setAlert({ show: true, message: "로그아웃 실패", type: "danger" });
           console.log(res);
@@ -83,7 +83,7 @@ const Navbar = () => {
   // Alert 자동 사라짐
   useEffect(() => {
     if (alert.show) {
-      const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1800);
+      const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
       return () => clearTimeout(timer);
     }
   }, [alert.show]);
@@ -108,12 +108,33 @@ const Navbar = () => {
         )}
       </div>
       {/* ----- 네비바 시작 ----- */}
-      <nav className="navbar navbar-dark bg-dark fixed-top">
+      <nav
+        className="navbar navbar-dark fixed-top"
+        style={{ backgroundColor: "#283593" }}
+      // x
+      >
         <div className="container-fluid px-3 d-flex align-items-center" style={{ minHeight: "60px" }}>
           {/* 왼쪽: 브랜드 */}
-          <div style={{ minWidth: "130px" }}>
-            <Link className="navbar-brand mb-0 h1" to="/" style={{ fontWeight: 600 }}>
-              Travel React
+          <div style={{
+            minWidth: "170px",
+            display: "flex",
+            alignItems: "center"
+          }}>
+            <Link
+              to="/"
+              className="navbar-brand mb-0 h1"
+              style={{
+                display: "inline-block",
+                fontWeight: 700,
+                padding: "0.5rem 1.2rem",
+                borderRadius: "2rem",
+                background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
+                color: "#fff",
+                fontSize: "1.3rem",
+                boxShadow: "0 2px 8px rgba(136, 97, 255, 0.11)"
+              }}
+            >
+              Trip Now
             </Link>
           </div>
           {/* 가운데: 검색(비워둠) */}
@@ -125,6 +146,8 @@ const Navbar = () => {
               className="navbar-toggler"
               onClick={handleShow}
               aria-controls="offcanvasNavbar"
+              style={{ backgroundColor: "#283593", borderColor: "#283593" }}
+            // x
             >
               <span className="navbar-toggler-icon" />
             </Button>
@@ -138,10 +161,14 @@ const Navbar = () => {
           placement="end"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
-          className="text-bg-dark"
-          style={{ width: '270px' }}
+          style={{ width: '270px', backgroundColor: "#283593", color: "white" }}
+        // x
         >
-          <Offcanvas.Header closeButton>
+          <Offcanvas.Header closeButton style={{ backgroundColor: "#283593", color: "white" }}
+
+          // x
+          >
+
             <Offcanvas.Title id="offcanvasNavbarLabel">메뉴</Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
@@ -223,8 +250,6 @@ const Navbar = () => {
                   </Link>
                 </div>
                 <div>
-
-
                   <span className="nav-link w-100 fs-6 text-light bg-secondary bg-opacity-50 rounded px-3 py-2 disabled" style={{ pointerEvents: 'none', opacity: 0.7 }}>
                     <i className="bi bi-person-badge me-2"></i>ID: {curUser}
                   </span>
@@ -239,5 +264,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
-//  const handleLogout에 로그아웃 성공 경고창

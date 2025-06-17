@@ -7,9 +7,8 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     const [fieldList, setFieldList] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    // 조건식 구성 요소들을 저장하는 상태 (tokens)
     const [tokens, setTokens] = useState([]);
-
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 추가
 
     const viewFilter = () => {
         FilterApiClient.viewFilter(filterId).then(
@@ -22,7 +21,7 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                     })
                 }
                 else {
-                    console.log("get 오류");
+                    setAlert({ show: true, message: '필터 정보를 불러오지 못했습니다.', type: 'danger' });
                 }
             }
         )
@@ -37,11 +36,14 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     const removeFilter = () => {
         FilterApiClient.removeFilter(filterId).then(res => {
             if (res.ok) {
-                console.log("remove success");
-                onClose();
+                setAlert({ show: true, message: '필터가 삭제되었습니다.', type: 'danger' });
+                setTimeout(() => {
+                    setAlert({ show: false, message: '', type: '' });
+                    onClose();
+                }, 500);
             }
             else {
-                console.log("remove fail");
+                setAlert({ show: true, message: '필터 삭제에 실패했습니다.', type: 'danger' });
             }
         }
         )
@@ -52,7 +54,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         getFieldList();
     }, []);
 
-    // AND + 조건 추가
     const addCondition = () => {
         const groupId = Date.now();
         setTokens([
@@ -62,7 +63,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         ]);
     };
 
-    // AND + ( + 조건 추가
     const addParenAndConditionWithAnd = () => {
         const groupId = Date.now();
         setTokens([
@@ -73,7 +73,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         ]);
     };
 
-    // ) 괄호 추가
     const addRightParen = () => {
         const groupId = Date.now();
         setTokens([
@@ -82,12 +81,10 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         ]);
     };
 
-    // 조건 그룹 삭제
     const deleteGroup = (groupId) => {
         setTokens(tokens.filter(token => token.groupId !== groupId));
     };
 
-    // 특정 token의 필드 업데이트
     const updateToken = (index, key, value) => {
         const updated = { ...tokens[index], [key]: value };
         const newTokens = [...tokens];
@@ -95,7 +92,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         setTokens(newTokens);
     };
 
-    // 조건 그룹 이동
     const moveGroup = (groupId, direction) => {
         const groups = getGroups(tokens);
         const idx = groups.findIndex(g => g[0].groupId === groupId);
@@ -111,7 +107,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         setTokens(newGroups.flat());
     };
 
-    // 토큰 배열을 표현식 문자열로 변환
     const buildExpression = () => {
         return tokens
             .map((token) => {
@@ -134,7 +129,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
             .join('');
     };
 
-    // 괄호 유효성 검사
     const validateParentheses = () => {
         let balance = 0;
         for (const token of tokens) {
@@ -145,13 +139,10 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         return balance === 0;
     };
 
-
-
-    // 전송 버튼 클릭 시 실행
     const handleSubmit = async (e) => {
 
         if (!validateParentheses()) {
-            alert('❌ 괄호 짝이 맞지 않습니다.');
+            setAlert({ show: true, message: '❌ 괄호 짝이 맞지 않습니다.', type: 'danger' });
             return;
         }
 
@@ -160,10 +151,9 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
             (token.field === '' || token.operator === '' || token.value === '')
         );
         if (hasInvalid) {
-            alert('❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.');
+            setAlert({ show: true, message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
             return;
         }
-        //전송용 tokens 복사 후 valueType 추가
         const tokensWithType = tokens.map(token => {
             if (token.type === 'condition') {
                 return {
@@ -171,31 +161,45 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                     valueType: inferValueType(token.value, token.operator)
                 };
             }
-
             return token;
         });
 
         const expr = buildExpression();
         console.log('전송 문자열:', expr);
 
-        console.log("✅ valueTypes 확인용 로그:");
-        tokensWithType
-            .filter(token => token.type === 'condition')
-            .forEach(token =>
-                console.log(`field=${token.field}, operator=${token.operator}, value=${token.value}, valueType=${token.valueType}`)
-            );
-
         FilterApiClient.updateFilter(filterId, name, active, expr, tokensWithType)
-            .then(res => res.ok ? onClose() : alert("실패"))
-            .catch(err => console.error(err));
+            .then(res => {
+                if (res.ok) {
+                    setAlert({ show: true, message: '저장되었습니다.', type: 'success' });
+                    setTimeout(() => {
+                        setAlert({ show: false, message: '', type: '' });
+                        onClose();
+                    }, 500);
+                } else {
+                    setAlert({ show: true, message: '실패', type: 'danger' });
+                }
+            })
+            .catch(err => {
+                setAlert({ show: true, message: '에러가 발생했습니다.', type: 'danger' });
+            });
     };
 
     return (
         <div className="container mt-5" style={{ maxWidth: 950 }}>
+            {/* Alert 메시지 */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             <div className="mb-2">
                 <h4 className="fw-bold text-primary">필터 수정</h4>
                 <hr />
             </div>
+
 
             {/* 현재 표현식 */}
             <div className="bg-light rounded-4 shadow-sm p-3 mb-4" style={{ fontSize: 17 }}>
@@ -229,13 +233,13 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                             </div>
                         </div>
                         <div className="mb-3">
-                            <button className={`btn ${active ? "btn-success" : "btn-outline-secondary"} w-100 rounded-pill`}
+                            <button className={`btn ${active ? "btn-success" : "btn-outline-success"} w-100 rounded-pill`}
                                 onClick={() => setActive(!active)}>
                                 <span className="fw-bold">활성화: {active ? "ON" : "OFF"}</span>
                             </button>
                         </div>
                         <div className="d-flex gap-2">
-                            <button className="btn btn-primary flex-fill rounded-3" onClick={handleSubmit}>저장</button>
+                            <button className="btn btn-primary flex-fill rounded-3" onClick={handleSubmit}>수정</button>
                             <button className="btn btn-danger flex-fill rounded-3" onClick={removeFilter}>삭제</button>
                             <button className="btn btn-outline-dark flex-fill rounded-3" onClick={onClose}>닫기</button>
                         </div>
@@ -262,7 +266,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                                         {group.map((t, i) => {
                                             const tokenIndex = tokens.findIndex(tok => tok === t);
 
-                                            // AND/OR operator 버튼
                                             if (t.type === 'operator') {
                                                 return (
                                                     <div className="d-flex justify-content-center mb-2" key={i}>
@@ -276,7 +279,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                                                 );
                                             }
 
-                                            // 여는 괄호 + 조건
                                             if (t.type === 'left-paren') {
                                                 const nextToken = group[i + 1];
                                                 if (nextToken?.type === 'condition') {
@@ -317,7 +319,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                                                 }
                                             }
 
-                                            // 일반 조건줄
                                             if (t.type === 'condition' && group[i - 1]?.type !== 'left-paren') {
                                                 return (
                                                     <div className="d-flex align-items-center justify-content-center py-2 border-bottom" key={i}
@@ -350,7 +351,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                                                 );
                                             }
 
-                                            // 닫는 괄호
                                             if (t.type === 'right-paren') {
                                                 return (
                                                     <div className="d-flex align-items-center justify-content-center py-2 border-bottom" key={i}
@@ -382,7 +382,6 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     );
 };
 
-// 토큰들을 groupId 기준으로 그룹핑
 function getGroups(tokens) {
     const groups = [];
     let current = [];

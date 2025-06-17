@@ -23,10 +23,10 @@ const BoardWritePage = () => {
     // Bootstrap Alert 상태 (처음에 show: false)
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
-    // Alert 메시지 자동 닫힘 (1.8초)
+    // Alert 메시지 자동 닫힘 (0.5초)
     useEffect(() => {
         if (alert.show) {
-            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1800);
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(timer);
         }
     }, [alert.show]);
@@ -36,7 +36,7 @@ const BoardWritePage = () => {
         let nickname = localStorage.getItem("nickname");
         if (!nickname) {
             setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
-            setTimeout(() => navigate(-1), 1200); // 1.2초 후 뒤로가기
+            setTimeout(() => navigate(-1), 500); // 0.5초 후 뒤로가기
             return;
         }
         setBoard(prev => ({
@@ -105,7 +105,7 @@ const BoardWritePage = () => {
             const response = await BoardApiClient.addBoard(formData);
             if (response.ok) {
                 setAlert({ show: true, message: "글 작성이 완료되었습니다.", type: "success" });
-                setTimeout(() => navigate('/board/list'), 900); // 0.9초 후 이동, 잔상 없음
+                setTimeout(() => navigate('/board/list'), 500); // 0.5초 후 이동, 잔상 없음
             } else {
                 setAlert({ show: true, message: "글 작성에 실패하였습니다.", type: "danger" });
             }

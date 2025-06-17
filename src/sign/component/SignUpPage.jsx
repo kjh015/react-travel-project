@@ -41,6 +41,8 @@ const SignUpPage = () => {
         gender: '',
     });
 
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -51,14 +53,14 @@ const SignUpPage = () => {
         try {
             const res = await SignApiClient.signUp(formData);
             if (res.ok) {
-                alert("회원가입 성공!");
-                window.location.href = "/";
+                setAlert({ show: true, message: "회원가입 성공!", type: "success" });
+                setTimeout(() => { window.location.href = "/"; }, 500);
             } else {
-                alert("회원가입 실패");
+                setAlert({ show: true, message: "회원가입 실패", type: "danger" });
             }
         } catch (error) {
             console.error("에러 발생:", error);
-            alert("에러가 발생했습니다.");
+            setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
     };
 
@@ -75,6 +77,18 @@ const SignUpPage = () => {
                 <div style={cardStyle} className="card shadow-sm">
                     <div className="card-body p-4">
                         <div className="text-center" style={titleGradient}>회원가입</div>
+                        {/* Alert 메시지 */}
+                        {alert.show && (
+                            <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                                {alert.message}
+                                <button
+                                    type="button"
+                                    className="btn-close"
+                                    aria-label="Close"
+                                    onClick={() => setAlert({ ...alert, show: false })}
+                                ></button>
+                            </div>
+                        )}
                         <form className="needs-validation" noValidate onSubmit={handleSubmit}>
 
                             <div className="mb-3">

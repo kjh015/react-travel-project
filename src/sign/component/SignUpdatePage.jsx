@@ -1,5 +1,3 @@
-// src/pages/SignUpdatePage.jsx
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useEffect, useState } from 'react';
@@ -48,6 +46,7 @@ const SignUpdatePage = () => {
         roles: [],
         regDate: ''
     });
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 추가
     const navigate = useNavigate();
 
     const getMember = () => {
@@ -59,7 +58,7 @@ const SignUpdatePage = () => {
                     });
                 }
                 else {
-                    alert("회원 정보 조회 실패");
+                    setAlert({ show: true, message: "회원 정보 조회 실패", type: "danger" });
                 }
             })
     }
@@ -78,17 +77,19 @@ const SignUpdatePage = () => {
         try {
             const res = await SignApiClient.updateMember(formData);
             if (res.ok) {
-                alert("회원수정 성공");
+                setAlert({ show: true, message: "회원수정 성공", type: "success" });
                 localStorage.setItem('nickname', formData.nickname);
-                navigate("/")
+                setTimeout(() => {
+                    setAlert({ show: false, message: '', type: '' });
+                    navigate("/");
+                }, 500);
             } else {
-                alert("회원수정 실패");
+                setAlert({ show: true, message: "회원수정 실패", type: "danger" });
             }
         } catch (error) {
             console.error("에러 발생:", error);
-            alert("에러가 발생했습니다.");
+            setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
-
     }
 
     useEffect(() => {
@@ -105,6 +106,18 @@ const SignUpdatePage = () => {
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
                 <div style={cardStyle}>
                     <div style={titleGradient} className="text-center mb-4">회원 정보 수정</div>
+                    {/* Alert 메시지 */}
+                    {alert.show && (
+                        <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                            {alert.message}
+                            <button
+                                type="button"
+                                className="btn-close"
+                                aria-label="Close"
+                                onClick={() => setAlert({ ...alert, show: false })}
+                            ></button>
+                        </div>
+                    )}
                     <form className="needs-validation" noValidate onSubmit={handleSubmit}>
                         {/* 닉네임 */}
                         <div style={inputBoxStyle}>

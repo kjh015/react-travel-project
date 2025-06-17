@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 import DeduplicationRow from './DeduplicationRow';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 const initialRow = {
-    conditions: [{ format: '', value: '' }],  // ← 기존 format/value 대신
+    conditions: [{ format: '', value: '' }],
     year: 0,
     month: 0,
     day: 0,
@@ -16,25 +18,23 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
     const [rows, setRows] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 추가
 
     const viewDeduplication = () => {
-        console.log("ID: " + id);
         DeduplicationApiClient.viewDeduplication(id)
             .then(res => res.json()
                 .then(data => {
-                    console.log(data);
                     if (res.ok) {
                         setRows(data.rows);
                         setName(data.name);
                         setActive(data.active);
-                    }
-                    else {
-                        alert("view error");
+                    } else {
+                        setAlert({ show: true, message: "view error", type: "danger" });
                     }
                 })
             )
+            .catch(() => setAlert({ show: true, message: "API 오류", type: "danger" }));
     }
-
 
     const handleChange = (index, updatedRow) => {
         const newRows = [...rows];
@@ -55,8 +55,6 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
     };
 
     const handleSubmit = () => {
-        console.log(rows);
-        console.log("ID: " + id);
         try {
             DeduplicationApiClient.updateDeduplication({
                 id: id,
@@ -65,13 +63,19 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                 rows: rows
             }).then(res => res.text()
                 .then(message => {
-                    alert(message);
-                    onClose();
+                    if (res.ok) {
+                        setAlert({ show: true, message, type: "success" });
+                        setTimeout(() => {
+                            setAlert({ show: false, message: '', type: '' });
+                            onClose();
+                        }, 500);
+                    } else {
+                        setAlert({ show: true, message, type: "danger" });
+                    }
                 })
             )
         } catch (error) {
-            console.error(error);
-            alert('에러 발생');
+            setAlert({ show: true, message: '에러 발생', type: 'danger' });
         }
     };
 
@@ -80,12 +84,18 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
             DeduplicationApiClient.removeDeduplication(id)
                 .then(res => res.text()
                     .then(message => {
-                        alert(message);
-                        onClose();
+                        if (res.ok) {
+                            setAlert({ show: true, message, type: "success" });
+                            setTimeout(() => {
+                                setAlert({ show: false, message: '', type: '' });
+                                onClose();
+                            }, 500);
+                        } else {
+                            setAlert({ show: true, message, type: "danger" });
+                        }
                     }))
         } catch (error) {
-            console.error(error);
-            alert('에러 발생');
+            setAlert({ show: true, message: '에러 발생', type: 'danger' });
         }
     }
 
@@ -93,16 +103,22 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
         viewDeduplication();
     }, []);
 
-
     return (
         <div className="container mt-5">
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             <h3 className="mb-4">중복 제거 설정 수정</h3>
             <div className="mb-3">
-                <label className="form-label">Deduplication Name</label>
+                <label className="form-label">중복 이름</label>
                 <input type="text" className="form-control"
                     value={name} onChange={e => setName(e.target.value)} />
             </div>
-
 
             {rows.map((row, idx) => (
                 <DeduplicationRow
@@ -125,13 +141,13 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                     활성화: {active ? "On" : "Off"}
                 </button>
                 <div className="d-flex justify-content-end">
+                    <button className="btn btn-primary" onClick={handleSubmit}>수정</button>
                     <button className="btn btn-danger" onClick={handleRemove}>삭제</button>
-                    <button className="btn btn-primary" onClick={handleSubmit}>전송</button>
-                </div>
 
+                </div>
             </div>
         </div>
     );
 };
 
-export default DetailDeduplication;       
+export default DetailDeduplication;

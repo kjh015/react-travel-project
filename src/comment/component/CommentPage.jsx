@@ -30,7 +30,7 @@ function ConfirmModal({ show, type = "danger", message, onConfirm, onCancel }) {
     );
 }
 
-const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, region }) => {
+const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, region, title }) => {
     const [commentList, setCommentList] = useState([]);
     const [modal, setModal] = useState({ show: false, type: 'danger', message: '', onConfirm: null });
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
@@ -60,7 +60,7 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, regi
                                 window.dataLayer = window.dataLayer || [];
                                 window.dataLayer.push({
                                     event: "travel_comment_remove", boardId: no, category: category,
-                                    region: region, title: board.title
+                                    region: region, title: title
                                 });
                                 getCommentList();
                                 setCommentFlag?.(prev => !prev);
@@ -76,7 +76,7 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, regi
         window.dataLayer = window.dataLayer || [];
         window.dataLayer.push({
             event: "travel_comment_add", boardId: no, category: category,
-            region: region, title: board.title
+            region: region, title: title
         });
         const nickname = localStorage.getItem("nickname");
         const payload = { rating, content: comment, nickname, no };
@@ -94,7 +94,7 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, regi
 
     useEffect(() => {
         if (alert.show) {
-            const t = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1500);
+            const t = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(t);
         }
     }, [alert.show]);

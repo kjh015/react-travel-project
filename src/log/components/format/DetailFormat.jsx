@@ -8,6 +8,8 @@ const DetailFormat = ({ onClose, formatId }) => {
     const [formatEntry, setFormatEntry] = useState([{ key: '', value: '' }]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
+    const [alertMessage, setAlertMessage] = useState(null);
+
 
     const handleEntryChange = (setter, entries, index, field, value) => {
         const newEntries = [...entries];
@@ -45,11 +47,14 @@ const DetailFormat = ({ onClose, formatId }) => {
     const removeFormat = () => {
         FormatApiClient.removeFormat(formatId).then(res => {
             if (res.ok) {
-                console.log("remove success");
-                onClose();
+                setAlertMessage({ type: 'danger', text: '포맷 삭제 성공!' });
+                setTimeout(() => {
+                    setAlertMessage(null);
+                    onClose();
+                }, 500);
             }
             else {
-                console.log("remove fail");
+                setAlertMessage({ type: 'danger', text: '포맷 삭제 실패' });
             }
         })
     }
@@ -70,11 +75,14 @@ const DetailFormat = ({ onClose, formatId }) => {
         FormatApiClient.updateFormat(formatId, name, active, formatJson, defaultJson).then(
             res => {
                 if (res.ok) {
-                    console.log("포맷 추가 성공");
-                    onClose();
+                    setAlertMessage({ show: true, type: 'success', text: '포맷 추가 성공!' });   // ✅ 경고창 추가
+                    setTimeout(() => {
+                        setAlertMessage(null);
+                        onClose();
+                    }, 500);
                 }
                 else {
-                    console.log("포맷 추가 실패");
+                    setAlertMessage({ show: true, type: 'danger', text: '포맷 추가 실패' });   // ✅ 경고창 추가
                 }
             }
         )
@@ -93,10 +101,10 @@ const DetailFormat = ({ onClose, formatId }) => {
             background: '#fff',
             boxShadow: '0 2px 10px #eee'
         }}>
-            <h2 className="mb-4">Format 상세 화면</h2>
+            <h2 className="mb-4">포맷 상세 화면</h2>
             <form onSubmit={handleSubmit}>
                 <div className="mb-4">
-                    <label className="fw-bold mb-2">Format Name</label>
+                    <label className="fw-bold mb-2">포맷 이름</label>
                     <input
                         type="text"
                         className="form-control"
@@ -111,7 +119,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                     {/* Default Entry (왼쪽) */}
                     <div className="col-md-6 mb-3">
                         <div className="border rounded p-3 h-100">
-                            <h5 className="mb-3">Default Entry</h5>
+                            <h5 className="mb-3">기본 정보</h5>
                             {defaultEntry.map((entry, index) => (
                                 <div key={`default-${index}`} className="d-flex align-items-center mb-2">
                                     <input
@@ -152,7 +160,7 @@ const DetailFormat = ({ onClose, formatId }) => {
                     {/* Format Entry (오른쪽) */}
                     <div className="col-md-6 mb-3">
                         <div className="border rounded p-3 h-100">
-                            <h5 className="mb-3">Format Entry</h5>
+                            <h5 className="mb-3">포맷 정보</h5>
                             {formatEntry.map((entry, index) => (
                                 <div key={`format-${index}`} className="d-flex align-items-center mb-2">
                                     <input
@@ -195,22 +203,20 @@ const DetailFormat = ({ onClose, formatId }) => {
                 <div className="mt-4 d-flex justify-content-between align-items-center">
                     {/* 왼쪽: 상태 및 토글 */}
                     <div className="d-flex align-items-center">
-                        <span className="me-3">
-                            현재 Active 상태: <strong>{active ? "true" : "false"}</strong>
-                        </span>
+
                         <button
+                            className={`btn btn-sm ${active ? 'btn-success' : 'btn-outline-success'}`}
+                            onClick={() => setActive(!active)}
                             type="button"
-                            onClick={() => setActive(prev => !prev)}
-                            className="btn btn-info"
                         >
-                            Active 상태 전환
+                            활성화: {active ? "On" : "Off"}
                         </button>
                     </div>
                     {/* 오른쪽: 수정/삭제/닫기 */}
                     <div>
-                        <button type="submit" className="btn btn-outline-dark me-2">수정</button>
-                        <button type="button" onClick={removeFormat} className="btn btn-outline-warning me-2">삭제</button>
-                        <button type="button" onClick={onClose} className="btn btn-outline-danger">닫기</button>
+                        <button type="submit" className="btn btn-primary me-2">수정</button>
+                        <button type="button" onClick={removeFormat} className="btn btn-danger me-2">삭제</button>
+                        <button type="button" onClick={onClose} className="btn btn-outline-secondary">닫기</button>
                     </div>
                 </div>
             </form>
