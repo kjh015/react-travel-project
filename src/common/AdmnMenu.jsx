@@ -3,14 +3,14 @@ import React from 'react';
 
 const AdmnMenu = ({ onMenuClick }) => {
     return (
-        <div className="list-group text-center" style={{ paddingTop: '15px'}}>
+        <div className="list-group text-center" style={{ paddingTop: '15px' }}>
             <h4>관리자 메뉴</h4>
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('board')}>
-                게시판 관리
+                여행지 관리
             </button>
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('member')}>
                 회원 관리
-            </button>                        
+            </button>
             <button className="list-group-item list-group-item-action" onClick={() => onMenuClick('process')}>
                 프로세스 관리
             </button>
@@ -26,8 +26,8 @@ const AdmnMenu = ({ onMenuClick }) => {
             <button className="list-group-item list-group-item-action" onClick={() => window.open('http://localhost:8085')}>
                 Kibana
             </button>
-            
-            
+
+
         </div>
     );
 };

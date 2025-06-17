@@ -57,7 +57,7 @@ const SignInPage = () => {
     // alert 자동 사라짐 (2초)
     useEffect(() => {
         if (alert.show) {
-            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 2000);
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(timer);
         }
     }, [alert.show]);

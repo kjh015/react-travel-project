@@ -86,7 +86,7 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag }) => {
 
     useEffect(() => {
         if (alert.show) {
-            const t = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1500);
+            const t = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
             return () => clearTimeout(t);
         }
     }, [alert.show]);

@@ -16,18 +16,21 @@ const LogManagement = ({ onMenuClick }) => {
     const [failFilterSortConfig, setFailFilterSortConfig] = useState({ key: 'id', direction: 'desc' });
     const [failDedupSortConfig, setFailDedupSortConfig] = useState({ key: 'id', direction: 'desc' });
 
+    // alert 상태 추가
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+
     useEffect(() => {
         LogDBApiClient.getSuccessList().then(res => {
             if (res.ok) res.json().then(setSuccessList);
-            else alert("Success Log DB get fail");
+            else setAlert({ show: true, message: "Success Log DB get fail", type: "danger" });
         });
         LogDBApiClient.getFailListByFilter().then(res => {
             if (res.ok) res.json().then(setFailFilterList);
-            else alert("Fail-Filter Log DB get fail");
+            else setAlert({ show: true, message: "Fail-Filter Log DB get fail", type: "danger" });
         });
         LogDBApiClient.getFailListByDeduplication().then(res => {
             if (res.ok) res.json().then(setFailDedupList);
-            else alert("Fail-Deduplication Log DB get fail");
+            else setAlert({ show: true, message: "Fail-Deduplication Log DB get fail", type: "danger" });
         });
     }, []);
 
@@ -56,9 +59,18 @@ const LogManagement = ({ onMenuClick }) => {
     const nestedDedup = item => item.deduplication.name;
 
     return (
-        <div className="container mt-4" style={{ paddingTop: '50px'}}>
+        <div className="container mt-4" style={{ paddingTop: '50px' }}>
+            {/* Alert 메시지 */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             <h1>결과 화면</h1>
-            
+
             <div className="row">
                 <p>Test용 p태그</p>
                 <div className="col-12 mb-4">
@@ -101,7 +113,6 @@ const LogManagement = ({ onMenuClick }) => {
                     />
                 </div>
             </div>
-            
         </div>
     );
 };

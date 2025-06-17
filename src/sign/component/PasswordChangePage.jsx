@@ -1,5 +1,3 @@
-// src/pages/PasswordChangePage.jsx
-
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -29,8 +27,8 @@ const PasswordChangePage = () => {
     const [newPwd, setNewPwd] = useState('');
     const [confirmPwd, setConfirmPwd] = useState('');
     const [match, setMatch] = useState(true);
-    const [error, setError] = useState('');
-    const [success, setSuccess] = useState('');
+
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const navigate = useNavigate();
 
     const handleConfirmPwdChange = (e) => {
@@ -47,15 +45,14 @@ const PasswordChangePage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setError('');
-        setSuccess('');
+        setAlert({ show: false, message: '', type: '' });
         if (!curPwd || !newPwd || !confirmPwd) {
-            setError('모든 항목을 입력하세요.');
+            setAlert({ show: true, message: '모든 항목을 입력하세요.', type: 'danger' });
             return;
         }
         if (newPwd !== confirmPwd) {
             setMatch(false);
-            setError('새 비밀번호가 일치하지 않습니다.');
+            setAlert({ show: true, message: '새 비밀번호가 일치하지 않습니다.', type: 'danger' });
             return;
         }
         const payload = {
@@ -66,13 +63,13 @@ const PasswordChangePage = () => {
         try {
             const res = await SignApiClient.updatePassword(payload);
             if (res.ok) {
-                setSuccess('비밀번호가 변경되었습니다.');
+                setAlert({ show: true, message: '비밀번호가 변경되었습니다.', type: 'success' });
                 setTimeout(() => navigate('/'), 1300);
             } else {
-                setError('비밀번호 변경에 실패했습니다.');
+                setAlert({ show: true, message: '비밀번호 변경에 실패했습니다.', type: 'danger' });
             }
         } catch {
-            setError('서버 오류가 발생했습니다.');
+            setAlert({ show: true, message: '서버 오류가 발생했습니다.', type: 'danger' });
         }
     };
 
@@ -98,6 +95,18 @@ const PasswordChangePage = () => {
             <main className="flex-grow-1 d-flex align-items-center justify-content-center">
                 <div style={cardStyle}>
                     <div style={titleGradient} className="text-center mb-4">비밀번호 변경</div>
+                    {/* Alert */}
+                    {alert.show && (
+                        <div className={`alert alert-${alert.type} py-2 alert-dismissible fade show`} role="alert">
+                            {alert.message}
+                            <button
+                                type="button"
+                                className="btn-close"
+                                aria-label="Close"
+                                onClick={() => setAlert({ ...alert, show: false })}
+                            ></button>
+                        </div>
+                    )}
                     <form onSubmit={handleSubmit}>
                         <div className="mb-3">
                             <label className="form-label">현재 비밀번호</label>
@@ -135,8 +144,6 @@ const PasswordChangePage = () => {
                                 </div>
                             )}
                         </div>
-                        {error && <div className="alert alert-danger py-2">{error}</div>}
-                        {success && <div className="alert alert-success py-2">{success}</div>}
                         <div className="d-flex gap-2 mt-4">
                             <button
                                 type="button"
@@ -148,7 +155,7 @@ const PasswordChangePage = () => {
                             <button
                                 type="submit"
                                 className="btn btn-primary flex-fill"
-                                disabled={!!success}
+                                disabled={alert.type === 'success'}
                             >
                                 변경 완료
                             </button>

@@ -22,7 +22,7 @@ const MyPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   // Alert 띄우기
-  const showAlert = (message, type = "success", delay = 1600, redirect) => {
+  const showAlert = (message, type = "success", delay = 500, redirect) => {
     setAlert({ show: true, message, type });
     setTimeout(() => {
       setAlert({ show: false, message: '', type: '' });
@@ -38,7 +38,7 @@ const MyPage = () => {
         if (res.ok) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('nickname');
-          showAlert(message, "success", 1200, () => window.location.href = '/');
+          showAlert(message, "success", 500, () => window.location.href = '/');
         } else {
           showAlert(message, "danger");
         }
@@ -65,7 +65,7 @@ const MyPage = () => {
       if (res.ok) {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('nickname');
-        showAlert("로그아웃 성공", "success", 1000, () => window.location.href = '/');
+        showAlert("로그아웃 성공", "success", 500, () => window.location.href = '/');
       } else {
         showAlert("로그아웃 실패", "danger");
       }

@@ -9,7 +9,7 @@ const LikeListPage = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const nickname = localStorage.getItem("nickname");    
+    const nickname = localStorage.getItem("nickname");
 
     const getFavoriteList = async () => {
         setLoading(true);
@@ -19,7 +19,7 @@ const LikeListPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 setBoards(data);
-                
+
             } else {
                 setError(new Error("서버 응답 에러"));
             }
@@ -34,11 +34,11 @@ const LikeListPage = () => {
         getFavoriteList();
     }, []);
 
-    if (loading) return <div className="text-center mt-5" style={{paddingTop: "100px"}}>로딩 중...</div>;
-    if (error) return <div className="text-danger mt-5" style={{paddingTop: "100px"}}>에러 발생: {error.message}</div>;
+    if (loading) return <div className="text-center mt-5" style={{ paddingTop: "100px" }}>로딩 중...</div>;
+    if (error) return <div className="text-danger mt-5" style={{ paddingTop: "100px" }}>에러 발생: {error.message}</div>;
 
     return (
-        <div className="container mt-4" style={{ backgroundColor: '#eaf4fc', minHeight: '100vh' }}>
+        <div className="container mt-4">
             <div className="d-flex justify-content-between align-items-center mb-3">
                 <h4 className="mt-5">찜 목록</h4>
 

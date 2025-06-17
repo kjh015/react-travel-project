@@ -15,3 +15,19 @@ BoardEditPage: useEffect, handleSubmit, try/catch 부분. setAlert 사용
 BoardList: goToWrite에 setAlert추가
 WriteComment: handleSubmit에 setAlert추가
 MyPage: 회원 탈퇴 부분에 모달창 추가, handleLogout showAlert추가
+
+
+DetailDeduplication: setAlert추가
+InputDeduplication: setAlert추가
+LogManagement: setAlert추가
+ConditionBuilder: setAlert추가
+DetailFilter: setAlert추가
+InputFormat: setAlert추가
+MemberManagement: setAlert추가
+PasswordChangePage: setAlert추가
+SignUpdatePage: setAlert추가
+SignUpPage: setAlert
+
+
+
+자동으로 사라지는 setAlert 0.5초로 고정(500)

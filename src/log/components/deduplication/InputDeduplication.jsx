@@ -3,7 +3,7 @@ import DeduplicationRow from './DeduplicationRow';
 import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 
 const initialRow = {
-    conditions: [{ format: '', value: '' }],  // ← 기존 format/value 대신
+    conditions: [{ format: '', value: '' }],
     year: 0,
     month: 0,
     day: 0,
@@ -16,6 +16,8 @@ const InputDeduplication = ({ processId, onClose }) => {
     const [rows, setRows] = useState([initialRow]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
+    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 
+
 
     const handleChange = (index, updatedRow) => {
         const newRows = [...rows];
@@ -36,7 +38,6 @@ const InputDeduplication = ({ processId, onClose }) => {
     };
 
     const handleSubmit = () => {
-        console.log(rows);
         try {
             DeduplicationApiClient.addDeduplication({
                 processId,
@@ -45,13 +46,19 @@ const InputDeduplication = ({ processId, onClose }) => {
                 rows
             }).then(res => res.text()
                 .then(message => {
-                    alert(message);
-                    onClose();
+                    if (res.ok) {
+                        setAlert({ show: true, message, type: "success" });
+                        setTimeout(() => {
+                            setAlert({ show: false, message: '', type: '' });
+                            onClose();
+                        }, 500);
+                    } else {
+                        setAlert({ show: true, message, type: "danger" });
+                    }
                 })
             )
         } catch (error) {
-            console.error(error);
-            alert('에러 발생');
+            setAlert({ show: true, message: '에러 발생', type: 'danger' });
         }
     };
 
@@ -66,14 +73,23 @@ const InputDeduplication = ({ processId, onClose }) => {
                 margin: '0 auto'
             }}
         >
+            {/* Alert 메시지 */}
+            {alert.show && (
+                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
+                    {alert.message}
+                    <button type="button" className="btn-close" aria-label="Close"
+                        onClick={() => setAlert({ ...alert, show: false })}></button>
+                </div>
+            )}
+
             {/* 타이틀과 닫기 */}
             <div className="d-flex justify-content-between align-items-center mb-3">
-
+                {/* 필요시 타이틀/닫기 버튼 추가 */}
             </div>
 
             {/* 이름 입력 */}
             <div className="mb-3">
-                <label className="form-label fw-bold">Deduplication Name</label>
+                <label className="form-label fw-bold">중복 이름</label>
                 <input
                     type="text"
                     className="form-control"
@@ -96,7 +112,6 @@ const InputDeduplication = ({ processId, onClose }) => {
 
             {/* 조건 목록 */}
             <div>
-
                 {rows.map((row, idx) => (
                     <DeduplicationRow
                         key={idx}
@@ -115,7 +130,7 @@ const InputDeduplication = ({ processId, onClose }) => {
                     + 조건 추가
                 </button>
                 <button className="btn btn-primary" onClick={handleSubmit}>
-                    전송
+                    추가
                 </button>
             </div>
         </div>

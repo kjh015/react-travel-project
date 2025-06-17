@@ -3,30 +3,16 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import BoardApiClient from "../../service/BoardApiClient";
 import BoardSearch from "./BoardSearch";
-import { Tooltip, Card, Badge, OverlayTrigger, Carousel } from "react-bootstrap";
-
 
 const BoardList = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("정렬");
+  const [sort, setSort] = useState("ratingAvg");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
-  const [alert, setAlert] = useState({ show: false, message: '', type: '' });
-  const [board, setBoard] = useState({
-    id: '', title: '', content: '', memberNickname: '',
-    travelPlace: '', address: '', category: '', region: '', imagePaths: [],
-    createdDate: '', modifiedDate: '', ratingAvg: '', viewCount: '', favoriteCount: '', commentCount: ''
-  });
-  const categoryColors = {
-    축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
-    쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
-  };
-  const regionColors = {
-    서울: "primary", 부산: "info", 제주: "success",
-  };
+
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("category") || "";
@@ -36,17 +22,15 @@ const BoardList = () => {
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   useEffect(() => {
-    // setLoading(true);
-    // setError(true);
     setSearched(true);
-    getBoardList();
+    getBoardListAll();
   }, [location.search, sort, direction, page]);
 
   const goToWrite = () => {
     if (isLoggedIn) {
       navigate("/board/write");
     } else {
-      setAlert({ show: true, message: "로그인 필요", type: "danger" });
+      alert("로그인 필요");
     }
   };
 
@@ -86,7 +70,6 @@ const BoardList = () => {
     }
   };
 
-
   const formatDate = (isoString) => {
     if (!isoString) return "";
     return isoString.substring(0, 16).replace("T", " ");
@@ -111,14 +94,44 @@ const BoardList = () => {
   }
 
   if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
-  if (error) return <div className="text-center text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
+  if (error) return <div className="text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
 
-  // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
     <div
       className="bg-light min-vh-100 py-4"
       style={{ overflowX: "hidden" }}
     >
+      {/* 그라데이션 문구 */}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "24px",
+          marginTop: "12px",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "2.8rem",
+            fontWeight: 800,
+            letterSpacing: "0.01em",
+            background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            color: "transparent",
+            textAlign: "center",
+            margin: 0,
+            lineHeight: 1.2,
+          }}
+        >
+          이번엔 어디로??
+        </h1>
+      </div>
+
+      <BoardSearch />
       <div className="row justify-content-center mt-3" style={{ margin: 0 }}>
         <div className="col-lg-10 col-md-12" style={{ padding: 0 }}>
           <div
@@ -127,14 +140,13 @@ const BoardList = () => {
               borderRadius: "2rem",
               overflow: "hidden",
               background: "#fff",
-              width: "100%",            // 3. 카드가 col보다 더 커지는 걸 막음
-              maxWidth: "100%",         // 가로폭 절대 넘지 않음
+              width: "100%",
+              maxWidth: "100%",
             }}
           >
             <div className="container py-4">
-              <BoardSearch />
               <div className="card-header bg-white d-flex justify-content-between align-items-center py-3 px-0 border-0" style={{ background: "none" }}>
-                <h4 className="mb-0 fw-bold">게시판 목록</h4>
+                <h4 className="mb-0 fw-bold">여행지 목록</h4>
                 <div className="d-flex gap-2 align-items-center">
                   <div className="dropdown">
                     <button
@@ -170,11 +182,7 @@ const BoardList = () => {
                   <thead className="table-light">
                     <tr>
                       <th className="text-center" style={{ width: "8%" }}>#</th>
-                      <th className="text-center" style={{ width: "8%" }}>지역</th>
-                      <th className="text-center" style={{ width: "8%" }}>카테고리</th>
                       <th className="text-center">제목</th>
-
-
                       <th className="text-center" style={{ width: "15%" }}>작성자</th>
                       <th className="text-center" style={{ width: "20%" }}>날짜</th>
                     </tr>
@@ -182,14 +190,14 @@ const BoardList = () => {
                   <tbody>
                     {!searched && (
                       <tr>
-                        <td colSpan={6} className="text-center py-5 text-secondary">
+                        <td colSpan={4} className="text-center py-5 text-secondary">
                           게시글이 없습니다. 검색해주세요.
                         </td>
                       </tr>
                     )}
                     {searched && !loading && boards.length === 0 && (
                       <tr>
-                        <td colSpan={6} className="text-center py-5 text-secondary">
+                        <td colSpan={4} className="text-center py-5 text-secondary">
                           게시글이 없습니다.
                         </td>
                       </tr>
@@ -199,23 +207,17 @@ const BoardList = () => {
                         <tr key={board.id}>
                           <td className="text-center">{idx + 1 + page * 10}</td>
                           <td className="text-center">
-                            {/* 게시판 표시 */}
-                            <Badge bg="primary">서울</Badge>    {/* 테스트용. {board.region} 사용 */}
-
-                          </td>
-                          <td className="text-center">
-                            <Badge bg="secondary">관광</Badge>  {/* 테스트용. {board.category} 사용 */}
-                          </td>
-                          <td className="text-center">
                             <Link
                               to={`/board/detail?no=${board.id}`}
-                              className="text-decoration-none fw-medium"
+                              className="text-decoration-none d-inline-block w-100"
+                              style={{
+                                textAlign: "center",
+                                fontWeight: "500"
+                              }}
                             >
                               {board.title}
                             </Link>
                           </td>
-
-
                           <td className="text-center">{board.memberNickname}</td>
                           <td className="text-center">{formatDate(board.modifiedDate)}</td>
                         </tr>
@@ -223,7 +225,7 @@ const BoardList = () => {
                     )}
                     {loading && (
                       <tr>
-                        <td colSpan={6} className="text-center py-5">
+                        <td colSpan={4} className="text-center py-5">
                           로딩 중...
                         </td>
                       </tr>
@@ -235,8 +237,21 @@ const BoardList = () => {
                     에러 발생: {error.message}
                   </div>
                 )}
-                <button onClick={handlePrevPage}>이전</button>
-                <button onClick={handleNextPage}>다음</button>
+                <div className="d-flex justify-content-center gap-2 py-4">
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={handlePrevPage}
+                    disabled={page === 0}
+                  >
+                    이전
+                  </button>
+                  <button
+                    className="btn btn-outline-secondary"
+                    onClick={handleNextPage}
+                  >
+                    다음
+                  </button>
+                </div>
               </div>
             </div>
           </div>

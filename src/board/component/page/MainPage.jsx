@@ -34,22 +34,43 @@ const MainPage = () => {
           minHeight: "370px",
           background: `linear-gradient(180deg, rgba(70,70,110,0.14) 15%, rgba(255,255,255,0.91) 65%), url(${tgd3}) center/cover no-repeat`,
           position: "relative",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "32px",
         }}
       >
         {/* 오버레이 텍스트 */}
         <div
           style={{
-            position: "absolute",
-            top: 50, // 네비바 높이
-            left: "50%",
-            transform: "translateX(-50%)",
-            width: "100%",
-            maxWidth: "920px",
-            zIndex: 3,
-            textAlign: "center",
-            padding: "56px 0 24px 0"
+
+            borderRadius: "1.3rem", // 기존 2rem → 1.3rem
+            boxShadow: "0 2px 8px rgba(146,124,200,0.13)",
+
+            padding: "0.7rem 2.2rem", // 기존 1.6rem 3.8rem → 0.7rem 2.2rem
+            minWidth: "180px",         // 기존 320px → 180px
+            maxWidth: "90vw",          // 조금 더 반응형
+            display: "inline-block",
           }}
         >
+          <h2
+            style={{
+              fontSize: "2.2rem",          // 원하는 경우 폰트도 소폭 축소
+              fontWeight: 800,
+              letterSpacing: "0.01em",
+              background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              backgroundClip: "text",
+              color: "transparent",
+              textAlign: "center",
+              margin: 0,
+              lineHeight: 1.2,
+              fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif"
+            }}
+          >
+            Trip Now
+          </h2>
           <h2 style={{
             color: "#272444",
             fontWeight: 800,
@@ -93,43 +114,55 @@ const MainPage = () => {
           marginTop: "-120px"
         }}
       >
-        {/* 카드박스: 그림자+라운드 효과 */}
-        <div
-
-        >
+        <div>
           <BoardSearch />
-          <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet" />
-          <div
-
-          >
+          <div style={{ marginBottom: "32px" }}>
             <h2 style={{
               textAlign: "center",
               width: "100%",
-              color: "#998fc7",
-              fontWeight: 800,
-              fontSize: "2.3rem",
-              margin: "0 0 24px 0",
-              letterSpacing: "-0.04em"
+              fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+              color: "#a68eff", // 더 선명한 퍼플
+              fontWeight: 900,
+              fontSize: "2.35rem",
+              margin: "0 0 26px 0",
+              letterSpacing: "-0.03em",
+              textShadow: "0 2px 16px rgba(92,67,226,0.08)"
             }}>
               실시간 인기 여행지
             </h2>
             <MainPageCardsLayout top5Board={top5Board} />
           </div>
         </div>
-
       </div>
 
-      <div style={{ width: "100%", minHeight: "100vh", background: "#f5f6ff" }}>
+      <div>
         <div className="my-5">
-          <h4 className="text-center mb-4">지역별 순위</h4>
+          <h4 style={{
+            textAlign: "center",
+            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+            color: "#b7aaff",
+            fontWeight: 700,
+            fontSize: "1.55rem",
+            letterSpacing: "-0.03em",
+            marginBottom: "1.4rem"
+          }}
+            className="text-center mb-4">지역별 순위</h4>
           <MainPageCardsLayout2 top5Board={top5Board} />
         </div>
         <div className="my-5">
-          <h4 className="text-center mb-4">카테고리별 순위</h4>
+          <h4 style={{
+            textAlign: "center",
+            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+            color: "#b7aaff",
+            fontWeight: 700,
+            fontSize: "1.55rem",
+            letterSpacing: "-0.03em",
+            marginBottom: "1.4rem"
+          }}
+            className="text-center mb-4">카테고리별 순위</h4>
           <MainPageCardsLayout2 top5Board={top5Board} />
         </div>
       </div>
-
 
       <Footers />
     </div>

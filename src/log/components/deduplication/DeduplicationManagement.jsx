@@ -108,6 +108,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
                     <td>{formatDate(ddp.createdTime)}</td>
                     <td>{formatDate(ddp.updatedTime)}</td>
                     <td>
+
                       <button
                         className={`btn btn-sm ${ddp.active ? "btn-success" : "btn-outline-secondary"}`}
                         onClick={() => handleToggleActive(ddp.id, ddp.active)}

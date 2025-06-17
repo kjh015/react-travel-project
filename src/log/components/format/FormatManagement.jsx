@@ -82,7 +82,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                                     <td>{format.updatedTime && formatDate(format.updatedTime)}</td>
                                     <td>
                                         <button
-                                            className={`btn btn-sm ${format.active ? 'btn-success' : 'btn-outline-success'}`}
+                                            className={`btn btn-sm ${format.active ? 'btn-primary' : 'btn-outline-primary'}`}
                                         >
                                             {format.active ? 'ON' : 'OFF'}
                                         </button>
