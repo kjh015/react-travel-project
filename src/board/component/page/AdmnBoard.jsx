@@ -49,7 +49,7 @@ const AdmnBoard = () => {
         if (window.confirm("정말 적재하시겠습니까?")) {
             BoardApiClient.migrateBoard().then(
                 res => res.text().then(
-                    message => alert(message)
+                    msg => setAlert({show: true, message: msg, type: "success"})
                 )
             );
         }
