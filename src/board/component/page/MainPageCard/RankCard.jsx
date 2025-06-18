@@ -33,15 +33,15 @@ const RankCard = ({ boardId, score, rank }) => {
         createdDate: '', modifiedDate: ''
     });
 
-    useEffect(() => {
-        BoardApiClient.getBoard(boardId).then(
-            res => {
-                if (res.ok) {
-                    res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
-                }
-            }
-        );
-    }, [boardId]);
+    // useEffect(() => {
+    //     BoardApiClient.getBoard(boardId).then(
+    //         res => {
+    //             if (res.ok) {
+    //                 res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
+    //             }
+    //         }
+    //     );
+    // }, [boardId]);
 
     return (
         <div
@@ -74,7 +74,7 @@ const RankCard = ({ boardId, score, rank }) => {
                 <div style={{ position: "relative", width: "100%" }}>
                     {board.imagePaths && board.imagePaths.length > 0 ? (
                         <img
-                            src={`http://localhost:8000/board${board.imagePaths[0]}`}
+                            src={`http://14.63.178.161${board.imagePaths[0]}`}
                             alt="Main visual"
                             className="card-img-top"
                             style={{

@@ -29,6 +29,12 @@ const BoardSearch = () => {
         if (board.category.length) params.append("category", board.category);
         if (board.region) params.append("region", board.region);
         if (keyword) params.append("keyword", keyword);
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+            event: "travel_search_click",
+            category: board.category ? board.category : "없음",
+            region: board.region ? board.region : "없음"
+        });
         navigate(`/board/list?${params.toString()}`);
     };
 

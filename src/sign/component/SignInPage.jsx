@@ -25,14 +25,19 @@ const SignInPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('accessToken', data.accessToken);
-                const resNN = await SignApiClient.getNickname(getLoginIdFromToken());
-                const message = await resNN.text();
-                if (resNN.ok) {
-                    localStorage.setItem('nickname', message);
+                const resDetail = await SignApiClient.getMemberDetail(getLoginIdFromToken());
+                const member = await resDetail.json();
+                if (resDetail.ok) {
+                    localStorage.setItem('nickname', member.nickname);
+                    window._mtm = window._mtm || [];
+                    window._mtm.push({
+                        nickname: member.nickname,
+                        gender: member.gender
+                    });
                     setAlert({ show: false, message: "로그인 성공!", type: "success" });    //사용자 눈에 안보임
                     setTimeout(() => navigate("/"), 1000); // 1.2초 후 이동
                 } else {
-                    setAlert({ show: true, message, type: "danger" });
+                    setAlert({ show: true, message: "로그인 실패", type: "danger" });
                 }
             } else {
                 const message = await res.text();

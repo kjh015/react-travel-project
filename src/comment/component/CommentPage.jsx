@@ -30,7 +30,7 @@ function ConfirmModal({ show, type = "danger", message, onConfirm, onCancel }) {
     );
 }
 
-const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag }) => {
+const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag, category, region, title }) => {
     const [commentList, setCommentList] = useState([]);
     const [modal, setModal] = useState({ show: false, type: 'danger', message: '', onConfirm: null });
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
@@ -57,6 +57,11 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag }) => {
                         .then(message => {
                             setAlert({ show: true, message, type: res.ok ? "success" : "danger" });
                             if (res.ok) {
+                                window.dataLayer = window.dataLayer || [];
+                                window.dataLayer.push({
+                                    event: "travel_comment_remove", boardId: no, category: category,
+                                    region: region, title: title
+                                });
                                 getCommentList();
                                 setCommentFlag?.(prev => !prev);
                             }
@@ -69,7 +74,10 @@ const CommentPage = ({ no, isLoggedIn, ratingAvg, setCommentFlag }) => {
     // [2] 댓글 등록/수정 등은 바로 Alert
     const addComment = ({ rating, comment }) => {
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({ event: "travel_comment_add", boardId: no });
+        window.dataLayer.push({
+            event: "travel_comment_add", boardId: no, category: category,
+            region: region, title: title
+        });
         const nickname = localStorage.getItem("nickname");
         const payload = { rating, content: comment, nickname, no };
         CommentApiClient.addComment(payload)
