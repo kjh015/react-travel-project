@@ -14,11 +14,10 @@ const initialRow = {
     second: 0,
 };
 
-const DetailDeduplication = ({ processId, id, onClose }) => {
+const DetailDeduplication = ({ processId, id, onClose, showOutAlert }) => {
     const [rows, setRows] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 추가
 
     const viewDeduplication = () => {
         DeduplicationApiClient.viewDeduplication(id)
@@ -29,11 +28,11 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                         setName(data.name);
                         setActive(data.active);
                     } else {
-                        setAlert({ show: true, message: "view error", type: "danger" });
+                        showOutAlert({ message: "view error", type: "danger" });
                     }
                 })
             )
-            .catch(() => setAlert({ show: true, message: "API 오류", type: "danger" }));
+            .catch(() => showOutAlert({ message: "API 오류", type: "danger" }));
     }
 
     const handleChange = (index, updatedRow) => {
@@ -64,18 +63,18 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
             }).then(res => res.text()
                 .then(message => {
                     if (res.ok) {
-                        setAlert({ show: true, message, type: "success" });
+                        showOutAlert({ message, type: "success" });
                         setTimeout(() => {
-                            setAlert({ show: false, message: '', type: '' });
-                            onClose();
-                        }, 500);
+                            onClose(true);
+                        }
+                        );
                     } else {
-                        setAlert({ show: true, message, type: "danger" });
+                        showOutAlert({ message, type: "danger" });
                     }
                 })
             )
         } catch (error) {
-            setAlert({ show: true, message: '에러 발생', type: 'danger' });
+            showOutAlert({ message: '에러 발생', type: 'danger' });
         }
     };
 
@@ -85,33 +84,27 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                 .then(res => res.text()
                     .then(message => {
                         if (res.ok) {
-                            setAlert({ show: true, message, type: "success" });
+                            showOutAlert({ message, type: "success" });
                             setTimeout(() => {
-                                setAlert({ show: false, message: '', type: '' });
-                                onClose();
-                            }, 500);
+                                onClose(true);
+                            });
                         } else {
-                            setAlert({ show: true, message, type: "danger" });
+                            showOutAlert({ message, type: "danger" });
                         }
                     }))
         } catch (error) {
-            setAlert({ show: true, message: '에러 발생', type: 'danger' });
+            showOutAlert({ message: '에러 발생', type: 'danger' });
         }
     }
 
     useEffect(() => {
         viewDeduplication();
+        // eslint-disable-next-line
     }, []);
 
     return (
         <div className="container mt-5">
-            {alert.show && (
-                <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
-                    {alert.message}
-                    <button type="button" className="btn-close" aria-label="Close"
-                        onClick={() => setAlert({ ...alert, show: false })}></button>
-                </div>
-            )}
+            {/* alert 없음 */}
 
             <h3 className="mb-4">중복 제거 설정 수정</h3>
             <div className="mb-3">
@@ -143,7 +136,6 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
                 <div className="d-flex justify-content-end">
                     <button className="btn btn-primary" onClick={handleSubmit}>수정</button>
                     <button className="btn btn-danger" onClick={handleRemove}>삭제</button>
-
                 </div>
             </div>
         </div>
@@ -151,3 +143,15 @@ const DetailDeduplication = ({ processId, id, onClose }) => {
 };
 
 export default DetailDeduplication;
+
+
+
+
+
+
+
+
+
+
+
+

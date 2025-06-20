@@ -3,23 +3,18 @@ import ProcessApiClient from '../../service/ProcessApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const EditProcess = ({ onClose, processId, _name }) => {
+const EditProcess = ({ onClose, processId, _name, showAlert }) => {
     const [name, setName] = useState(_name);
-    const [alertMessage, setAlertMessage] = useState(null);   // ✅ 추가
+    // ✅ 추가
 
     const updateProcess = () => {
         ProcessApiClient.updateProcess(processId, name).then(
             res => {
                 if (res.ok) {
-                    console.log("update success");
-                    setAlertMessage({ type: 'success', text: '프로세스 수정 성공!' });   // ✅ 경고창 추가
-                    setTimeout(() => {
-                        setAlertMessage(null);
-                        onClose();
-                    }, 500);
+                    showAlert("success", "수정 성공!");
+                    onClose();
                 } else {
-                    console.log("update fail");
-                    setAlertMessage({ type: 'danger', text: '프로세스 수정 실패!' });
+                    showAlert("danger", "프로세스 수정 실패!");
                 }
             }
         );
@@ -30,13 +25,10 @@ const EditProcess = ({ onClose, processId, _name }) => {
     const removeProcess = () => {
         ProcessApiClient.removeProcess(processId).then(res => {
             if (res.ok) {
-                setAlertMessage({ show: true, type: 'danger', text: '프로세스 삭제 성공!' });   // ✅ 경고창 추가
-                setTimeout(() => {
-                    setAlertMessage(null);
-                    onClose();
-                }, 500);
+                showAlert("danger", "삭제 성공!");
+                onClose();
             } else {
-                setAlertMessage({ show: true, type: 'danger', text: '프로세스 실패' });
+                showAlert("danger", "삭제 실패!");
             }
         });
     };
@@ -46,12 +38,7 @@ const EditProcess = ({ onClose, processId, _name }) => {
         <div className="card mt-4 p-4 mx-auto" style={{ maxWidth: '400px' }}>
             <h4 className="mb-3">Process 수정</h4>
 
-            {/* ✅ alert 표시 */}
-            {alertMessage && (
-                <div className={`alert alert-${alertMessage.type}`} role="alert">
-                    {alertMessage.text}
-                </div>
-            )}
+
 
 
             <input

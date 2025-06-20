@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import FilterApiClient from '../../service/FilterApiClient';
 
 const operatorOptions = ['>', '<', '>=', '<=', '==', '!=', 'Equals'];
 
-const ConditionBuilder = ({ onClose, processId }) => {
+const ConditionBuilder = ({ onClose, processId, showOutAlert }) => {
     const [fieldList, setFieldList] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
@@ -12,7 +12,12 @@ const ConditionBuilder = ({ onClose, processId }) => {
     ]);
 
     // alert 상태
-    const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+    const [alert, setAlert] = useState(null);
+
+    const showAlert = useCallback(({ type, message }) => {
+        setAlert({ type, message });
+    }, []);
+
 
     useEffect(() => {
         FilterApiClient.getFormatKeys(processId)
@@ -107,7 +112,7 @@ const ConditionBuilder = ({ onClose, processId }) => {
 
     const handleSubmit = async (e) => {
         if (!validateParentheses()) {
-            setAlert({ show: true, message: '❌ 괄호 짝이 맞지 않습니다.', type: 'danger' });
+            showAlert({ message: "❌ 괄호 짝이 맞지 않습니다.", type: 'danger' });
             return;
         }
 
@@ -116,7 +121,7 @@ const ConditionBuilder = ({ onClose, processId }) => {
             (token.field === '' || token.operator === '' || token.value === '')
         );
         if (hasInvalid) {
-            setAlert({ show: true, message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
+            showAlert({ message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
             return;
         }
 
@@ -136,28 +141,24 @@ const ConditionBuilder = ({ onClose, processId }) => {
         FilterApiClient.addFilter(processId, name, active, expr, tokensWithType)
             .then(res => {
                 if (res.ok) {
-                    setAlert({ show: true, message: '필터가 성공적으로 추가되었습니다.', type: 'success' });
-                    setTimeout(() => {
-                        setAlert({ show: false, message: '', type: '' });
-                        onClose();
-                    }, 500);
+                    showOutAlert({ message: '필터 추가 성공', type: 'success' });
+                    onClose();
                 } else {
-                    setAlert({ show: true, message: '실패', type: 'danger' });
+                    showAlert({ message: '실패', type: 'danger' });
                 }
             })
             .catch(err => {
-                setAlert({ show: true, message: '에러가 발생했습니다.', type: 'danger' });
+                showAlert({ message: '에러가 발생했습니다.', type: 'danger' });
             });
     };
 
     return (
         <div className="container mt-4 text-center" style={{ maxWidth: '400px', margin: '0 auto' }}>
             {/* Alert 메시지 */}
-            {alert.show && (
+            {alert && (
                 <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
                     {alert.message}
-                    <button type="button" className="btn-close" aria-label="Close"
-                        onClick={() => setAlert({ ...alert, show: false })}></button>
+
                 </div>
             )}
 

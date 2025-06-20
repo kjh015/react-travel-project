@@ -3,12 +3,11 @@ import FormatApiClient from '../../service/FormatApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const InputFormatModal = ({ onClose, processId }) => {
+const InputFormat = ({ onClose, processId, showAlert }) => {
     const [defaultEntry, setDefaultEntry] = useState([{ key: '', value: '' }]);
     const [formatEntry, setFormatEntry] = useState([{ key: '', value: '' }]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
-    const [alertMessage, setAlertMessage] = useState(null);
 
     const handleEntryChange = (setter, entries, index, field, value) => {
         const newEntries = [...entries];
@@ -41,13 +40,10 @@ const InputFormatModal = ({ onClose, processId }) => {
         FormatApiClient.addFormat(processId, name, active, formatJson, defaultJson).then(
             res => {
                 if (res.ok) {
-                    setAlertMessage({ type: 'success', text: '포맷 추가 성공!' });
-                    setTimeout(() => {
-                        setAlertMessage(null);
-                        onClose();
-                    }, 500);
+                    showAlert("success", "포맷 추가 성공!");
+                    onClose();
                 } else {
-                    setAlertMessage({ type: 'danger', text: '포맷 추가 실패!' });
+                    showAlert({ type: 'danger', text: '포맷 추가 실패!' });
                 }
             }
         );
@@ -55,23 +51,30 @@ const InputFormatModal = ({ onClose, processId }) => {
 
     return (
         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <div className="modal-dialog modal-lg">
+            <div className="modal-dialog modal-lg" style={{
+                marginTop: '300px'
+            }}>
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">포맷 추가 화면</h5>
                         <button type="button" className="btn-close" onClick={onClose}></button>
                     </div>
                     <div className="modal-body">
-                        {alertMessage && (
-                            <div className={`alert alert-${alertMessage.type}`} role="alert">
-                                {alertMessage.text}
+                        {showAlert && (
+                            <div className={`alert alert-${showAlert.type}`} role="alert">
+                                {showAlert.text}
                             </div>
                         )}
                         <form onSubmit={handleSubmit}>
-                            <div className="mb-3">
-                                <label className="form-label">포맷 이름</label>
-                                <input type="text" className="form-control"
-                                    value={name} onChange={e => setName(e.target.value)} />
+                            <div className="mb-3 d-flex flex-column align-items-center">
+                                <label className="form-label w-100 text-center">포맷 이름</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    style={{ width: "360px", textAlign: "center" }}
+                                    value={name}
+                                    onChange={e => setName(e.target.value)}
+                                />
                             </div>
 
                             <h5>기본 정보</h5>
@@ -124,4 +127,4 @@ const InputFormatModal = ({ onClose, processId }) => {
     );
 };
 
-export default InputFormatModal;
+export default InputFormat;

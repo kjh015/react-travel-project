@@ -5,7 +5,6 @@ import BoardApiClient from "../../service/BoardApiClient";
 import BoardSearch from "./BoardSearch";
 import { Tooltip, Card, Badge, OverlayTrigger, Carousel } from "react-bootstrap";
 
-
 const BoardList = () => {
   const [boards, setBoards] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -50,6 +49,7 @@ const BoardList = () => {
     }
   };
 
+  // 전체 게시판 (테스트용)
   const getBoardListAll = async () => {
     setLoading(true);
     setError(null);
@@ -68,6 +68,7 @@ const BoardList = () => {
     }
   };
 
+  // 검색/필터 게시판 (필요시 사용)
   const getBoardList = async () => {
     setLoading(true);
     setError(null);
@@ -101,17 +102,14 @@ const BoardList = () => {
       setSort(type);
       setPage(0);
     }
-  }
+  };
 
   const handleNextPage = () => {
     setPage(p => p + 1);
-  }
+  };
   const handlePrevPage = () => {
-    setPage(p => p - 1);
-  }
-
-  if (loading) return <div className="text-center mt-5" style={{ paddingTop: 80 }}>로딩 중...</div>;
-  if (error) return <div className="text-center text-danger mt-5" style={{ paddingTop: 80 }}>에러 발생: {error.message}</div>;
+    setPage(p => (p > 0 ? p - 1 : 0));
+  };
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
   return (
@@ -119,129 +117,179 @@ const BoardList = () => {
       className="bg-light min-vh-100 py-4"
       style={{ overflowX: "hidden" }}
     >
-      <div className="row justify-content-center mt-3" style={{ margin: 0 }}>
-        <div className="col-lg-10 col-md-12" style={{ padding: 0 }}>
-          <div
-            className="card border-1 mb-5"
-            style={{
-              borderRadius: "2rem",
-              overflow: "hidden",
-              background: "#fff",
-              width: "100%",            // 3. 카드가 col보다 더 커지는 걸 막음
-              maxWidth: "100%",         // 가로폭 절대 넘지 않음
-            }}
-          >
-            <div className="container py-4">
-              <BoardSearch selectedCategory={category} selectedRegion={region} />
-              <div className="card-header bg-white d-flex justify-content-between align-items-center py-3 px-0 border-0" style={{ background: "none" }}>
-                <h4 className="mb-0 fw-bold">게시판 목록</h4>
-                <div className="d-flex gap-2 align-items-center">
-                  <div className="dropdown">
-                    <button
-                      className="btn btn-info dropdown-toggle"
-                      type="button"
-                      data-bs-toggle="dropdown"
-                      aria-expanded="false"
-                    >
-                      {sort}
-                    </button>
-                    <ul className="dropdown-menu">
-                      <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
-                      <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
-                    </ul>
-                  </div>
-                  {isLoggedIn && (
-                    <button className="btn btn-primary" onClick={goToWrite}>글쓰기</button>
-                  )}
-                </div>
-              </div>
-              <div className="card-body p-0">
-                <table
-                  className="table table-hover align-middle mb-0"
-                  style={{
-                    borderRadius: "1.2rem",
-                    overflow: "hidden"
-                  }}
-                >
-                  <thead className="table-light">
-                    <tr>
-                      <th className="text-center" style={{ width: "8%" }}>#</th>
-                      <th className="text-center" style={{ width: "8%" }}>지역</th>
-                      <th className="text-center" style={{ width: "8%" }}>카테고리</th>
-                      <th className="text-center">제목</th>
-
-
-                      <th className="text-center" style={{ width: "15%" }}>작성자</th>
-                      <th className="text-center" style={{ width: "20%" }}>날짜</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {!searched && (
-                      <tr>
-                        <td colSpan={6} className="text-center py-5 text-secondary">
-                          게시글이 없습니다. 검색해주세요.
-                        </td>
-                      </tr>
-                    )}
-                    {searched && !loading && boards.length === 0 && (
-                      <tr>
-                        <td colSpan={6} className="text-center py-5 text-secondary">
-                          게시글이 없습니다.
-                        </td>
-                      </tr>
-                    )}
-                    {searched && !loading && boards.length > 0 && (
-                      boards.map((board, idx) => (
-                        <tr key={board.id}>
-                          <td className="text-center">{idx + 1 + page * 10}</td>
-                          <td className="text-center">
-                            {/* 게시판 표시 */}
-                            <Badge bg="primary">서울</Badge>    {/* 테스트용. {board.region} 사용 */}
-
-                          </td>
-                          <td className="text-center">
-                            <Badge bg="secondary">관광</Badge>  {/* 테스트용. {board.category} 사용 */}
-                          </td>
-                          <td className="text-center">
-                            <Link
-                              to={`/board/detail?no=${board.id}`}
-                              className="text-decoration-none fw-medium"
-                            >
-                              {board.title}
-                            </Link>
-                          </td>
-
-
-                          <td className="text-center">{board.memberNickname}</td>
-                          <td className="text-center">{formatDate(board.modifiedDate)}</td>
-                        </tr>
-                      ))
-                    )}
-                    {loading && (
-                      <tr>
-                        <td colSpan={6} className="text-center py-5">
-                          로딩 중...
-                        </td>
-                      </tr>
-                    )}
-                  </tbody>
-                </table>
-                {error && (
-                  <div className="text-danger text-center py-5">
-                    에러 발생: {error.message}
-                  </div>
-                )}
-                <button onClick={handlePrevPage}>이전</button>
-                <button onClick={handleNextPage}>다음</button>
-              </div>
+      {/* 그라데이션 문구 */}
+      <div
+        style={{
+          width: "100%",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          marginBottom: "24px",
+          marginTop: "12px",
+        }}
+      >
+        <h1
+          style={{
+            fontSize: "2.8rem",
+            fontWeight: 800,
+            letterSpacing: "0.01em",
+            background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+            color: "transparent",
+            textAlign: "center",
+            margin: 0,
+            lineHeight: 1.2,
+          }}
+        >
+          이번엔 어디로??
+        </h1>
+      </div>
+      <BoardSearch selectedCategory={category} selectedRegion={region} />
+      <div className="container py-3" style={{ maxWidth: 850 }}>
+        {/* 헤더, 정렬, 글쓰기 */}
+        <div className="d-flex justify-content-between align-items-center mb-4">
+          <div>
+            <h3 className="fw-bold mb-1"
+              style={{
+                color: "#6c45e0",
+                fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+                fontSize: "2rem"
+              }}>
+              여행지 목록
+            </h3>
+            <div className="text-secondary" style={{ fontSize: "1.07rem" }}>
+              인기 여행지의 다양한 후기를 만나보세요!
             </div>
           </div>
+          <div className="d-flex align-items-center gap-2">
+            <div className="dropdown me-2">
+              <button className="btn btn-outline-primary dropdown-toggle px-3 fw-semibold"
+                type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                {sort}
+              </button>
+              <ul className="dropdown-menu">
+                <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
+              </ul>
+            </div>
+            {isLoggedIn && (
+              <button
+                className="btn fw-bold px-4"
+                style={{
+                  background: "linear-gradient(90deg, #a084ee 30%, #7c3aed 100%)",
+                  color: "#fff",
+                  border: "none"
+                }}
+                onClick={goToWrite}
+              >글쓰기</button>
+            )}
+          </div>
+        </div>
+
+        {/* 카드 리스트 */}
+        {loading ? (
+          <div className="text-center py-5 fs-5">
+            <div className="spinner-border text-primary me-2" role="status"></div>
+            로딩 중...
+          </div>
+        ) : error ? (
+          <div className="text-danger text-center py-5">
+            에러 발생: {error.message}
+          </div>
+        ) : boards.length === 0 ? (
+          <div className="text-center text-secondary py-5 fs-5">
+            게시글이 없습니다. 검색해주세요.
+          </div>
+        ) : (
+          <div className="d-flex flex-column gap-4">
+            {boards.map((board, idx) => (
+              <div
+                key={board.id}
+                className="p-3 rounded-3 border board-list-card"
+                style={{
+                  background: "#fff",
+                  minHeight: "88px",
+                  boxShadow: "0 2px 10px 0 rgba(0,0,0,0.04)",
+                  position: "relative"
+                }}
+                onClick={() => navigate(`/board/detail?no=${board.id}`)}
+                tabIndex={0}
+                onKeyDown={e => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    navigate(`/board/detail?no=${board.id}`);
+                  }
+                }}
+              >
+                {/* 제목 + 날짜 우측 상단 */}
+                <div
+                  className="d-flex justify-content-between align-items-start fw-bold"
+                  style={{
+                    fontSize: "1.12rem",
+                    marginBottom: 6
+                  }}
+                >
+                  <div
+                    className="text-truncate"
+                    style={{
+                      maxWidth: "75%",
+                      whiteSpace: "nowrap",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis"
+                    }}
+                  >
+                    <span
+                      style={{
+                        color: "#222",
+                        fontWeight: "bold",
+                        fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif"
+                      }}
+                      title={board.title}
+                    >
+                      {board.title}
+                    </span>
+                  </div>
+                  <span className="text-secondary ms-2" style={{ fontSize: "0.95rem", whiteSpace: "nowrap" }}>
+                    {formatDate(board.modifiedDate)}
+                  </span>
+                </div>
+
+                {/* 지역/카테고리/작성자 */}
+                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
+                  <span style={{ color: "#222" }}>닉네임</span>
+                  <Badge bg="primary" className="me-1">서울</Badge>
+                  <Badge bg="secondary" className="me-2">축제</Badge>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {/* 페이지네이션 */}
+        <div className="mt-4 mb-3 text-center">
+          <button type="button" className="btn btn-outline-primary me-2 px-4" onClick={handlePrevPage}>이전</button>
+          <button type="button" className="btn btn-outline-primary px-4" onClick={handleNextPage}>다음</button>
         </div>
       </div>
+      <style>
+        {`
+.board-list-card {
+  transition: box-shadow 0.18s, transform 0.16s, background 0.16s, border 0.13s;
+}
+.board-list-card:hover, .board-list-card:focus {
+  box-shadow: 0 6px 24px 0 rgba(123,82,255,0.14), 0 1.5px 10px rgba(60,0,128,0.04);
+  border-color: #a084ee;
+  background: #faf8ff;
+  transform: translateY(-2px) scale(1.012);
+  cursor: pointer;
+}
+        `}
+      </style>
     </div>
   );
 };

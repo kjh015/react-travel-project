@@ -1,14 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import FilterApiClient from '../../service/FilterApiClient';
 
 const operatorOptions = ['>', '<', '>=', '<=', '==', '!=', 'Equals'];
 
-const DetailFilter = ({ onClose, processId, filterId }) => {
+const DetailFilter = ({ onClose, processId, filterId, showOutAlert }) => {
     const [fieldList, setFieldList] = useState([]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
     const [tokens, setTokens] = useState([]);
-    const [alert, setAlert] = useState({ show: false, message: '', type: '' }); // 추가
+    const [alert, setAlert] = useState(null);
+
+    const showAlert = useCallback(({ type, message }) => {
+        setAlert({ type, message });
+    }, []);
 
     const viewFilter = () => {
         FilterApiClient.viewFilter(filterId).then(
@@ -21,7 +25,7 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
                     })
                 }
                 else {
-                    setAlert({ show: true, message: '필터 정보를 불러오지 못했습니다.', type: 'danger' });
+                    showAlert({ message: '필터 정보를 불러오지 못했습니다.', type: 'danger' });
                 }
             }
         )
@@ -36,14 +40,11 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     const removeFilter = () => {
         FilterApiClient.removeFilter(filterId).then(res => {
             if (res.ok) {
-                setAlert({ show: true, message: '필터가 삭제되었습니다.', type: 'danger' });
-                setTimeout(() => {
-                    setAlert({ show: false, message: '', type: '' });
-                    onClose();
-                }, 500);
+                showOutAlert({ message: '필터가 삭제되었습니다.', type: 'danger' });
+                onClose();
             }
             else {
-                setAlert({ show: true, message: '필터 삭제에 실패했습니다.', type: 'danger' });
+                showAlert({ message: '필터 삭제에 실패했습니다.', type: 'danger' });
             }
         }
         )
@@ -142,7 +143,7 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
     const handleSubmit = async (e) => {
 
         if (!validateParentheses()) {
-            setAlert({ show: true, message: '❌ 괄호 짝이 맞지 않습니다.', type: 'danger' });
+            showAlert({ message: '❌ 괄호 짝이 맞지 않습니다.', type: 'danger' });
             return;
         }
 
@@ -151,7 +152,7 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
             (token.field === '' || token.operator === '' || token.value === '')
         );
         if (hasInvalid) {
-            setAlert({ show: true, message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
+            showAlert({ message: '❌ 조건에 빈 값이 있습니다. 모든 필드, 연산자, 값을 입력해주세요.', type: 'danger' });
             return;
         }
         const tokensWithType = tokens.map(token => {
@@ -170,28 +171,23 @@ const DetailFilter = ({ onClose, processId, filterId }) => {
         FilterApiClient.updateFilter(filterId, name, active, expr, tokensWithType)
             .then(res => {
                 if (res.ok) {
-                    setAlert({ show: true, message: '저장되었습니다.', type: 'success' });
-                    setTimeout(() => {
-                        setAlert({ show: false, message: '', type: '' });
-                        onClose();
-                    }, 500);
+                    showOutAlert({ message: '저장되었습니다.', type: 'success' });
+                    onClose();
                 } else {
-                    setAlert({ show: true, message: '실패', type: 'danger' });
+                    showAlert({ message: '실패', type: 'danger' });
                 }
             })
             .catch(err => {
-                setAlert({ show: true, message: '에러가 발생했습니다.', type: 'danger' });
+                showAlert({ message: '에러가 발생했습니다.', type: 'danger' });
             });
     };
 
     return (
         <div className="container mt-5" style={{ maxWidth: 950 }}>
             {/* Alert 메시지 */}
-            {alert.show && (
+            {alert && (
                 <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
                     {alert.message}
-                    <button type="button" className="btn-close" aria-label="Close"
-                        onClick={() => setAlert({ ...alert, show: false })}></button>
                 </div>
             )}
 

@@ -86,7 +86,8 @@ const DeduplicationRow = ({ processId, index, data, onChange, onRemove }) => {
                     </button>
                 </div>
             </div>
-            {/* 중복 제거 시간 (2줄 3칸씩) */}
+            {/* 
+             제거 시간 (2줄 3칸씩) */}
             <label className="form-label d-flex mb-1 fw-bold justify-content-center">중복 제거 시간</label>
             <div className="mb-2 text-center">
                 <div className="p-3 border rounded bg-light d-inline-block">
