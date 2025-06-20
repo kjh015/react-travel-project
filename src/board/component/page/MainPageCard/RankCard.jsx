@@ -25,23 +25,8 @@ const firstRankBadgeStyle = {
     pointerEvents: "none", // 카드 클릭 방해 X
 };
 
-const RankCard = ({ boardId, score, rank }) => {
+const RankCard = ({ data, type, rank }) => {
     const navigate = useNavigate();
-    const [board, setBoard] = useState({
-        id: '', title: '', content: '', memberNickname: '',
-        travelPlace: '', address: '', category: '', region: '', imagePaths: [],
-        createdDate: '', modifiedDate: ''
-    });
-
-    // useEffect(() => {
-    //     BoardApiClient.getBoard(boardId).then(
-    //         res => {
-    //             if (res.ok) {
-    //                 res.json().then(data => setBoard({ ...data, imagePaths: data.imagePaths || [] }));
-    //             }
-    //         }
-    //     );
-    // }, [boardId]);
 
     return (
         <div
@@ -68,17 +53,17 @@ const RankCard = ({ boardId, score, rank }) => {
                     cursor: "pointer",
                     zIndex: 1, // 왕관보다 낮음 (중요)
                 }}
-                onClick={() => navigate(`/board/detail/?no=${board.id}`)}
+                onClick={() => navigate(`/board/list/?${type}=${data}`)}
             >
                 {/* 이미지 */}
                 <div style={{ position: "relative", width: "100%" }}>
-                    {board.imagePaths && board.imagePaths.length > 0 ? (
+                    {false ? (
                         <img
-                            src={`http://14.63.178.161${board.imagePaths[0]}`}
+                            // src={`http://14.63.178.161${board.imagePaths[0]}`}
                             alt="Main visual"
                             className="card-img-top"
                             style={{
-                                height: '390px',
+                                height: '200px',
                                 width: '100%',
                                 objectFit: 'cover',
                                 filter: "brightness(98%)",
@@ -86,7 +71,7 @@ const RankCard = ({ boardId, score, rank }) => {
                             }}
                         />
                     ) : (
-                        <div style={{ height: '390px', background: "#f3f3f8" }} />
+                        <div style={{ height: '200px', background: "#f3f3f8" }} />
                     )}
                     <div style={{
                         position: "absolute",
@@ -104,17 +89,9 @@ const RankCard = ({ boardId, score, rank }) => {
                         alignItems: "center",
                         gap: "0.6rem"
                     }}>
-                        <span style={{ fontSize: "1.35em" }}>🚂</span>
-                        Score: <span style={{ color: "#e0c3fc", fontWeight: 700 }}>{score}</span>
-                    </div>
-                </div>
-                <div className="card-body px-4 py-4">
-                    <div className="mb-3" style={{ fontSize: "1.09rem", color: "#333", fontWeight: 500 }}>
-                        {board.title}
-                    </div>
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                        <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
-                    </div>
+                        <span style={{ color: "#e0c3fc", fontWeight: 700 }}>{data}</span>
+                        
+                    </div>                    
                 </div>
             </div>
             {/* Hover 효과 CSS */}

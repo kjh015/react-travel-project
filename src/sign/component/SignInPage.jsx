@@ -25,25 +25,27 @@ const SignInPage = () => {
             if (res.ok) {
                 const data = await res.json();
                 localStorage.setItem('accessToken', data.accessToken);
-                const resDetail = await SignApiClient.getMemberDetail(getLoginIdFromToken());
-                const member = await resDetail.json();
+                const resDetail = await SignApiClient.getMemberDetail({loginId: getLoginIdFromToken()});                
                 if (resDetail.ok) {
+                    const member = await resDetail.json();
                     localStorage.setItem('nickname', member.nickname);
                     window._mtm = window._mtm || [];
                     window._mtm.push({
                         nickname: member.nickname,
-                        gender: member.gender
+                        gender: member.gender,
+                        age: member.age
                     });
-                    setAlert({ show: false, message: "로그인 성공!", type: "success" });    //사용자 눈에 안보임
-                    setTimeout(() => navigate("/"), 1000); // 1.2초 후 이동
+                    navigate("/");
                 } else {
-                    setAlert({ show: true, message: "로그인 실패", type: "danger" });
+                    const data = await resDetail.json();                   
+                    setAlert({ show: true, message: data.message, type: "danger" });
                 }
             } else {
-                const message = await res.text();
-                setAlert({ show: true, message: "아이디 또는 비밀번호 오류.", type: "danger" });
+                const data = await res.json();
+                setAlert({ show: true, message: data.message, type: "danger" });
             }
         } catch (error) {
+            console.log(error);
             setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
     };
@@ -55,6 +57,7 @@ const SignInPage = () => {
             const payload = JSON.parse(atob(token.split('.')[1]));
             return payload.sub || payload.loginId;
         } catch (e) {
+            console.error("토큰 디코딩 실패:", e);
             return null;
         }
     };
@@ -62,7 +65,7 @@ const SignInPage = () => {
     // alert 자동 사라짐 (2초)
     useEffect(() => {
         if (alert.show) {
-            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 500);
+            const timer = setTimeout(() => setAlert(prev => ({ ...prev, show: false })), 1000);
             return () => clearTimeout(timer);
         }
     }, [alert.show]);

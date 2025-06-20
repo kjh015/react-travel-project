@@ -11,7 +11,7 @@ const BoardList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("regDate");
+  const [sort, setSort] = useState("");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
@@ -132,7 +132,7 @@ const BoardList = () => {
             }}
           >
             <div className="container py-4">
-              <BoardSearch />
+              <BoardSearch selectedCategory={category} selectedRegion={region} />
               <div className="card-header bg-white d-flex justify-content-between align-items-center py-3 px-0 border-0" style={{ background: "none" }}>
                 <h4 className="mb-0 fw-bold">게시판 목록</h4>
                 <div className="d-flex gap-2 align-items-center">

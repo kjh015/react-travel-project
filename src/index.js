@@ -55,11 +55,8 @@ function insertMatomoScript() {
       _mtm.push({'mtm.startTime': (new Date().getTime()), 'event': 'mtm.Start'});
       (function() {
         var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-<<<<<<< HEAD
-        g.async=true; g.src='http://localhost:9080/js/container_AN6K47Oz.js'; s.parentNode.insertBefore(g,s);
-=======
-        g.async=true; g.src='http://14.63.178.161:9080/js/container_5uzHzMcX.js'; s.parentNode.insertBefore(g,s);
->>>>>>> master
+        g.async=true; g.src='http://localhost:9080/js/container_TWFLSna9.js'; s.parentNode.insertBefore(g,s);
+
       })();
     `;
     document.body.appendChild(script);

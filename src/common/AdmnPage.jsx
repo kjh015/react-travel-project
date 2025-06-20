@@ -9,11 +9,12 @@ import ProcessManagement from '../log/components/process/ProcessManagement';
 import FilterManagement from '../log/components/filter/FilterManagement';
 import LogManagement from '../log/components/db/LogManagement';
 import DeduplicationManagement from '../log/components/deduplication/DeduplicationManagement';
-import Kibana from '../log/components/dashboard/Kibana';
+import Kibana from '../log/components/monitoring/Kibana';
 import MemberManagement from '../sign/component/MemberManagement';
 
 
 import AdmnBoard from '../board/component/page/AdmnBoard';
+import Dashboard from '../log/components/monitoring/Dashboard';
 
 const AdmnPage = () => {
   const [activeMenu, setActiveMenu] = useState('process');
@@ -36,8 +37,10 @@ const AdmnPage = () => {
         return <LogManagement onMenuClick={setActiveMenu} />
       case 'deduplication':
         return <DeduplicationManagement processId={processId} onMenuClick={setActiveMenu} />
-      case 'dashboard':
+      case 'monitoring':
         return <Kibana/>
+      case 'dashboard':
+        return <Dashboard/>;
 
 
       default:

@@ -54,9 +54,9 @@ const LogManagement = ({ onMenuClick }) => {
         { key: 'createdTime', label: '생성 시간', sortable: true },
     ];
 
-    const nestedProcess = item => item.process.name;
-    const nestedFilter = item => item.filter.name;
-    const nestedDedup = item => item.deduplication.name;
+    const nestedProcess = item => item.process;
+    const nestedFilter = item => item.filter;
+    const nestedDedup = item => item.deduplication;
 
     return (
         <div className="container mt-4" style={{ paddingTop: '50px' }}>

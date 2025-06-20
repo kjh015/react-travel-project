@@ -8,16 +8,35 @@ import MainPageCardsLayout2 from "./MainPageCardsLayout2";
 import Footers from "../../../common/Footers";
 
 const MainPage = () => {
-  const [top5Board, setTop5Board] = useState([]);
+  const [top5Board, setTop5Board] = useState([]);  
+  const [top5Region, setTop5Region] = useState([]);
+  const [top5Category, setTop5Category] = useState([]);
 
   useEffect(() => {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({
+      event: "travel_main_view",
+      visit_time: new Date().toISOString(),
+      referrer: document.referrer
+    });
+
     const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
-      setTop5Board(JSON.parse(e.data));
+      
+      const data = JSON.parse(e.data);
+      console.log(e.data);
+      console.log(data);
+      
+      setTop5Board(data.top5Boards);       // 게시글 인기 Top5
+      setTop5Region(data.top5Regions);
+      setTop5Category(data.top5Categories); // 카테고리 인기 Top5
+      
     };
+
     return () => {
       evt.close();
     };
+
   }, []);
 
   return (
@@ -147,7 +166,7 @@ const MainPage = () => {
             marginBottom: "1.4rem"
           }}
             className="text-center mb-4">지역별 순위</h4>
-          <MainPageCardsLayout2 top5Board={top5Board} />
+          <MainPageCardsLayout2 top5Data={top5Region} />
         </div>
         <div className="my-5">
           <h4 style={{
@@ -160,7 +179,7 @@ const MainPage = () => {
             marginBottom: "1.4rem"
           }}
             className="text-center mb-4">카테고리별 순위</h4>
-          <MainPageCardsLayout2 top5Board={top5Board} />
+          <MainPageCardsLayout2 top5Data={top5Category} />
         </div>
       </div>
 
