@@ -1,5 +1,29 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import 서울 from '../../imgs/지역별/서울.jpg'
+import 부산 from '../../imgs/지역별/부산.jpg'
+import 강원 from '../../imgs/지역별/강원.jpg'
+import 제주 from '../../imgs/지역별/제주.jpg'
+import 대구 from '../../imgs/지역별/대구.webp'
+import 경기 from '../../imgs/지역별/경기.jpg'
+import 인천 from '../../imgs/지역별/인천.jpg'
+import 전남 from '../../imgs/지역별/전남.jpg'
+import 기타 from '../../imgs/지역별/기타.jpg'
+
+
+import 축제 from '../../imgs/카테고리별/축제.jpg'
+import 음식 from '../../imgs/카테고리별/음식.jpg'
+import 쇼핑 from '../../imgs/카테고리별/쇼핑.avif'
+import 자연 from '../../imgs/카테고리별/자연.jpg'
+import 가족 from '../../imgs/카테고리별/가족.png'
+import 공연 from '../../imgs/카테고리별/공연.jpg'
+import 역사 from '../../imgs/카테고리별/역사.webp'
+import 행사 from '../../imgs/카테고리별/행사.png'
+import 체험 from '../../imgs/카테고리별/체험.jpg'
+
+
+
+
 import BoardApiClient from '../../../service/BoardApiClient';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -90,8 +114,8 @@ const RankCard = ({ data, type, rank }) => {
                         gap: "0.6rem"
                     }}>
                         <span style={{ color: "#e0c3fc", fontWeight: 700 }}>{data}</span>
-                        
-                    </div>                    
+
+                    </div>
                 </div>
             </div>
             {/* Hover 효과 CSS */}

@@ -3,12 +3,42 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useEffect, useState } from "react";
 import BoardSearch from "./BoardSearch";
 import tgd3 from '../imgs/tgd3.jpg';
+import 서울 from '../imgs/지역별/서울.jpg'
+import 부산 from '../imgs/지역별/부산.jpg'
+import 강원 from '../imgs/지역별/강원.jpg'
+import 제주 from '../imgs/지역별/제주.jpg'
+import 대구 from '../imgs/지역별/대구.webp'
+
+import 축제 from '../imgs/카테고리별/축제.jpg'
+import 음식 from '../imgs/카테고리별/음식.jpg'
+import 쇼핑 from '../imgs/카테고리별/쇼핑.avif'
+import 자연 from '../imgs/카테고리별/자연.jpg'
+import 가족 from '../imgs/카테고리별/가족.png'
+
 import MainPageCardsLayout from "./MainPageCardsLayout";
 import MainPageCardsLayout2 from "./MainPageCardsLayout2";
 import Footers from "../../../common/Footers";
 
+// 지역별 카드에 사용할 정보 배열
+const regionInfo = [
+  { name: "서울", img: 서울 },
+  { name: "부산", img: 부산 },
+  { name: "강원", img: 강원 },
+  { name: "제주", img: 제주 },
+  { name: "대구", img: 대구 },
+];
+
+// 카테고리 정보도 필요하다면 이런식으로 (참고)
+const categoryInfo = [
+  { name: "축제", img: 축제 },
+  { name: "음식", img: 음식 },
+  { name: "쇼핑", img: 쇼핑 },
+  { name: "자연", img: 자연 },
+  { name: "가족", img: 가족 },
+];
+
 const MainPage = () => {
-  const [top5Board, setTop5Board] = useState([]);  
+  const [top5Board, setTop5Board] = useState([]);
   const [top5Region, setTop5Region] = useState([]);
   const [top5Category, setTop5Category] = useState([]);
 
@@ -22,22 +52,68 @@ const MainPage = () => {
 
     const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
-      
       const data = JSON.parse(e.data);
-      console.log(e.data);
-      console.log(data);
-      
       setTop5Board(data.top5Boards);       // 게시글 인기 Top5
       setTop5Region(data.top5Regions);
       setTop5Category(data.top5Categories); // 카테고리 인기 Top5
-      
     };
 
     return () => {
       evt.close();
     };
-
   }, []);
+
+  // 지역별 이미지 카드 그리드 컴포넌트
+  function RegionCardGrid() {
+    return (
+      <div className="d-flex flex-wrap justify-content-center gap-4 my-4">
+        {regionInfo.map((item, idx) => (
+          <div
+            key={idx}
+            className="card shadow-sm border-0"
+            style={{
+              width: "220px",
+              borderRadius: "14px",
+              overflow: "hidden",
+              background: "#fff",
+              boxShadow: "0 2px 12px rgba(50,50,120,0.08)"
+            }}
+          >
+            <img src={item.img} alt={item.name} style={{ width: "100%", height: "140px", objectFit: "cover" }} />
+            <div className="card-body py-2 text-center" style={{ background: "#f6f2ff" }}>
+              <b>{item.name}</b>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  // 필요하면 카테고리 이미지 카드도 비슷하게
+  function CategoryCardGrid() {
+    return (
+      <div className="d-flex flex-wrap justify-content-center gap-4 my-4">
+        {categoryInfo.map((item, idx) => (
+          <div
+            key={idx}
+            className="card shadow-sm border-0"
+            style={{
+              width: "220px",
+              borderRadius: "14px",
+              overflow: "hidden",
+              background: "#fff",
+              boxShadow: "0 2px 12px rgba(50,50,120,0.08)"
+            }}
+          >
+            <img src={item.img} alt={item.name} style={{ width: "100%", height: "140px", objectFit: "cover" }} />
+            <div className="card-body py-2 text-center" style={{ background: "#f6f2ff" }}>
+              <b>{item.name}</b>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
 
   return (
     <div
@@ -79,7 +155,6 @@ const MainPage = () => {
               position: "relative",
               display: "inline-block",
               padding: "1rem 4.5rem 10rem 4.5rem",
-              // borderRadius: "2.2rem",
               background: "rgba(255,255,255,0.65)",
               boxShadow: "0 6px 36px rgba(80,60,180,0.08)",
               backdropFilter: "blur(4px)",
@@ -89,7 +164,6 @@ const MainPage = () => {
               maxWidth: "94vw"
             }}
           >
-
             {/* 그라데이션 타이틀 */}
             <h2
               style={{
@@ -162,7 +236,7 @@ const MainPage = () => {
               textAlign: "start",
               width: "100%",
               fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
-              color: "#a68eff", // 더 선명한 퍼플
+              color: "#a68eff",
               fontWeight: 900,
               fontSize: "2.35rem",
               margin: "0 0 26px 0",
@@ -177,36 +251,36 @@ const MainPage = () => {
         </div>
       </div>
 
-      {/* 지역/카테고리별 */}
-      <div>
-        <div className="my-5 ps-3">
-          <h4 style={{
-            paddingLeft: "20rem",
-            textAlign: "left",
-            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
-            color: "#b7aaff",
-            fontWeight: 700,
-            fontSize: "1.55rem",
-            letterSpacing: "-0.03em",
-            marginBottom: "1.4rem"
-          }}
-            className="text-center mb-4">지역별 순위</h4>
-          <MainPageCardsLayout2 top5Data={top5Region} />
-        </div>
-        <div className="my-5 px-3">
-          <h4 style={{
-            paddingLeft: "20rem",
-            textAlign: "left",
-            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
-            color: "#b7aaff",
-            fontWeight: 700,
-            fontSize: "1.55rem",
-            letterSpacing: "-0.03em",
-            marginBottom: "1.4rem"
-          }}
-            className="text-center mb-4">카테고리별 순위</h4>
-          <MainPageCardsLayout2 top5Data={top5Category} />
-        </div>
+      {/* ---- 지역별 이미지 카드 그리드 ---- */}
+      <div className="mt-5 mb-4">
+        <h4 style={{
+          textAlign: "center",
+          fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+          color: "#b7aaff",
+          fontWeight: 700,
+          fontSize: "1.55rem",
+          letterSpacing: "-0.03em",
+          marginBottom: "1.4rem"
+        }}>
+          지역별 여행지 대표 이미지
+        </h4>
+        <RegionCardGrid />
+      </div>
+
+      {/* ---- 카테고리별 이미지 카드 그리드 ---- */}
+      <div className="mt-5 mb-4">
+        <h4 style={{
+          textAlign: "center",
+          fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+          color: "#b7aaff",
+          fontWeight: 700,
+          fontSize: "1.55rem",
+          letterSpacing: "-0.03em",
+          marginBottom: "1.4rem"
+        }}>
+          카테고리별 대표 이미지
+        </h4>
+        <CategoryCardGrid />
       </div>
 
       <Footers />
