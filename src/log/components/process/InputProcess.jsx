@@ -3,22 +3,17 @@ import ProcessApiClient from '../../service/ProcessApiClient';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
-const InputProcess = ({ onClose }) => {
+const InputProcess = ({ onClose, showAlert }) => {
     const [name, setName] = useState("");
-    const [alertMessage, setAlertMessage] = useState(null);
 
     const addProcess = () => {
         ProcessApiClient.addProcess(name).then(
             res => {
                 if (res.ok) {
-                    setAlertMessage({ show: true, type: 'success', text: '프로세스 추가 성공!' });
-                    setTimeout(() => {
-                        setAlertMessage(null);
-                        onClose();
-                    }, 500); // 성공 시 0.8초 후 닫기
+                    showAlert("success", "프로세스가 추가되었습니다!");
+                    onClose();
                 } else {
-                    setAlertMessage({ show: true, type: 'danger', text: '프로세스 추가 실패' });
-                    setTimeout(() => setAlertMessage(null), 500); // 실패 시 1.5초 후 Alert만 닫힘
+                    showAlert("danger", "프로세스 추가 실패");
                 }
             }
         );
@@ -28,12 +23,7 @@ const InputProcess = ({ onClose }) => {
         <div className="card mt-4 p-4 mx-auto" style={{ maxWidth: '400px' }}>
             <h4 className="mb-3">프로세스 이름</h4>
 
-            {/* ✅ Alert 표시 영역 */}
-            {alertMessage && alertMessage.show && (
-                <div className={`alert alert-${alertMessage.type} mb-3 p-2`} role="alert">
-                    {alertMessage.text}
-                </div>
-            )}
+
 
             <input
                 type='text'

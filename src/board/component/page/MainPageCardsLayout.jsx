@@ -5,7 +5,7 @@ import MainPageCard2 from './MainPageCard/MainPageCard2';
 const mainCardHeight = 520;
 
 const MainPageCardsLayout = ({ top5Board }) => {
-    if (!top5Board || top5Board.length < 5) return null;
+    // if (!top5Board || top5Board.length < 5) return null;
 
     return (
         <div
@@ -40,7 +40,7 @@ const MainPageCardsLayout = ({ top5Board }) => {
                     gap: "18px"
                 }}
             >
-                {top5Board.slice(1, 5).map((board, idx) => (
+                {[2, 2, 2, 2, 2].slice(1, 5).map((board, idx) => (
                     <div
                         key={idx}
                         style={{

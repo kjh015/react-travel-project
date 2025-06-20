@@ -2,6 +2,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const cardStyle = {
     maxWidth: "410px",
@@ -42,7 +44,7 @@ const SignUpPage = () => {
     });
 
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
-
+    const [birthDate, setBirthDate] = useState('');
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -160,6 +162,17 @@ const SignUpPage = () => {
                                 {!formData.gender &&
                                     <div className="form-text text-danger mt-1">성별을 선택하세요.</div>
                                 }
+                            </div>
+
+                            <div>
+                                <label className="form-label">생년월일</label>
+                                <input
+                                    type="date"
+                                    className="form-control"
+                                    value={birthDate}
+                                    onChange={e => setBirthDate(e.target.value)}
+                                    max={new Date().toISOString().split('T')[0]} // 오늘 날짜까지만 선택 가능
+                                />
                             </div>
 
                             <div className="d-grid">

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import InputDeduplication from './InputDeduplication';
 import DeduplicationApiClient from '../../service/DeduplicationApiClient';
 import DetailDeduplication from './DetailDeduplication';
@@ -8,6 +8,12 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
   const [ddpList, setDdpList] = useState([]);
   const [showInput, setShowInput] = useState(false);
   const [showDetail, setShowDetail] = useState(0);
+  const [alert, setAlert] = useState(null);
+
+  const showAlert = useCallback(({ type, message, duration = 2000 }) => {
+    setAlert({ type, message });
+    if (duration > 0) setTimeout(() => setAlert(null), duration);
+  }, []);
 
   const getDeduplicationList = () => {
     DeduplicationApiClient.getDeduplicationList(processId)
@@ -64,6 +70,27 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
 
       <div className="container" style={{ marginTop: '80px' }}>
         <h4 className="mb-4 fw-bold">중복 제거 목록</h4>
+
+        <div style={{
+          minHeight: 50,
+        }}>
+          {alert && (
+            <div
+              className={`alert alert-${alert.type} fw-semibold py-1 px-3 mb-2 text-center`}
+              style={{
+                minWidth: 120,
+                maxWidth: 260,
+                margin: "0 auto",
+                borderRadius: "0.9rem",
+                boxShadow: '0 3px 12px 0 rgba(0,0,0,0.07)',
+                fontSize: "1.01rem",
+                height: "fit-content"
+              }}
+            >
+              {alert.message}
+            </div>
+          )}
+        </div>
 
         {/* 상단 버튼 영역 */}
         <div className="d-flex justify-content-end mb-3">
@@ -124,6 +151,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
                           processId={processId}
                           id={ddp.id}
                           onClose={handleDetailClose}
+                          showOutAlert={showAlert}
                         />
                       </td>
                     </tr>
@@ -149,7 +177,9 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
                     onClick={() => handleInputClose(false)}></button>
                 </div>
                 <div className="modal-body">
-                  <InputDeduplication processId={processId} onClose={handleInputClose} />
+                  <InputDeduplication processId={processId} onClose={handleInputClose}
+                    showOutAlert={showAlert}
+                  />
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import ProcessApiClient from '../../service/ProcessApiClient';
 import InputProcess from './InputProcess';
 import EditProcess from './EditProcess';
@@ -10,12 +10,17 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
     const [showModal, setShowModal] = useState(false);
     const [selectedProcessId, setSelectedProcessId] = useState(null);
     const [editComp, setEditComp] = useState(0);
+    const [alert, setAlert] = useState(null);
+
+    // 공통 경고창 함수 (자동 사라짐)
+    const showAlert = useCallback((type, message, duration = 1800) => {
+        setAlert({ type, message });
+        if (duration > 0) setTimeout(() => setAlert(null), duration);
+    }, []);
 
     const getProcesses = () => {
         ProcessApiClient.getProcessList().then(res => {
-            if (res.ok) {
-                res.json().then(data => setProcessList(data));
-            }
+            if (res.ok) res.json().then(data => setProcessList(data));
         });
     };
 
@@ -23,109 +28,131 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
         getProcesses();
     }, [showModal, editComp]);
 
+    // 모달 body 스크롤 방지
+    useEffect(() => {
+        if (showModal) document.body.style.overflow = 'hidden';
+        else document.body.style.overflow = '';
+        return () => { document.body.style.overflow = ''; };
+    }, [showModal]);
+
     const handleCloseModal = () => {
         setShowModal(false);
         setSelectedProcessId(null);
     };
     const handleEditComp = () => setEditComp(0);
+
     const processDate = (isoString) => {
         if (!isoString) return "";
         return isoString.substring(0, 16).replace("T", " ");
     };
 
     return (
-        <div
-            className="container"
-            style={{
-                marginTop: '80px',
-                maxWidth: '980px'
-            }}
-        >
-            {/* 인라인 CSS, 혹은 App.css에 넣어도 OK */}
+        <div>
             <style>{`
                 .process-name-hover {
                     font-weight: bold;
                     cursor: pointer;
                     text-decoration: none;
-                    transition: text-decoration 0.1s;
+                    transition: text-decoration 0.13s;
                 }
                 .process-name-hover:hover {
                     text-decoration: underline;
                 }
+                .custom-alert-center {
+                    position: fixed;
+                    top: 64px;
+                    left: 50%;
+                    transform: translateX(-50%);
+                    z-index: 3000;
+                    min-width: 220px;
+                    max-width: 380px;
+                    border-radius: 0.95rem;
+                    box-shadow: 0 3px 12px 0 rgba(0,0,0,0.14);
+                    font-size: 1.06rem;
+                    padding: 0.7rem 2rem;
+                    pointer-events: none;
+                }
             `}</style>
 
-            <div className="d-flex justify-content-between align-items-center mb-4">
-                <h3 className="fw-bold mb-0" style={{ letterSpacing: '1px' }}>
-                    <span style={{ color: "#34a853" }}>●</span> 프로세스 관리
-                </h3>
+            <div className="d-flex align-items-center mb-4" style={{ minHeight: 40 }}>
+                <span style={{ color: "#34a853" }}>●</span>
+                <span style={{ marginLeft: "7px", fontSize: "1.25rem", fontWeight: 600 }}>프로세스 관리</span>
             </div>
-            <div className="card shadow-sm rounded-4 mb-4">
-                <div className="card-body p-4">
-                    <table className="table table-hover table-bordered align-middle text-center mb-0" style={{ borderRadius: "1.2rem", overflow: "hidden" }}>
-                        <thead className="table-light">
+
+            {/* 중앙 상단 고정 경고창 */}
+            {alert && (
+                <div className={`alert alert-${alert.type} fw-semibold py-2 px-3 mb-0 d-inline-block text-center custom-alert-center`}>
+                    {alert.message}
+                </div>
+            )}
+
+            <div className="card shadow-sm rounded-4 mb-4" style={{ border: 0 }}>
+                <table className="table table-hover table-bordered align-middle text-center mb-0">
+                    <thead className="table-light">
+                        <tr>
+                            <th style={{ width: '15%' }}>ID</th>
+                            <th className="text-start">이름</th>
+                            <th>생성 날짜</th>
+                            <th>수정 날짜</th>
+                            <th style={{ width: '15%' }}>수정</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {processList.length === 0 && (
                             <tr>
-                                <th style={{ width: '15%' }}>ID</th>
-                                <th className="text-start">이름</th>
-                                <th>생성 날짜</th>
-                                <th>수정 날짜</th>
-                                <th style={{ width: '15%' }}>수정</th>
+                                <td colSpan={5} className="py-5 text-muted">프로세스가 없습니다.</td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            {processList.length === 0 && (
+                        )}
+                        {processList.map(process => (
+                            <React.Fragment key={process.id}>
                                 <tr>
-                                    <td colSpan={5} className="py-5 text-muted">프로세스가 없습니다.</td>
+                                    <td>{process.id}</td>
+                                    <td className="text-start">
+                                        <span
+                                            className="process-name-hover fw-bold"
+                                            role="button"
+                                            onClick={() => {
+                                                setPID(process.id);
+                                                onMenuClick('format');
+                                            }}
+                                            title="포맷 관리로 이동"
+                                        >
+                                            {process.name}
+                                        </span>
+                                    </td>
+                                    <td>{process.createdTime && processDate(process.createdTime)}</td>
+                                    <td>{process.updatedTime && processDate(process.updatedTime)}</td>
+                                    <td>
+                                        <button
+                                            className="btn btn-outline-primary btn-sm px-3"
+                                            style={{ borderRadius: '0.7rem', fontWeight: 500 }}
+                                            onClick={() => setEditComp(process.id)}
+                                        >
+                                            수정
+                                        </button>
+                                    </td>
                                 </tr>
-                            )}
-                            {processList.map(process => (
-                                <React.Fragment key={process.id}>
+                                {editComp === process.id && (
                                     <tr>
-                                        <td>{process.id}</td>
-                                        <td className="text-start">
-                                            <span
-                                                className="process-name-hover"
-                                                onClick={() => {
-                                                    setPID(process.id);
-                                                    onMenuClick('format');
-                                                }}
-                                                title="포맷 관리로 이동"
-                                            >
-                                                {process.name}
-                                            </span>
-                                        </td>
-                                        <td>{process.createdTime && processDate(process.createdTime)}</td>
-                                        <td>{process.updatedTime && processDate(process.updatedTime)}</td>
-                                        <td>
-                                            <button
-                                                className="btn btn-outline-primary btn-sm px-3"
-                                                style={{ borderRadius: '1rem', fontWeight: 500 }}
-                                                onClick={() => setEditComp(process.id)}
-                                            >
-                                                수정
-                                            </button>
+                                        <td colSpan={5} style={{ background: "#f6f8fa", borderBottomLeftRadius: '0.7rem', borderBottomRightRadius: '0.7rem' }}>
+                                            <EditProcess
+                                                onClose={handleEditComp}
+                                                processId={process.id}
+                                                _name={process.name}
+                                                showAlert={showAlert}
+                                            />
                                         </td>
                                     </tr>
-                                    {editComp === process.id && (
-                                        <tr>
-                                            <td colSpan={5} style={{ background: "#f6f8fa", borderBottomLeftRadius: '1rem', borderBottomRightRadius: '1rem' }}>
-                                                <EditProcess
-                                                    onClose={handleEditComp}
-                                                    processId={process.id}
-                                                    _name={process.name}
-                                                />
-                                            </td>
-                                        </tr>
-                                    )}
-                                </React.Fragment>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
+                                )}
+                            </React.Fragment>
+                        ))}
+                    </tbody>
+                </table>
             </div>
             <div className="d-flex justify-content-end">
                 <button
                     className="btn btn-success shadow-sm"
-                    style={{ borderRadius: "1rem", fontWeight: 600, padding: "0.5rem 2rem" }}
+                    style={{ borderRadius: "0.7rem", fontWeight: 600, padding: "0.5rem 2rem" }}
                     onClick={() => setShowModal(true)}
                 >
                     + 프로세스 추가
@@ -140,7 +167,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                     style={{
                         display: 'block',
                         background: 'rgba(0,0,0,0.3)',
-                        zIndex: 1050
+                        zIndex: 1050,
                     }}
                     onClick={handleCloseModal}
                 >
@@ -149,8 +176,8 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                         style={{ maxWidth: 480 }}
                         onClick={e => e.stopPropagation()}
                     >
-                        <div className="modal-content rounded-4">
-                            <div className="modal-header">
+                        <div className="modal-content rounded-4" >
+                            <div className="modal-header" >
                                 <h5 className="modal-title fw-bold">프로세스 추가</h5>
                                 <button type="button" className="btn-close" onClick={handleCloseModal}></button>
                             </div>
@@ -158,14 +185,13 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                                 <InputProcess
                                     onClose={handleCloseModal}
                                     processId={selectedProcessId}
+                                    showAlert={showAlert}
                                 />
                             </div>
                         </div>
                     </div>
                 </div>
             )}
-            {/* 모달 활성화 시 바디 스크롤 방지 */}
-            {showModal && <style>{'body { overflow: hidden; }'}</style>}
         </div>
     );
 };

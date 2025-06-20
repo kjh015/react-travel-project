@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import 'bootstrap/dist/css/bootstrap.min.css';
-import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+import React from "react";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const renderStarsStatic = (score = 0) => (
     <span>
@@ -17,13 +15,33 @@ const renderStarsStatic = (score = 0) => (
     </span>
 );
 
-const ChckMyCom = ({ comments = [], onRemoveComment }) => {
+const ChckMyCom = ({ comments = [], onRemoveComment, ratingAvg }) => {
     return (
         <div className="container my-4">
             <div className="card shadow-sm border-1 rounded-4 mx-auto" style={{ maxWidth: 520, background: "#fafdffcc" }}>
                 <div className="card-body p-4">
-                    <h5 className="mb-4">댓글 목록</h5>
-                    {(comments.length === 0) && <p className="text-muted">댓글이 없습니다.</p>}
+                    {/* 타이틀, 댓글수, 평점수 한 줄에 정렬 */}
+                    <div className="d-flex align-items-center mb-4 justify-content-between">
+                        <h5 className="mb-0 fw-bold">댓글 목록</h5>
+                        <div className="d-flex align-items-center" style={{ gap: "1.1rem" }}>
+                            <span className="text-secondary" style={{ fontSize: "1rem" }}>
+                                댓글 수 <span className="fw-semibold">{comments.length}</span>
+                            </span>
+                            <span className="text-secondary" style={{ fontSize: "1rem" }}>
+                                <span
+                                    className="ms-1"
+                                    style={{
+                                        fontSize: "1.15rem",
+                                        color: "#ffc107"
+                                    }}
+                                >★
+                                </span>
+                                <span className="fw-semibold"> {ratingAvg}</span>
+                            </span>
+                        </div>
+                    </div>
+                    {/* 실제 댓글 리스트 */}
+                    {comments.length === 0 && <p className="text-muted">댓글이 없습니다.</p>}
                     <div>
                         {comments.map((c, idx) => (
                             <div key={idx} className="card mb-3 border-0 shadow-sm rounded-3 position-relative">
@@ -46,13 +64,11 @@ const ChckMyCom = ({ comments = [], onRemoveComment }) => {
                                     >
                                         ×
                                     </button>
-                                    <div className="d-flex align-items mb-2">
+                                    <div className="d-flex align-items-center mb-2">
                                         <strong className="me-2">{c.nickname}</strong>
-                                        <span style={{ fontSize: "0.96rem", color: "#aaa" }}>
-                                            {c.rating > 0 && (
-                                                <div className="mb-1">{renderStarsStatic(c.rating)}</div>
-                                            )}
-                                        </span>
+                                        {c.rating > 0 && (
+                                            <span className="ms-1">{renderStarsStatic(c.rating)}</span>
+                                        )}
                                     </div>
                                     <div className="mb-2">{c.content}</div>
                                 </div>
@@ -64,4 +80,5 @@ const ChckMyCom = ({ comments = [], onRemoveComment }) => {
         </div>
     );
 };
+
 export default ChckMyCom;
