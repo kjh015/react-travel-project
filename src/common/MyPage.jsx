@@ -22,12 +22,16 @@ const MyPage = () => {
   const [showConfirm, setShowConfirm] = useState(false);
 
   // Alert 띄우기
-  const showAlert = (message, type = "success", delay = 500, redirect) => {
+  const showAlert = (message, type = "success", delay, redirect) => {
     setAlert({ show: true, message, type });
-    setTimeout(() => {
-      setAlert({ show: false, message: '', type: '' });
-      if (redirect) redirect();
-    }, delay);
+    if (delay) {
+      setTimeout(() => {
+        setAlert({ show: false, message: '', type: '' });
+        if (redirect) redirect();
+      }, delay);
+
+    }
+
   };
 
   // 회원 탈퇴 (모달에서 OK 클릭 시)
@@ -54,23 +58,10 @@ const MyPage = () => {
           });
         }
         else {
-          alert("회원 정보 조회 실패");
+          showAlert("회원 정보 조회 실패", "danger");
         }
       })
   }
-
-  // 로그아웃
-  const handleLogout = () => {
-    SignApiClient.signOut().then(res => {
-      if (res.ok) {
-        localStorage.removeItem('accessToken');
-        localStorage.removeItem('nickname');
-        showAlert("로그아웃 성공", "success", 500, () => window.location.href = '/');
-      } else {
-        showAlert("로그아웃 실패", "danger");
-      }
-    });
-  };
   useEffect(() => {
     getMember();
   }, []);

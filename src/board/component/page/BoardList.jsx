@@ -117,35 +117,7 @@ const BoardList = () => {
       className="bg-light min-vh-100 py-4"
       style={{ overflowX: "hidden" }}
     >
-      {/* 그라데이션 문구 */}
-      <div
-        style={{
-          width: "100%",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          marginBottom: "24px",
-          marginTop: "12px",
-        }}
-      >
-        <h1
-          style={{
-            fontSize: "2.8rem",
-            fontWeight: 800,
-            letterSpacing: "0.01em",
-            background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
-            color: "transparent",
-            textAlign: "center",
-            margin: 0,
-            lineHeight: 1.2,
-          }}
-        >
-          이번엔 어디로??
-        </h1>
-      </div>
+      
       <BoardSearch selectedCategory={category} selectedRegion={region} />
       <div className="container py-3" style={{ maxWidth: 850 }}>
         {/* 헤더, 정렬, 글쓰기 */}
@@ -260,10 +232,10 @@ const BoardList = () => {
                 </div>
 
                 {/* 지역/카테고리/작성자 */}
-                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
-                  <span style={{ color: "#222" }}>닉네임</span>
-                  <Badge bg="primary" className="me-1">서울</Badge>
-                  <Badge bg="secondary" className="me-2">축제</Badge>
+                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>                  
+                  <Badge bg={categoryColors[board.category]} className="me-1">{board.category}</Badge>
+                  <Badge bg={regionColors[board.region]} className="me-2">{board.region}</Badge>
+                  <span style={{ color: "#222" }}>by {board.memberNickname}</span>
                 </div>
               </div>
             ))}
