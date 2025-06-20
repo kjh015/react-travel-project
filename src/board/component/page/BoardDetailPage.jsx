@@ -71,7 +71,7 @@ const BoardDetailPage = () => {
               else {
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
-                  event: "travel_favorite_remove",  //matomo 추가해야함, comment도
+                  event: "travel_favorite_remove",
                   boardId: no,
                   category: board.category,
                   region: board.region,
@@ -286,7 +286,7 @@ const BoardDetailPage = () => {
                 </div>
                 {/* 본문 */}
                 <Card className="mb-0" style={{ background: "#f7fafc", border: "none" }}>
-                  <Card.Body className="py-2 px-3" style={{ minHeight: "50px", fontSize: "1.08rem" }}>
+                  <Card.Body className="py-2 px-3" style={{ minHeight: "50px", fontSize: "1.08rem", whiteSpace: "pre-line" }}>
                     {board.content}
                   </Card.Body>
                 </Card>
@@ -311,13 +311,13 @@ const BoardDetailPage = () => {
 
 
                   {/* 공유버튼 */}
-                  <button
+                  {/* <button
                     type="button"
                     className="btn btn-primary px-4"
                     onClick={handleShare}
                   >
                     {shared ? "공유취소" : "공유하기"}
-                  </button>
+                  </button> */}
                 </div>
               </Card.Body>
             </Card>

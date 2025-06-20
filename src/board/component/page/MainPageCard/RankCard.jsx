@@ -28,6 +28,27 @@ import BoardApiClient from '../../../service/BoardApiClient';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+const images = {
+  "서울": 서울,
+  "부산": 부산,
+  "강원": 강원,
+  "제주": 제주,
+  "대구": 대구,
+  "경기": 경기,
+  "인천": 인천,
+  "전남": 전남,
+  "기타": 기타,
+  "축제": 축제,
+  "음식": 음식,
+  "쇼핑": 쇼핑,
+  "자연": 자연,
+  "가족": 가족,
+  "공연": 공연,
+  "역사": 역사,
+  "행사": 행사,
+  "체험": 체험
+};
+
 // 1등 왕관 배지 스타일 (z-index: 99, pointerEvents: "none")
 const firstRankBadgeStyle = {
     position: 'absolute',
@@ -81,9 +102,9 @@ const RankCard = ({ data, type, rank }) => {
             >
                 {/* 이미지 */}
                 <div style={{ position: "relative", width: "100%" }}>
-                    {false ? (
+                    {true ? (
                         <img
-                            // src={`http://14.63.178.161${board.imagePaths[0]}`}
+                            src={images[data]}
                             alt="Main visual"
                             className="card-img-top"
                             style={{
