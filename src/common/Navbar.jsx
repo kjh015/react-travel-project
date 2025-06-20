@@ -127,7 +127,7 @@ const Navbar = () => {
       >
         <div
           className="container-fluid px-3 d-flex align-items-center"
-          style={{ minHeight: 68, maxWidth: 1280, margin: "0 auto" }}
+          style={{ minHeight: 68, margin: "0 auto" }}
         >
           {/* 브랜드 */}
           <div style={{

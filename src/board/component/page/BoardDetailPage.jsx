@@ -16,7 +16,8 @@ const categoryColors = {
 };
 
 const regionColors = {
-  서울: "primary", 부산: "info", 제주: "success",
+  서울: "primary", 부산: "info", 제주: "success", 강원: "danger", 경기: "info", 기타: "warning",
+  대구: "secondary", 인천: "dark", 전남: "secondary"
 };
 
 const BoardDetailPage = () => {

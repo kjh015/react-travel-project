@@ -24,8 +24,10 @@ const BoardList = () => {
     쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
   };
   const regionColors = {
-    서울: "primary", 부산: "info", 제주: "success",
+    서울: "primary", 부산: "info", 제주: "success", 강원: "danger", 경기: "info", 기타: "warning",
+    대구: "secondary", 인천: "dark", 전남: "secondary"
   };
+
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("category") || "";
@@ -117,20 +119,20 @@ const BoardList = () => {
       className="bg-light min-vh-100 py-4"
       style={{ overflowX: "hidden" }}
     >
-      
+
       <BoardSearch selectedCategory={category} selectedRegion={region} />
       <div
-              style={{
-                height: "3.5px",
-                width: "60px",
-                margin: "0.7rem auto 1.1rem auto",
-                borderRadius: "2rem",
-                background: "linear-gradient(90deg,#bdaafc 20%, #92e0f6 90%)",
-                opacity: 0.88,
-                marginTop: "1rem",
-                marginBottom: "5rem"
-              }}
-            />
+        style={{
+          height: "3.5px",
+          width: "60px",
+          margin: "0.7rem auto 1.1rem auto",
+          borderRadius: "2rem",
+          background: "linear-gradient(90deg,#bdaafc 20%, #92e0f6 90%)",
+          opacity: 0.88,
+          marginTop: "1rem",
+          marginBottom: "5rem"
+        }}
+      />
       <div className="container py-3" style={{ maxWidth: 850, }}>
         {/* 헤더, 정렬, 글쓰기 */}
         <div className="d-flex justify-content-between align-items-center mb-4">
@@ -244,7 +246,7 @@ const BoardList = () => {
                 </div>
 
                 {/* 지역/카테고리/작성자 */}
-                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>                  
+                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
                   <Badge bg={categoryColors[board.category]} className="me-1">{board.category}</Badge>
                   <Badge bg={regionColors[board.region]} className="me-2">{board.region}</Badge>
                   <span style={{ color: "#222" }}>by {board.memberNickname}</span>
