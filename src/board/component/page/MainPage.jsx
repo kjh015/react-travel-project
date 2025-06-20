@@ -3,9 +3,12 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import { useEffect, useState } from "react";
 import BoardSearch from "./BoardSearch";
 import tgd3 from '../imgs/tgd3.jpg';
+
+
 import MainPageCardsLayout from "./MainPageCardsLayout";
 import MainPageCardsLayout2 from "./MainPageCardsLayout2";
 import Footers from "../../../common/Footers";
+
 
 const MainPage = () => {
   const [top5Board, setTop5Board] = useState([]);
@@ -30,13 +33,11 @@ const MainPage = () => {
       setTop5Board(data.top5Boards);       // 게시글 인기 Top5
       setTop5Region(data.top5Regions);
       setTop5Category(data.top5Categories); // 카테고리 인기 Top5
-
     };
 
     return () => {
       evt.close();
     };
-
   }, []);
 
   return (
@@ -81,7 +82,6 @@ const MainPage = () => {
               position: "relative",
               display: "inline-block",
               padding: "1rem 4.5rem 10rem 4.5rem",
-              // borderRadius: "2.2rem",
               background: "rgba(255,255,255,0.65)",
               boxShadow: "0 6px 36px rgba(80,60,180,0.08)",
               backdropFilter: "blur(4px)",
@@ -91,7 +91,6 @@ const MainPage = () => {
               maxWidth: "94vw"
             }}
           >
-
             {/* 그라데이션 타이틀 */}
             <h2
               style={{
@@ -164,7 +163,7 @@ const MainPage = () => {
               textAlign: "start",
               width: "100%",
               fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
-              color: "#a68eff", // 더 선명한 퍼플
+              color: "#a68eff",
               fontWeight: 900,
               fontSize: "2.35rem",
               margin: "0 0 26px 0",
@@ -209,7 +208,7 @@ const MainPage = () => {
             className="text-left mb-4">실시간 인기 지역</h4>
           <MainPageCardsLayout2 top5Data={top5Region} />
         </div>
-        
+      
       </div>
 
       <Footers />
