@@ -119,7 +119,19 @@ const BoardList = () => {
     >
       
       <BoardSearch selectedCategory={category} selectedRegion={region} />
-      <div className="container py-3" style={{ maxWidth: 850 }}>
+      <div
+              style={{
+                height: "3.5px",
+                width: "60px",
+                margin: "0.7rem auto 1.1rem auto",
+                borderRadius: "2rem",
+                background: "linear-gradient(90deg,#bdaafc 20%, #92e0f6 90%)",
+                opacity: 0.88,
+                marginTop: "1rem",
+                marginBottom: "5rem"
+              }}
+            />
+      <div className="container py-3" style={{ maxWidth: 850, }}>
         {/* 헤더, 정렬, 글쓰기 */}
         <div className="d-flex justify-content-between align-items-center mb-4">
           <div>

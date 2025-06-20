@@ -8,7 +8,7 @@ import MainPageCardsLayout2 from "./MainPageCardsLayout2";
 import Footers from "../../../common/Footers";
 
 const MainPage = () => {
-  const [top5Board, setTop5Board] = useState([]);  
+  const [top5Board, setTop5Board] = useState([]);
   const [top5Region, setTop5Region] = useState([]);
   const [top5Category, setTop5Category] = useState([]);
 
@@ -22,15 +22,15 @@ const MainPage = () => {
 
     const evt = new EventSource('http://localhost:8000/realtime-popular/sse');
     evt.onmessage = (e) => {
-      
+
       const data = JSON.parse(e.data);
       console.log(e.data);
       console.log(data);
-      
+
       setTop5Board(data.top5Boards);       // 게시글 인기 Top5
       setTop5Region(data.top5Regions);
       setTop5Category(data.top5Categories); // 카테고리 인기 Top5
-      
+
     };
 
     return () => {
@@ -45,7 +45,8 @@ const MainPage = () => {
         minHeight: "100vh",
         background: "#F5F6FF",
         width: "100%",
-        overflowX: "hidden"
+        overflowX: "hidden",
+        marginTop: "-1px"
       }}
     >
       {/* 히어로 섹션 */}
@@ -59,6 +60,7 @@ const MainPage = () => {
           justifyContent: "center",
           alignItems: "center",
           marginBottom: "32px",
+          
         }}
       >
         {/* 히어로 콘텐츠 */}
@@ -70,7 +72,7 @@ const MainPage = () => {
             alignItems: "center",
             position: "relative",
             zIndex: 2,
-            marginTop: "-50px"
+            
           }}
         >
           <div
@@ -127,8 +129,8 @@ const MainPage = () => {
               margin: "0.7rem 0 0 0",
               textShadow: "0 2px 8px rgba(255,255,255,0.09)"
             }}>
-              여러분의 소중한 경험과 인연을 이곳에!<br />
-              사진, 후기, 꿀팁, 그리고 여행 설렘까지 자유롭게 나누세요.
+              지금, 가장 인기 있는 여행지를 만나보세요!<br />
+              모두의 이야기에서 당신만의 여행을 찾아보세요.
             </p>
           </div>
         </div>
@@ -152,12 +154,12 @@ const MainPage = () => {
           maxWidth: "1020px",
           zIndex: 2,
           padding: "0 16px",
-          marginTop: "-290px"
+          marginTop: "-265px"
         }}
       >
         <div >
           <BoardSearch />
-          <div style={{ marginBottom: "32px" }}>
+          <div style={{ marginBottom: "32px", marginTop: "5rem" }}>
             <h2 style={{
               textAlign: "start",
               width: "100%",
@@ -178,10 +180,10 @@ const MainPage = () => {
       </div>
 
       {/* 지역/카테고리별 */}
-      <div>
-        <div className="my-5 ps-3">
+      <div >
+        <div style={{marginTop: "8rem"}} >
           <h4 style={{
-            paddingLeft: "20rem",
+            paddingLeft: "7rem",
             textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
@@ -190,23 +192,24 @@ const MainPage = () => {
             letterSpacing: "-0.03em",
             marginBottom: "1.4rem"
           }}
-            className="text-center mb-4">지역별 순위</h4>
-          <MainPageCardsLayout2 top5Data={top5Region} />
-        </div>
-        <div className="my-5 px-3">
-          <h4 style={{
-            paddingLeft: "20rem",
-            textAlign: "left",
-            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
-            color: "#b7aaff",
-            fontWeight: 700,
-            fontSize: "1.55rem",
-            letterSpacing: "-0.03em",
-            marginBottom: "1.4rem"
-          }}
-            className="text-center mb-4">카테고리별 순위</h4>
+            className="text-left mb-4">실시간 인기 카테고리</h4>
           <MainPageCardsLayout2 top5Data={top5Category} />
         </div>
+        <div style={{marginTop: "6rem"}}>
+          <h4 style={{
+            paddingLeft: "7rem",
+            textAlign: "left",
+            fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
+            color: "#b7aaff",
+            fontWeight: 700,
+            fontSize: "1.55rem",
+            letterSpacing: "-0.03em",
+            marginBottom: "1.4rem"
+          }}
+            className="text-left mb-4">실시간 인기 지역</h4>
+          <MainPageCardsLayout2 top5Data={top5Region} />
+        </div>
+        
       </div>
 
       <Footers />

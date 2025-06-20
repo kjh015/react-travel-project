@@ -54,11 +54,12 @@ const SignUpPage = () => {
         e.preventDefault();
         try {
             const res = await SignApiClient.signUp(formData);
-            if (res.ok) {
-                setAlert({ show: true, message: "회원가입 성공!", type: "success" });
+            const msg = await res.json();
+            if (res.ok) {                
+                setAlert({ show: true, message: msg.message, type: "success" });
                 setTimeout(() => { window.location.href = "/"; }, 500);
             } else {
-                setAlert({ show: true, message: "회원가입 실패", type: "danger" });
+                setAlert({ show: true, message: msg.message, type: "danger" });
             }
         } catch (error) {
             console.error("에러 발생:", error);

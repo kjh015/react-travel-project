@@ -7,6 +7,9 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // 아이콘 사용을 위해 import
 import UserAuthentication from '../sign/service/UserAuthentication';
 
+const GRADIENT = "linear-gradient(90deg, #5C6BC0 0%, #283593 100%)";
+const BLUR = "backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);";
+
 const Navbar = () => {
   const [curUser, setCurUser] = useState('');
   const [show, setShow] = useState(false);
@@ -108,15 +111,27 @@ const Navbar = () => {
         )}
       </div>
       {/* ----- 네비바 시작 ----- */}
+      변경
+
       <nav
-        className="navbar navbar-dark fixed-top"
-        style={{ backgroundColor: "#283593" }}
-      // x
+        className="navbar navbar-dark fixed-top shadow"
+        style={{
+          background: GRADIENT,
+          color: "#fff",
+          boxShadow: "0 4px 32px rgba(40,53,147,0.18)",
+          borderRadius: "0 0 24px 24px",
+          minHeight: 68,
+          padding: 0,
+          zIndex: 1030,
+        }}
       >
-        <div className="container-fluid px-3 d-flex align-items-center" style={{ minHeight: "60px" }}>
-          {/* 왼쪽: 브랜드 */}
+        <div
+          className="container-fluid px-3 d-flex align-items-center"
+          style={{ minHeight: 68, maxWidth: 1280, margin: "0 auto" }}
+        >
+          {/* 브랜드 */}
           <div style={{
-            minWidth: "170px",
+            minWidth: 180,
             display: "flex",
             alignItems: "center"
           }}>
@@ -125,135 +140,137 @@ const Navbar = () => {
               className="navbar-brand mb-0 h1"
               style={{
                 display: "inline-block",
-                fontWeight: 700,
-                padding: "0.5rem 1.2rem",
+                fontWeight: 800,
+                padding: "0.5rem 1.6rem",
                 borderRadius: "2rem",
                 background: "linear-gradient(90deg, #B794F4 40%, #90CDF4 100%)",
                 color: "#fff",
-                fontSize: "1.3rem",
-                boxShadow: "0 2px 8px rgba(136, 97, 255, 0.11)"
+                fontSize: "1.35rem",
+                letterSpacing: "0.02em",
+                boxShadow: "0 2px 12px rgba(136,97,255,0.13)",
+                border: "none"
               }}
             >
+              <i className="bi bi-airplane-engines-fill me-2" style={{ fontSize: "1.2rem" }} />
               Trip Now
             </Link>
           </div>
-          {/* 가운데: 검색(비워둠) */}
+          {/* 가운데 비움 */}
           <div className="flex-grow-1 d-flex justify-content-center"></div>
-          {/* 오른쪽: 햄버거(오프캔버스) 버튼 */}
-          <div style={{ minWidth: "54px" }} className="d-flex justify-content-end">
+          {/* 햄버거 버튼 */}
+          <div style={{ minWidth: 54 }} className="d-flex justify-content-end">
             <Button
               variant="dark"
-              className="navbar-toggler"
+              className="navbar-toggler shadow-sm"
               onClick={handleShow}
               aria-controls="offcanvasNavbar"
-              style={{ backgroundColor: "#283593", borderColor: "#283593" }}
-            // x
+              style={{
+                background: "rgba(44,62,160,0.88)",
+                borderColor: "rgba(44,62,160,0.88)",
+                borderRadius: "16px",
+                transition: "box-shadow 0.2s",
+              }}
             >
               <span className="navbar-toggler-icon" />
             </Button>
           </div>
         </div>
-
-        {/* 오프캔버스 메뉴 */}
+        {/* 오프캔버스 */}
         <Offcanvas
           show={show}
           onHide={handleClose}
           placement="end"
           id="offcanvasNavbar"
           aria-labelledby="offcanvasNavbarLabel"
-          style={{ width: '270px', backgroundColor: "#283593", color: "white" }}
-        // x
+          style={{
+            width: '300px',
+            background: "linear-gradient(135deg, #283593D9 60%, #6F8AE7DD 100%)",
+            color: "white",
+            borderTopLeftRadius: "28px",
+            borderBottomLeftRadius: "28px",
+            boxShadow: "0 0 32px 0 rgba(40,53,147,0.13)",
+            ...{
+              backdropFilter: "blur(10px)",
+              WebkitBackdropFilter: "blur(10px)"
+            }
+          }}
         >
-          <Offcanvas.Header closeButton style={{ backgroundColor: "#283593", color: "white" }}
-
-          // x
-          >
-
-            <Offcanvas.Title id="offcanvasNavbarLabel">메뉴</Offcanvas.Title>
+          <Offcanvas.Header closeButton style={{
+            background: "none",
+            color: "white",
+            borderBottom: "1px solid rgba(255,255,255,0.10)"
+          }}>
+            <Offcanvas.Title id="offcanvasNavbarLabel" style={{
+              fontWeight: 600, letterSpacing: "0.05em", fontSize: "1.2rem"
+            }}>
+              <i className="bi bi-menu-button-wide me-2" />
+              메뉴
+            </Offcanvas.Title>
           </Offcanvas.Header>
           <Offcanvas.Body>
             <div className="d-flex flex-column justify-content-between h-100">
-              {/* 메뉴 영역 */}
               <div className="d-flex flex-column align-items-stretch gap-2">
-                <div className="mb-2">
-                  <Link
-                    className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                    to="/board/list"
-                    onClick={handleClose}
-                  >
-                    <i className="bi bi-card-list me-2"></i>여행지
-                  </Link>
-                </div>
+                {/* 아래 링크들 공통 스타일에 마우스오버 효과 추가 */}
+                <MenuLink
+                  to="/board/list"
+                  icon="bi-card-list"
+                  label="여행지"
+                  onClick={handleClose}
+                />
                 {!isLoggedIn && (
                   <>
-                    <div className="mb-2">
-                      <Link
-                        className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                        to="sign/component/signinpage"
-                        onClick={() => { goToLogin(); handleClose(); }}
-                      >
-                        <i className="bi bi-box-arrow-in-right me-2"></i>로그인
-                      </Link>
-                    </div>
-                    <div className="mb-2">
-                      <Link
-                        className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                        to="sign/component/signuppage"
-                        onClick={() => { goToSignup(); handleClose(); }}
-                      >
-                        <i className="bi bi-person-plus me-2"></i>회원 가입
-                      </Link>
-                    </div>
+                    <MenuLink
+                      to="sign/component/signinpage"
+                      icon="bi-box-arrow-in-right"
+                      label="로그인"
+                      onClick={() => { goToLogin(); handleClose(); }}
+                    />
+                    <MenuLink
+                      to="sign/component/signuppage"
+                      icon="bi-person-plus"
+                      label="회원 가입"
+                      onClick={() => { goToSignup(); handleClose(); }}
+                    />
                   </>
                 )}
                 {isLoggedIn && (
                   <>
                     {isAdmin &&
-                      <div className="mb-2">
-                        <Link
-                          className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                          to="/component/admnpage"
-                          onClick={handleClose}
-                        >
-                          <i className="bi bi-gear me-2"></i>관리자 메뉴
-                        </Link>
-                      </div>
-                    }
-                    <div className="mb-2">
-                      <Link
-                        className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                        to="/common/MyPage"
+                      <MenuLink
+                        to="/component/admnpage"
+                        icon="bi-gear"
+                        label="관리자 메뉴"
                         onClick={handleClose}
-                      >
-                        <i className="bi bi-person-circle me-2"></i>마이페이지
-                      </Link>
-                    </div>
+                      />}
+                    <MenuLink
+                      to="/common/MyPage"
+                      icon="bi-person-circle"
+                      label="마이페이지"
+                      onClick={handleClose}
+                    />
                   </>
                 )}
               </div>
-              {/* 아래쪽: 로그아웃, 토큰 테스트, ID */}
+              {/* 하단 - 로그아웃 등 */}
               <div className="d-flex flex-column align-items-stretch gap-2 mt-4">
-                <div className="mb-2">
-                  <div className="mb-2">
-                    <Link
-                      className="nav-link w-100 fs-5 text-light bg-opacity-75 rounded px-3 py-2"
-                      onClick={handleLogout}
-                    >
-                      <i className="bi bi-box-arrow-right me-2"></i>로그아웃
-                    </Link>
-                  </div>
-                  <Link
-                    className="nav-link w-100 fs-6 text-light bg-secondary bg-opacity-50 rounded px-3 py-2"
-                    onClick={handleTest}
-                  >
-                    <i className="bi bi-key me-2"></i>AccessToken Test
-                  </Link>
-                </div>
-                <div>
-                  <span className="nav-link w-100 fs-6 text-light bg-secondary bg-opacity-50 rounded px-3 py-2 disabled" style={{ pointerEvents: 'none', opacity: 0.7 }}>
+                {isLoggedIn && <MenuLink
+                  to="#"
+                  icon="bi-box-arrow-right"
+                  label="로그아웃"
+                  onClick={handleLogout}
+                />}
+                {isLoggedIn &&
+                  <span
+                    className="nav-link w-100 fs-6 text-light bg-secondary bg-opacity-50 rounded px-3 py-2 disabled"
+                    style={{
+                      pointerEvents: 'none',
+                      opacity: 0.7,
+                      background: "rgba(100, 100, 180, 0.16)"
+                    }}>
                     <i className="bi bi-person-badge me-2"></i>ID: {curUser}
                   </span>
-                </div>
+                }
+
               </div>
             </div>
           </Offcanvas.Body>
@@ -264,3 +281,32 @@ const Navbar = () => {
 };
 
 export default Navbar;
+
+// 파일 내에 추가
+const MenuLink = ({ to, icon, label, onClick, fs = "fs-5" }) => (
+  <Link
+    to={to}
+    className={`nav-link w-100 ${fs} text-light bg-opacity-75 rounded px-3 py-2`}
+    style={{
+      position: "relative",
+      transition: "background 0.2s, box-shadow 0.16s",
+      fontWeight: 500,
+      borderRadius: "18px",
+      letterSpacing: "0.01em"
+    }}
+    onClick={onClick}
+    onMouseOver={e => {
+      e.target.style.background = "rgba(255,255,255,0.11)";
+      e.target.style.color = "#FFF";
+      e.target.style.boxShadow = "0 2px 12px 0 rgba(91,142,255,0.09)";
+    }}
+    onMouseOut={e => {
+      e.target.style.background = "";
+      e.target.style.color = "#FFF";
+      e.target.style.boxShadow = "";
+    }}
+  >
+    <i className={`bi ${icon} me-2`} style={{ opacity: 0.96 }} />
+    {label}
+  </Link>
+);

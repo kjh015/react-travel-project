@@ -139,6 +139,18 @@ const BoardSearch = ({selectedCategory, selectedRegion}) => {
     return (
         <div>
             <Card className="shadow-sm rounded-4 mx-auto" style={{ maxWidth: 700, padding: '32px 36px', background: '#fff' }}>
+                <Row className="g-3">
+                    <Col md={6}>
+                        <div className="bg-light rounded-4 p-2 px-3 border">
+                            <CategoryCard selectedCategory={board.category} setCategory={handleCategoryChange} />
+                        </div>
+                    </Col>
+                    <Col md={6}>
+                        <div className="bg-light rounded-4 p-2 px-3 border">
+                            <RegionRadioComp selectedRegion={board.region} setRegion={handleRegionChange} />
+                        </div>
+                    </Col>
+                </Row>
                 <Form className="mb-4" onSubmit={handleSubmit}>
                     <div className="text-center mb-3"></div>
                     <div className="d-flex" style={{ gap: 8, position: "relative" }}>
@@ -220,18 +232,7 @@ const BoardSearch = ({selectedCategory, selectedRegion}) => {
                         </Button>
                     </div>
                 </Form>
-                <Row className="g-3">
-                    <Col md={6}>
-                        <div className="bg-light rounded-4 p-2 px-3 border">
-                            <CategoryCard selectedCategory={board.category} setCategory={handleCategoryChange} />
-                        </div>
-                    </Col>
-                    <Col md={6}>
-                        <div className="bg-light rounded-4 p-2 px-3 border">
-                            <RegionRadioComp selectedRegion={board.region} setRegion={handleRegionChange} />
-                        </div>
-                    </Col>
-                </Row>
+                
             </Card>
         </div>
     );
