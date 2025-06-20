@@ -102,7 +102,7 @@ const RankCard = ({ data, type, rank }) => {
             >
                 {/* 이미지 */}
                 <div style={{ position: "relative", width: "100%" }}>
-                    {true ? (
+                    {data ? (
                         <img
                             src={images[data]}
                             alt="Main visual"
