@@ -275,7 +275,7 @@ const BoardDetailPage = () => {
                     <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
                     <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
                   </div>
-                  {(nickname === board.memberNickname) && (
+                  {(nickname === board.memberNickname || UserAuthentication.isAdmin()) && (
                     <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
                       <Link
                         to={`/board/edit?no=${board.id}`}

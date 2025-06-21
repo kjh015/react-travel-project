@@ -10,7 +10,7 @@ const BoardList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("popular");
   const [sortName, setSortName] = useState("정렬");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
