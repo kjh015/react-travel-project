@@ -1,5 +1,5 @@
 class RealtimePopularApiClient {
-    static SERVER_URL = "http://localhost:8000/realtime-popular";
+    static SERVER_URL = "http://14.63.178.161:8000/realtime-popular";
     static GET_SSE = "/sse";
 
     static dd() {
