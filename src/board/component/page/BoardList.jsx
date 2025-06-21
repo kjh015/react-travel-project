@@ -11,7 +11,7 @@ const BoardList = () => {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
   const [sort, setSort] = useState("popular");
-  const [sortName, setSortName] = useState("정렬");
+  const [sortName, setSortName] = useState("인기 순");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
