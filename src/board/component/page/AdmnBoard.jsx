@@ -94,9 +94,9 @@ const AdmnBoard = () => {
     return (
         <div style={{ marginTop: '80px' }}>
             
-            {/* <button className="btn btn-danger" onClick={migrateData}>
+            <button className="btn btn-danger" onClick={migrateData}>
                 데이터 적재하기(MySQL - ElasticSearch)
-            </button> */}
+            </button>
             <div className="container my-4" style={{ maxWidth: 740 }}>
                 <h4 className="fw-bold">여행지 관리 페이지</h4>
                 
