@@ -11,14 +11,10 @@ const BoardList = () => {
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
   const [sort, setSort] = useState("");
+  const [sortName, setSortName] = useState("정렬");
   const [direction, setDirection] = useState("desc");
   const [page, setPage] = useState(0);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
-  const [board, setBoard] = useState({
-    id: '', title: '', content: '', memberNickname: '',
-    travelPlace: '', address: '', category: '', region: '', imagePaths: [],
-    createdDate: '', modifiedDate: '', ratingAvg: '', viewCount: '', favoriteCount: '', commentCount: ''
-  });
   const categoryColors = {
     축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
     쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
@@ -95,15 +91,11 @@ const BoardList = () => {
     return isoString.substring(0, 16).replace("T", " ");
   };
 
-  const handleSort = (type) => {
-    if (type === sort) {
-      direction === "asc" ? setDirection("desc") : setDirection("asc")
-    }
-    else {
-      setDirection("desc");
-      setSort(type);
-      setPage(0);
-    }
+  const handleSort = ({ sort, direction, name }) => {
+    setDirection(direction);
+    setSort(sort);
+    setSortName(name);
+    setPage(0);
   };
 
   const handleNextPage = () => {
@@ -119,6 +111,7 @@ const BoardList = () => {
       className="bg-light min-vh-100 py-4"
       style={{ overflowX: "hidden" }}
     >
+      <div style={{ marginTop: "3rem", }}/>
 
       <BoardSearch selectedCategory={category} selectedRegion={region} />
       <div
@@ -153,15 +146,17 @@ const BoardList = () => {
             <div className="dropdown me-2">
               <button className="btn btn-outline-primary dropdown-toggle px-3 fw-semibold"
                 type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                {sort}
+                {sortName}
               </button>
               <ul className="dropdown-menu">
-                <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
-                <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
-                <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
-                <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
-                <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
-                <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "popular", direction: "desc", name: "인기 순"})}>인기 순</button></li>            
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "modifiedDate", direction: "desc", name: "최신 순"})}>최신 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "modifiedDate", direction: "asc", name: "오래된 순"})}>오래된 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "ratingAvg", direction: "desc", name: "높은 평점 순"})}>높은 평점 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "ratingAvg", direction: "asc", name: "낮은 평점 순"})}>낮은 평점 순</button></li>
+                <li><button className="dropdown-item" onClick={() => handleSort({sort: "viewCount", direction: "desc", name: "조회수 순"})}>조회수 순</button></li>
+                
+
               </ul>
             </div>
             {isLoggedIn && (

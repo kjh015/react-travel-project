@@ -12,18 +12,8 @@ const CheckMyArt = () => {
     const [error, setError] = useState(null);
 
     const nickname = localStorage.getItem("nickname");
-
-    const [searched, setSearched] = useState(false);
-    const [sort, setSort] = useState("regDate");
-    const [direction, setDirection] = useState("desc");
-    const [page, setPage] = useState(0);
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
-    const location = useLocation();
-    const params = new URLSearchParams(location.search);
-    const category = params.get("category") || "";
-    const region = params.get("region") || "";
-    const keyword = params.get("keyword") || "";
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem('accessToken');
 
@@ -58,24 +48,6 @@ const CheckMyArt = () => {
         return isoString.substring(0, 16).replace("T", " ");
     };
 
-    const handleSort = (type) => {
-        if (type === sort) {
-            direction === "asc" ? setDirection("desc") : setDirection("asc")
-        }
-        else {
-            setDirection("desc");
-            setSort(type);
-            setPage(0);
-        }
-    };
-
-    const handleNextPage = () => {
-        setPage(p => p + 1);
-    };
-    const handlePrevPage = () => {
-        setPage(p => (p > 0 ? p - 1 : 0));
-    };
-
     return (
         <div
             className="bg-light min-vh-100 py-4"
@@ -93,25 +65,8 @@ const CheckMyArt = () => {
                                 fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
                                 fontSize: "2rem"
                             }}>
-                            찜 목록
+                            나의 여행지 목록
                         </h3>
-
-                    </div>
-                    <div className="d-flex align-items-center gap-2">
-                        <div className="dropdown me-2">
-                            <button className="btn btn-outline-primary dropdown-toggle px-3 fw-semibold"
-                                type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {sort}
-                            </button>
-                            <ul className="dropdown-menu">
-                                <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
-                                <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
-                                <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
-                                <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
-                                <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
-                                <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
-                            </ul>
-                        </div>
 
                     </div>
                 </div>
@@ -185,20 +140,14 @@ const CheckMyArt = () => {
 
                                 {/* 지역/카테고리/작성자 */}
                                 <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
-                                    <span style={{ color: "#222" }}>닉네임</span>
-                                    <Badge bg="primary" className="me-1">서울</Badge>
-                                    <Badge bg="secondary" className="me-2">축제</Badge>
+                                    <span style={{ color: "#222" }}>{board.memberNickname}</span>
+                                    <Badge bg="primary" className="me-1">{board.region}</Badge>
+                                    <Badge bg="secondary" className="me-2">{board.category}</Badge>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
-
-                {/* 페이지네이션 */}
-                <div className="mt-4 mb-3 text-center">
-                    <button type="button" className="btn btn-outline-primary me-2 px-4" onClick={handlePrevPage}>이전</button>
-                    <button type="button" className="btn btn-outline-primary px-4" onClick={handleNextPage}>다음</button>
-                </div>
             </div>
             <style>
                 {`

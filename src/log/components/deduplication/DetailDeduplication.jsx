@@ -84,7 +84,7 @@ const DetailDeduplication = ({ processId, id, onClose, showOutAlert }) => {
                 .then(res => res.text()
                     .then(message => {
                         if (res.ok) {
-                            showOutAlert({ message, type: "success" });
+                            showOutAlert({ message, type: "danger" });
                             setTimeout(() => {
                                 onClose(true);
                             });

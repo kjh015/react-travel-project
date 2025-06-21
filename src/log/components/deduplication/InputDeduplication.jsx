@@ -12,7 +12,7 @@ const initialRow = {
     second: 0,
 };
 
-const InputDeduplication = ({ processId, onClose }) => {
+const InputDeduplication = ({ processId, onClose,  showOutAlert}) => {
     const [rows, setRows] = useState([initialRow]);
     const [name, setName] = useState('');
     const [active, setActive] = useState(false);
@@ -50,11 +50,8 @@ const InputDeduplication = ({ processId, onClose }) => {
             }).then(res => res.text()
                 .then(message => {
                     if (res.ok) {
-                        showAlert({ message, type: "success" });
-                        setTimeout(() => {
-                            setAlert({ show: false, message: '', type: '' });
-                            onClose(true);
-                        });
+                        showOutAlert({ message, type: "success" });
+                        onClose();
                     } else {
                         showAlert({ message, type: "danger" });
                     }

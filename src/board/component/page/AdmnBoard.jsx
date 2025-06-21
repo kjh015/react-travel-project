@@ -92,30 +92,14 @@ const AdmnBoard = () => {
     };
 
     return (
-        <div>
-            <h4 style={{ marginTop: '80px' }}>여행지 관리 페이지</h4>
-            <button className="btn btn-danger" onClick={migrateData}>
+        <div style={{ marginTop: '80px' }}>
+            
+            {/* <button className="btn btn-danger" onClick={migrateData}>
                 데이터 적재하기(MySQL - ElasticSearch)
-            </button>
+            </button> */}
             <div className="container my-4" style={{ maxWidth: 740 }}>
-                {/* 정렬 & 글쓰기 */}
-                <div className="d-flex align-items-center gap-2 mb-3">
-                    <div className="dropdown me-2">
-                        <button className="btn btn-outline-primary dropdown-toggle px-3 fw-semibold"
-                            type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            {sort}
-                        </button>
-                        <ul className="dropdown-menu">
-                            <li><button className="dropdown-item" onClick={() => handleSort("popular")}>인기 순</button></li>
-                            <li><button className="dropdown-item" onClick={() => handleSort("ratingAvg")}>평점 순</button></li>
-                            <li><button className="dropdown-item" onClick={() => handleSort("regDate")}>최신 순</button></li>
-                            <li><button className="dropdown-item" onClick={() => handleSort("viewCount")}>조회수 순</button></li>
-                            <li><button className="dropdown-item" onClick={() => handleSort("commentCount")}>댓글 순</button></li>
-                            <li><button className="dropdown-item" onClick={() => handleSort("favoriteCount")}>찜 순</button></li>
-                        </ul>
-                    </div>
-
-                </div>
+                <h4 className="fw-bold">여행지 관리 페이지</h4>
+                
 
                 {/* Alert 메시지 */}
                 {alert.show && (
@@ -178,20 +162,14 @@ const AdmnBoard = () => {
                                 </div>
                                 {/* 지역/카테고리/작성자 */}
                                 <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
-                                    <span style={{ color: "#222" }}>{board.nickname || "닉네임"}</span>
-                                    <Badge bg="primary" className="me-1">{board.region || "서울"}</Badge>
-                                    <Badge bg="secondary" className="me-2">{board.category || "축제"}</Badge>
+                                    <span style={{ color: "#222" }}>{board.memberNickname || "닉네임"}</span>
+                                    <Badge bg="primary" className="me-1">{board.region}</Badge>
+                                    <Badge bg="secondary" className="me-2">{board.category}</Badge>
                                 </div>
                             </div>
                         ))}
                     </div>
                 )}
-
-                {/* 페이지네이션 */}
-                <div className="mt-4 mb-3 text-center">
-                    <button type="button" className="btn btn-outline-primary me-2 px-4" onClick={handlePrevPage}>이전</button>
-                    <button type="button" className="btn btn-outline-primary px-4" onClick={handleNextPage}>다음</button>
-                </div>
             </div>
         </div>
     );

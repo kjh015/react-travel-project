@@ -51,9 +51,7 @@ const InputFormat = ({ onClose, processId, showAlert }) => {
 
     return (
         <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
-            <div className="modal-dialog modal-lg" style={{
-                marginTop: '300px'
-            }}>
+            <div className="modal-dialog modal-lg">
                 <div className="modal-content">
                     <div className="modal-header">
                         <h5 className="modal-title">포맷 추가 화면</h5>

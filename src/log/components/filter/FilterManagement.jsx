@@ -38,7 +38,7 @@ const FilterManagement = ({ processId, onMenuClick }) => {
     };
 
     return (
-        <div>
+        <div style={{ marginTop: '80px' }}>
             <style>{`
                 .format-name-hover {
                     font-weight: bold;

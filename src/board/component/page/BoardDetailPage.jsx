@@ -9,6 +9,7 @@ import BoardApiClient from "../../service/BoardApiClient";
 import { useSearchParams, Link, useNavigate, useLocation } from "react-router-dom";
 import CommentPage from "../../../comment/component/CommentPage";
 import FavoriteApiClient from "../../service/FavoriteApiClient";
+import UserAuthentication from "../../../sign/service/UserAuthentication";
 
 const categoryColors = {
   축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
@@ -164,6 +165,7 @@ const BoardDetailPage = () => {
       });
     }
   }, [board, no]);
+  const nickname = localStorage.getItem("nickname")
   const isLoggedIn = !!localStorage.getItem('accessToken');
 
   return (
@@ -273,7 +275,7 @@ const BoardDetailPage = () => {
                     <span className="fw-semibold"><i className="bi bi-map-fill"></i> 지역:</span>
                     <Badge bg={regionColors[board.region] || "secondary"} className="ms-1">{board.region}</Badge>
                   </div>
-                  {isLoggedIn && (
+                  {(nickname === board.memberNickname) && (
                     <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip-edit">수정하기</Tooltip>}>
                       <Link
                         to={`/board/edit?no=${board.id}`}

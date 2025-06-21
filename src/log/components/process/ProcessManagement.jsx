@@ -47,7 +47,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
     };
 
     return (
-        <div>
+        <div  style={{ marginTop: '80px' }}>
             <style>{`
                 .process-name-hover {
                     font-weight: bold;
@@ -76,7 +76,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
 
             <div className="d-flex align-items-center mb-4" style={{ minHeight: 40 }}>
                 <span style={{ color: "#34a853" }}>●</span>
-                <span style={{ marginLeft: "7px", fontSize: "1.25rem", fontWeight: 600, marginBottom: '30px' }}>프로세스 관리</span>
+                <span style={{ marginLeft: "7px", fontSize: "1.25rem", fontWeight: 600, }}>프로세스 관리</span>
             </div>
 
             {/* 중앙 상단 고정 경고창 */}
