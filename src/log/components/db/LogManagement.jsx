@@ -72,7 +72,6 @@ const LogManagement = ({ onMenuClick }) => {
             <h1>결과 화면</h1>
 
             <div className="row">
-                <p>Test용 p태그</p>
                 <div className="col-12 mb-4">
                     <LogTable
                         title="성공 로그"
