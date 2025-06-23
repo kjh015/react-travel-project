@@ -1,7 +1,7 @@
 import { authFetch } from "../../AuthFetch";
 
 class SignApiClient {
-    static SERVER_URL = "http://14.63.178.161:8000/api/sign";
+    static SERVER_URL = "http://localhost:8000/api/sign";
     static ADMIN = "/admin";
     static SIGN_UP = "/sign-up";
     static SIGN_IN = "/sign-in";
