@@ -104,7 +104,8 @@ const MainPageCard = ({ boardId, score, rank }) => {
             alignItems: "center",
             gap: "0.6rem"
           }}>
-            <span style={{ fontSize: "1.35em" }}>🚂</span>
+            {/* 기차 아이콘 일단 제거 */}
+            {/* <span style={{ fontSize: "1.35em" }}>🚂</span> */}
             Score: <span style={{ color: "#e0c3fc", fontWeight: 700 }}>{score}</span>
           </div>
         </div>
@@ -113,7 +114,11 @@ const MainPageCard = ({ boardId, score, rank }) => {
             {board.title}
           </div>
           <div className="d-flex justify-content-between align-items-center mt-2">
-            <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
+            {/* 작성자 이름 한 줄로 보이게 수정?*/}
+            <small className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', maxWidth: 220 }}>
+              분 전 · by <b style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', verticalAlign: 'bottom', maxWidth: 90, display: 'inline-block' }}>{board.memberNickname}</b>
+            </small>
+
           </div>
         </div>
       </div>

@@ -179,9 +179,25 @@ const BoardList = () => {
 
         {/* 카드 리스트 */}
         {loading ? (
-          <div className="text-center py-5 fs-5">
-            <div className="spinner-border text-primary me-2" role="status"></div>
-            로딩 중...
+          <div className="text-center py-5 fs-5" style={{ minHeight: 140 }}>
+            <div style={{
+              paddingRight: "100px",
+              fontSize: 100,
+              display: 'inline-block',
+              animation: 'plane-fly 1.6s ease-in-out infinite'
+            }}>
+              🛫
+            </div>
+            <div className="mt-3">여행지로 이동 중...</div>
+            <style>{`
+      @keyframes plane-fly {
+        0% { transform: translateX(0) rotate(-6deg);}
+        30% { transform: translateX(35px) rotate(-4deg);}
+        50% { transform: translateX(60px) rotate(2deg);}
+        80% { transform: translateX(40px) rotate(-3deg);}
+        100% { transform: translateX(0) rotate(-6deg);}
+      }
+    `}</style>
           </div>
         ) : error ? (
           <div className="text-danger text-center py-5">

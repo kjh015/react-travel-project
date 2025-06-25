@@ -61,7 +61,7 @@ const MainPage = () => {
           justifyContent: "center",
           alignItems: "center",
           marginBottom: "32px",
-          
+
         }}
       >
         {/* 히어로 콘텐츠 */}
@@ -73,7 +73,7 @@ const MainPage = () => {
             alignItems: "center",
             position: "relative",
             zIndex: 2,
-            
+
           }}
         >
           <div
@@ -173,14 +173,16 @@ const MainPage = () => {
             }}>
               실시간 인기 여행지
             </h2>
+
             <MainPageCardsLayout top5Board={top5Board} />
           </div>
         </div>
       </div>
 
+
       {/* 지역/카테고리별 */}
       <div >
-        <div style={{marginTop: "8rem"}} >
+        <div style={{ marginTop: "8rem" }} >
           <h4 style={{
             paddingLeft: "7rem",
             textAlign: "left",
@@ -194,7 +196,7 @@ const MainPage = () => {
             className="text-left mb-4">실시간 인기 카테고리</h4>
           <MainPageCardsLayout2 top5Data={top5Category} />
         </div>
-        <div style={{marginTop: "6rem"}}>
+        <div style={{ marginTop: "6rem" }}>
           <h4 style={{
             paddingLeft: "7rem",
             textAlign: "left",
@@ -208,7 +210,7 @@ const MainPage = () => {
             className="text-left mb-4">실시간 인기 지역</h4>
           <MainPageCardsLayout2 top5Data={top5Region} />
         </div>
-      
+
       </div>
 
       <Footers />

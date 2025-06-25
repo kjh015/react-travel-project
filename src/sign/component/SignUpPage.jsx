@@ -34,6 +34,8 @@ const btnStyle = {
     border: "none"
 };
 
+
+
 const SignUpPage = () => {
     const [formData, setFormData] = useState({
         loginId: '',
@@ -45,6 +47,25 @@ const SignUpPage = () => {
 
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
     const [birthDate, setBirthDate] = useState('');
+    const [pwd, setPwd] = useState('');                  // curPwd, setCurrPwd
+    // newPwd, setNewPwd
+    const [confirmPwd, setConfirmPwd] = useState('');             //confirmPwd, setConfirmPwd
+    const [match, setMatch] = useState(true);
+
+    const handleConfirmPwdChange = (e) => {
+        const value = e.target.value;
+        setConfirmPwd(value);
+        setMatch(pwd === value);
+    };
+
+
+    const handleSetPwd = (e) => {
+        const value = e.target.value;
+        setPwd(value);
+        setMatch(value === confirmPwd);
+    };
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -52,10 +73,26 @@ const SignUpPage = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setAlert({ show: false, message: '', type: '' });
+        if (!pwd || !confirmPwd || !birthDate) {
+            setAlert({ show: true, message: '모든 항목을 입력하세요.', type: 'danger' });
+            return;
+        }
+        if (pwd !== confirmPwd) {
+            setMatch(false);
+            setAlert({ show: true, message: '비밀번호가 일치하지 않습니다.', type: 'danger' });
+            return;
+        }
+        const payload = {
+            Password: pwd,
+            ConfirmPwd: confirmPwd,
+            loginId: getLoginIdFromToken()
+        }
+        e.preventDefault();
         try {
             const res = await SignApiClient.signUp(formData);
             const msg = await res.json();
-            if (res.ok) {                
+            if (res.ok) {
                 setAlert({ show: true, message: msg.message, type: "success" });
                 setTimeout(() => { window.location.href = "/"; }, 500);
             } else {
@@ -71,6 +108,18 @@ const SignUpPage = () => {
         document.body.classList.add('bg-body-tertiary');
         return () => document.body.classList.remove('bg-body-tertiary');
     }, []);
+
+    const getLoginIdFromToken = () => {
+        const token = localStorage.getItem("accessToken");
+        if (!token) return null;
+        try {
+            const payload = JSON.parse(atob(token.split('.')[1]));
+            return payload.sub || payload.loginId;
+        } catch (e) {
+            console.error("토큰 디코딩 실패:", e);
+            return null;
+        }
+    }
 
     return (
         <div className="min-vh-100 d-flex flex-column" style={{
@@ -112,6 +161,22 @@ const SignUpPage = () => {
                                     onChange={handleChange}
                                     placeholder="비밀번호를 입력하세요"
                                     required />
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label fw-semibold">비밀번호 확인</label>
+                                <input type="password" className="form-control"
+                                    id="password" name="password"
+
+                                    value={formData.password}
+                                    onChange={handleSetPwd}
+                                    placeholder="비밀번호를 한번 더 입력하세요"
+                                    required />
+                                {confirmPwd && !match && (
+                                    <div className="invalid-feedback">
+                                        비밀번호가 일치하지 않습니다.
+                                    </div>
+                                )}
                             </div>
 
                             <div className="mb-3">
