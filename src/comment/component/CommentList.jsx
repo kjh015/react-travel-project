@@ -37,7 +37,7 @@ const CommentList = ({ comments = [], onRemoveComment, ratingAvg }) => {
                                     }}
                                 >★
                                 </span>
-                                <span className="fw-semibold"> {ratingAvg }</span>
+                                <span className="fw-semibold"> {ratingAvg}</span>
                             </span>
                         </div>
                     </div>
@@ -48,23 +48,26 @@ const CommentList = ({ comments = [], onRemoveComment, ratingAvg }) => {
                             <div key={idx} className="card mb-3 border-0 shadow-sm rounded-3 position-relative">
                                 <div className="card-body">
                                     {/* x 버튼 */}
-                                    <button
-                                        type="button"
-                                        className="btn btn-sm btn-light position-absolute"
-                                        style={{
-                                            top: 8,
-                                            right: 10,
-                                            border: "none",
-                                            fontSize: "1.25rem",
-                                            color: "#bbb",
-                                            background: "transparent",
-                                            zIndex: 10,
-                                        }}
-                                        onClick={() => onRemoveComment({ commentId: c.id })}
-                                        aria-label="댓글 삭제"
-                                    >
-                                        ×
-                                    </button>
+                                    {localStorage.getItem("nickname") === c.nickname &&
+                                        <button
+                                            type="button"
+                                            className="btn btn-sm btn-light position-absolute"
+                                            style={{
+                                                top: 8,
+                                                right: 10,
+                                                border: "none",
+                                                fontSize: "1.25rem",
+                                                color: "#bbb",
+                                                background: "transparent",
+                                                zIndex: 10,
+                                            }}
+                                            onClick={() => onRemoveComment({ commentId: c.id })}
+                                            aria-label="댓글 삭제"
+                                        >
+                                            ×
+                                        </button>
+                                    }
+
                                     <div className="d-flex align-items mb-2">
                                         <strong className="me-2">{c.nickname}</strong>
                                         <span style={{ fontSize: "0.96rem", color: "#aaa" }}>

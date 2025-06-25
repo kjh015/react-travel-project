@@ -3,6 +3,7 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { useState, useEffect } from 'react';
 import SignApiClient from '../service/SignApiClient';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const SignInPage = () => {
     const [loginData, setLoginData] = useState({
@@ -35,6 +36,7 @@ const SignInPage = () => {
                         gender: member.gender,
                         age: member.age
                     });
+                    toast.success(`${member.nickname}님 환영합니다.`);   
                     navigate("/");
                 } else {
                     const data = await resDetail.json();                   
@@ -45,7 +47,6 @@ const SignInPage = () => {
                 setAlert({ show: true, message: data.message, type: "danger" });
             }
         } catch (error) {
-            console.log(error);
             setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
     };
@@ -139,21 +140,8 @@ const SignInPage = () => {
                     </div>
                 </div>
             </main>
-
-            <footer className="text-center text-muted py-4 small">
-                <p className="mb-1">© 2017–2025 Company Name</p>
-                <ul className="list-inline">
-                    <li className="list-inline-item"><a href="#">Privacy</a></li>
-                    <li className="list-inline-item"><a href="#">Terms</a></li>
-                    <li className="list-inline-item"><a href="#">Support</a></li>
-                </ul>
-            </footer>
         </div>
     );
 };
 
 export default SignInPage;
-
-
-
-// const handleSubmit에 로그인 성공, 아이디 또는 비밀번호 오류 경고창

@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import BoardApiClient from '../../../service/BoardApiClient';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CountUp from 'react-countup';
 
 // 1~5위 색상 예시
 const rankColors = ["#ffd700", "#C0C0C0", "#cd7f32", "#90caf9", "#b39ddb"];
@@ -25,6 +26,12 @@ const MainPageCard2 = ({ boardId, score, rank }) => {
       }
     );
   }, [boardId]);
+
+  const prevScoreRef = useRef(score);
+  
+    useEffect(() => {
+      prevScoreRef.current = score;
+    }, [score]);
 
   return (
     <div className="w-100 h-100 d-flex align-items-stretch position-relative" style={{ minHeight: 112, position: 'relative' }}>
@@ -105,13 +112,20 @@ const MainPageCard2 = ({ boardId, score, rank }) => {
             overflow: "hidden",
             textOverflow: "ellipsis"
           }}>
-            score: {score}
+            score:&nbsp;
+            <CountUp
+              start={prevScoreRef.current}
+              end={score}
+              duration={0.5}
+              separator=","
+              preserveValue // 리렌더링 중간값 유지
+              redraw // 점수만 바뀔 때도 애니메이션 작동하게
+            />
           </div>
           <div className="d-flex justify-content-between align-items-center mt-2">
             <small className="text-muted" style={{ fontSize: "0.95rem" }}>
               by <b>{board.memberNickname}</b>
             </small>
-            <span style={{ fontSize: "1.06em" }}>🚄</span>
           </div>
         </div>
       </div>

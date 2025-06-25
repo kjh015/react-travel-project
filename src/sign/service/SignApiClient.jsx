@@ -4,6 +4,7 @@ class SignApiClient {
     static SERVER_URL = "http://localhost:8000/api/sign";
     static ADMIN = "/admin";
     static SIGN_UP = "/sign-up";
+    static CHECK_DUP = "/check-duplicate"
     static SIGN_IN = "/sign-in";
     static SIGN_OUT = "/sign-out";
     static WITHDRAW = "/withdraw";
@@ -24,6 +25,10 @@ class SignApiClient {
             body: JSON.stringify(payload),
         });
     }
+    static checkDuplicate({type, value}){
+        return fetch(SignApiClient.SERVER_URL + SignApiClient.CHECK_DUP + `?type=${type}&value=${value}`);
+    }
+
     static signIn(payload) {
         return fetch(SignApiClient.SERVER_URL + SignApiClient.SIGN_IN, {
             method: 'POST',

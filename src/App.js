@@ -4,16 +4,17 @@ import './css/index.css';
 import Navbar from './common/Navbar';
 
 import PageRouter from './common/PageRouter';
-import { useEffect } from 'react';
+import { useNavigate } from "react-router-dom";
+import { ToastContainer } from 'react-toastify';
 
 function App() {
-  
 
   return (
     <div className="App">   
      
       
       <PageRouter />
+      <ToastContainer />
       
     </div>
   );

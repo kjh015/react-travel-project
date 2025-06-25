@@ -127,7 +127,7 @@ const BoardEditPage = () => {
         });
 
         try {
-            const response = await BoardApiClient.addBoard(formData);
+            const response = await BoardApiClient.editBoard(formData);
             if (response.ok) {
                 setAlert({ show: true, message: "글 수정이 완료되었습니다.", type: "success" });
                 setTimeout(() => navigate('/board/list'), 500); // 0.5초 후 이동, 잔상 없음

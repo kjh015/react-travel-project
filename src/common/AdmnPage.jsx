@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -15,10 +15,14 @@ import MemberManagement from '../sign/component/MemberManagement';
 
 import AdmnBoard from '../board/component/page/AdmnBoard';
 import Dashboard from '../log/components/monitoring/Dashboard';
+import { useNavigate } from 'react-router-dom';
+import UserAuthentication from '../sign/service/UserAuthentication';
+import { toast } from 'react-toastify';
 
 const AdmnPage = () => {
   const [activeMenu, setActiveMenu] = useState('process');
   const [processId, setProcessId] = useState(1);
+  const navigate = useNavigate();
 
   // 렌더링할 컴포넌트 결정
   const renderContent = () => {
@@ -48,9 +52,12 @@ const AdmnPage = () => {
     }
   };
 
-  const renderProcessId = () => {
-    return processId;
-  }
+  useEffect(() => {
+    if(!UserAuthentication.isAdmin()) {
+      toast.error("관리자 권한이 아닙니다.");
+      navigate("/");
+    }
+  }, []);
 
   return (
     <div className="container-fluid" style={{marginTop: "1.1rem"}}>

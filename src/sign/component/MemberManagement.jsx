@@ -30,6 +30,10 @@ const MemberManagement = () => {
                     }
                 }))
     }
+    const formatDate = (isoString) => {
+        if (!isoString) return "-";
+        return isoString.substring(0, 16).replace("T", " ");
+    };
 
     useEffect(() => {
         getMemberList();
@@ -60,7 +64,6 @@ const MemberManagement = () => {
                             <th>성별</th>
                             <th>가입일</th>
                             <th>권한</th>
-                            <th>삭제</th>
                             <th className='text-center'>관리자 위임</th>
                         </tr>
                     </thead>
@@ -79,18 +82,15 @@ const MemberManagement = () => {
                                 <td>{member.nickname}</td>
                                 <td>{member.email}</td>
                                 <td>{member.gender}</td>
-                                <td>{member.regDate}</td>
+                                <td>{formatDate(member.regDate)}</td>
                                 <td>{member.roles?.includes("ROLE_ADMIN") ? "관리자" : "회원"}</td>
-                                <td>
-                                    <button className="btn btn-sm btn-outline-danger" title="삭제">
-                                        <FaTrash />
-                                    </button>
-                                </td>
                                 <td className='text-center'>
                                     <button
                                         className="btn btn-sm btn-outline-success"
-                                        title="관리자 위임"
+                                        title="관리자 위임"                                        
                                         onClick={() => delegateAdmin({ loginId: member.loginId })}
+                                        disabled={member.roles?.includes("ROLE_ADMIN")}
+                                        
                                     >
                                         <FaUserShield />
                                     </button>

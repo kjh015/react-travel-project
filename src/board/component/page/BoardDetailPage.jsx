@@ -51,12 +51,6 @@ const BoardDetailPage = () => {
       FavoriteApiClient.toggleFavorite(payload)
         .then(res => res.json()
           .then(data => {
-            let nickname = localStorage.getItem("nickname");
-            if (nickname == null) {
-              setAlert({ show: true, message: "로그인이 필요합니다.", type: "danger" });
-              setTimeout(() => navigate(-1), 500);
-              return;
-            }
             if (res.ok) {
               setLiked(data);
               if (data) {
@@ -68,7 +62,7 @@ const BoardDetailPage = () => {
                   region: board.region,
                   title: board.title
                 });
-                setAlert({ show: false, message: "찜 목록에 추가되었습니다.", type: "success" });
+                setAlert({ show: true, message: "찜 목록에 추가되었습니다.", type: "success" });
               }
               else {
                 window.dataLayer = window.dataLayer || [];
@@ -79,18 +73,18 @@ const BoardDetailPage = () => {
                   region: board.region,
                   title: board.title
                 });
-                setAlert({ show: false, message: "찜 목록에서 삭제되었습니다.", type: "danger" });
+                setAlert({ show: true, message: "찜 목록에서 삭제되었습니다.", type: "danger" });
 
               }
             }
             else {
-              alert("Error");
+              setAlert({ show: true, message: "오류가 발생했습니다.", type: "danger" });
             }
           }
           )
         )
     } catch {
-      alert('오류가 발생했습니다.');
+      setAlert({ show: true, message: "오류가 발생했습니다.", type: "danger" });
     }
   }
 

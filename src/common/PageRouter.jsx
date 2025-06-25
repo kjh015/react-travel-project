@@ -32,12 +32,15 @@ import LogManagement from "../log/components/db/LogManagement";
 import Navbar from "./Navbar";
 import DeduplicationManagement from "../log/components/deduplication/DeduplicationManagement";
 import Footers from "./Footers";
+import GlobalNavigator from "./GlobalNavigator";
 
 const PageRouter = () => {
     return (
         <BrowserRouter>
+            <GlobalNavigator />
+
             <Navbar />
-            <div style={{paddingTop: 25}}/>
+            <div style={{ paddingTop: 25 }} />
             <Routes>
                 {/* common */}
                 <Route index path="/" element={<MainPage />}></Route>
@@ -76,7 +79,7 @@ const PageRouter = () => {
                 <Route path="/board/my-article" element={<CheckMyArt />} />
                 <Route path="/common/MyPage" element={<MyPage />} />
             </Routes>
-            
+
         </BrowserRouter>
     );
 };

@@ -1,8 +1,9 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import BoardApiClient from '../../../service/BoardApiClient';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import CountUp from 'react-countup';
 
 // 1등 왕관 배지 스타일 (z-index: 99, pointerEvents: "none")
 const firstRankBadgeStyle = {
@@ -42,6 +43,12 @@ const MainPageCard = ({ boardId, score, rank }) => {
       }
     );
   }, [boardId]);
+
+  const prevScoreRef = useRef(score);
+
+  useEffect(() => {
+    prevScoreRef.current = score;
+  }, [score]);
 
   return (
     <div
@@ -104,8 +111,15 @@ const MainPageCard = ({ boardId, score, rank }) => {
             alignItems: "center",
             gap: "0.6rem"
           }}>
-            <span style={{ fontSize: "1.35em" }}>🚂</span>
-            Score: <span style={{ color: "#e0c3fc", fontWeight: 700 }}>{score}</span>
+            Score:
+            <CountUp
+              start={prevScoreRef.current}
+              end={score}
+              duration={0.5}
+              separator=","
+              preserveValue // 리렌더링 중간값 유지
+              redraw // 점수만 바뀔 때도 애니메이션 작동하게
+            />
           </div>
         </div>
         <div className="card-body px-4 py-4">

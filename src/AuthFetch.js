@@ -1,9 +1,13 @@
+import { toast } from "react-toastify";
 export async function authFetch(url, options = {}) {
     let token = localStorage.getItem('accessToken');
     if (token == null) {
-
-        window.location.href = '/sign/component/SignInPage';
-        return null;
+        toast.error('로그인이 필요한 서비스입니다.');
+        return new Response(JSON.stringify({ error: "No AccessToken" }), {
+            status: 401,
+            statusText: "No AccessToken",
+            headers: { "Content-Type": "application/json" }
+        });
     }
 
     const isFormData = options.body instanceof FormData;
@@ -47,9 +51,13 @@ export async function authFetch(url, options = {}) {
             // refreshToken도 만료 → 로그아웃 처리
             localStorage.removeItem('accessToken');
             localStorage.removeItem('nickname');
-            alert('로그인이 만료되었습니다. 다시 로그인해주세요.');
-            window.location.href = '/';
-            return null;
+            toast.error('로그인이 만료되었습니다. 다시 로그인해주세요.');
+            if (window._navigate) window._navigate('/');
+            return new Response(JSON.stringify({ error: "Token Expired" }), {
+                status: 401,
+                statusText: "Token Expired",
+                headers: { "Content-Type": "application/json" }
+            });
         }
     }
 
