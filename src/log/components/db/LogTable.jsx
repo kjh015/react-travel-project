@@ -33,21 +33,8 @@ const LogTable = ({
     };
 
     const formatDate = (isoString) => {
-        if (!isoString) return "";
-        // 마이크로초 이하 잘라내기
-        const trimmed = isoString.split(".")[0];
-        // Date를 UTC로 파싱
-        const date = new Date(trimmed + "Z"); // Z 붙이면 UTC로 해석
-        // 9시간 더한 새로운 Date 객체 만들기 (불변성)
-        const plus9 = new Date(date.getTime() + 9 * 60 * 60 * 1000);
-
-        return (
-            plus9.getFullYear() + "-" +
-            String(plus9.getMonth() + 1).padStart(2, "0") + "-" +
-            String(plus9.getDate()).padStart(2, "0") + " " +
-            String(plus9.getHours()).padStart(2, "0") + ":" +
-            String(plus9.getMinutes()).padStart(2, "0")
-        );
+        if (!isoString) return "-";
+        return isoString.substring(0, 16).replace("T", " ");
     };
 
 
