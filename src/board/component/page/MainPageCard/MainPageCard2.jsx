@@ -123,8 +123,9 @@ const MainPageCard2 = ({ boardId, score, rank }) => {
             />
           </div>
           <div className="d-flex justify-content-between align-items-center mt-2">
-            <small className="text-muted" style={{ fontSize: "0.95rem" }}>
-              by <b>{board.memberNickname}</b>
+            {/* 닉네임 한줄로 보이게 수정 */}
+            <small className="text-muted" style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', display: 'block', maxWidth: 220 }}>
+              by <b style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', verticalAlign: 'bottom', maxWidth: 90, display: 'inline-block' }}>{board.memberNickname}</b>
             </small>
           </div>
         </div>

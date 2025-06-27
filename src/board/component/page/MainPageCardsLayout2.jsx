@@ -6,10 +6,45 @@ const cardWidth = 240;
 const cardHeight = 200;
 
 const MainPageCardsLayout2 = ({ top5Data }) => {
-    if (!top5Data || top5Data.length < 5) return null;
-    // 실제로는 top5Board 배열을 map으로!
-    // 임시 예시용 데이터
+    // 데이터 없거나 5개 미만이면 로딩 애니메이션
+    if (!top5Data || top5Data.length < 5) {
+        return (
+            <div
+                className="d-flex justify-content-center align-items-center"
+                style={{
+                    width: "100%",
+                    minHeight: `${cardHeight + 80}px`,
+                }}
+            >
+                <div style={{ textAlign: "center", width: "100%" }}>
+                    <div
+                        style={{
+                            paddingRight: "100px",
+                            fontSize: 100,
+                            display: 'inline-block',
+                            animation: 'plane-fly 1.6s ease-in-out infinite'
+                        }}
+                    >
+                        🛫
+                    </div>
+                    <div className="mt-4 fs-5 text-secondary">
+                        순위 데이터를 불러오는 중...
+                    </div>
+                    <style>{`
+                        @keyframes plane-fly {
+                            0% { transform: translateX(0) rotate(-6deg);}
+                            30% { transform: translateX(40px) rotate(-2deg);}
+                            50% { transform: translateX(80px) rotate(4deg);}
+                            80% { transform: translateX(50px) rotate(-3deg);}
+                            100% { transform: translateX(0) rotate(-6deg);}
+                        }
+                    `}</style>
+                </div>
+            </div>
+        );
+    }
 
+    // 데이터 있을 때 카드 렌더링
     return (
         <div
             className="d-flex justify-content-center align-items-center"
@@ -23,9 +58,8 @@ const MainPageCardsLayout2 = ({ top5Data }) => {
             }}
         >
             {top5Data.map((data, idx) => (
-                <div>
+                <div key={idx}>
                     <div
-                        key={idx}
                         style={{
                             width: `${cardWidth}px`,
                             height: `${cardHeight}px`,
@@ -38,8 +72,7 @@ const MainPageCardsLayout2 = ({ top5Data }) => {
                             alignItems: "stretch"
                         }}
                     >
-                        {/* 실제로는 top5Board[idx] 데이터 넘기기 */}
-                        {/* RankCard 쓰기 */}
+                        {/* RankCard */}
                         <RankCard
                             data={data.region || data.category}
                             type={data.region ? "region" : "category"}
@@ -60,12 +93,11 @@ const MainPageCardsLayout2 = ({ top5Data }) => {
                         gap: "0.6rem",
                         marginTop: "-25px",
                     }}>
-                        <span style={{ color: "#fff", fontWeight: 700 }}>Score: {data.score}</span>
-
+                        <span style={{ color: "#fff", fontWeight: 700 }}>
+                            Score: {data.score}
+                        </span>
                     </div>
-
                 </div>
-
             ))}
         </div>
     );

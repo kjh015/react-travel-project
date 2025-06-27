@@ -16,6 +16,8 @@ async function checkDuplicate(type, value) {
 const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+~\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+
+
 const SignUpPage = () => {
     const navigate = useNavigate();
     const [formData, setFormData] = useState({
@@ -47,6 +49,7 @@ const SignUpPage = () => {
     };
 
     // 값 변경
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
@@ -142,7 +145,6 @@ const SignUpPage = () => {
         document.body.classList.add('bg-body-tertiary');
         return () => document.body.classList.remove('bg-body-tertiary');
     }, []);
-
     // 모든 조건 충족해야 버튼 활성화
     const isFormValid = Object.keys(errors).length === 0 && !isSubmitting;
 
@@ -231,6 +233,22 @@ const SignUpPage = () => {
                                     required
                                 />
                                 {touched.passwordConfirm && errors.passwordConfirm && <div className="invalid-feedback">{errors.passwordConfirm}</div>}
+                            </div>
+
+                            <div className="mb-3">
+                                <label htmlFor="password" className="form-label fw-semibold">비밀번호 확인</label>
+                                <input type="password" className="form-control"
+                                    id="password" name="password"
+
+                                    value={formData.password}
+                                    onChange={handleSetPwd}
+                                    placeholder="비밀번호를 한번 더 입력하세요"
+                                    required />
+                                {confirmPwd && !match && (
+                                    <div className="invalid-feedback">
+                                        비밀번호가 일치하지 않습니다.
+                                    </div>
+                                )}
                             </div>
 
                             <div className="mb-3">
