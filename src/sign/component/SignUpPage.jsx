@@ -236,22 +236,6 @@ const SignUpPage = () => {
                             </div>
 
                             <div className="mb-3">
-                                <label htmlFor="password" className="form-label fw-semibold">비밀번호 확인</label>
-                                <input type="password" className="form-control"
-                                    id="password" name="password"
-
-                                    value={formData.password}
-                                    onChange={handleSetPwd}
-                                    placeholder="비밀번호를 한번 더 입력하세요"
-                                    required />
-                                {confirmPwd && !match && (
-                                    <div className="invalid-feedback">
-                                        비밀번호가 일치하지 않습니다.
-                                    </div>
-                                )}
-                            </div>
-
-                            <div className="mb-3">
                                 <label htmlFor="nickname" className="form-label fw-semibold">닉네임</label>
                                 <input
                                     type="text"
@@ -323,7 +307,7 @@ const SignUpPage = () => {
                             </div>
 
                             <div className="mb-3">
-                                <label className="form-label">생년월일</label>
+                                <label className="form-label fw-semibold d-block mb-2">생년월일</label>
                                 <input
                                     type="date"
                                     ref={inputRefs.birthDate}

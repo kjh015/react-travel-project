@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CommonApiClient from "./service/CommonApiClient";
 import { useNavigate } from "react-router-dom";
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 const renderStarsStatic = (score = 0) => (
     <span>
@@ -41,30 +42,27 @@ const ChckMyCom = () => {
     // 1. 로딩 중일 때 비행기 애니메이션 노출
     if (loading) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "300px" }}>
-                <div style={{ textAlign: "center", width: "100%" }}>
+            <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: 140, marginTop: "100px" }}>
+                {/* 아이콘 + 스피너 */}
+                <div className="mb-3" style={{ position: "relative", width: 100, height: 100 }}>
+                    <FaMapMarkedAlt size={70} color="#6cb4f8" style={{ filter: "drop-shadow(0 4px 12px #aee7ff77)" }} />
                     <div
+                        className="spinner-border"
                         style={{
-                            paddingRight: "100px",
-                            fontSize: 100,
-                            display: 'inline-block',
-                            animation: 'plane-fly 1.6s ease-in-out infinite'
+                            position: "absolute",
+                            top: -10,
+                            left: -15,
+                            width: 100,
+                            height: 100,
+                            borderWidth: "6px",
+                            opacity: 0.5,
+                            color: "#6cb4f8"
                         }}
-                    >
-                        🛫
-                    </div>
-                    <div className="mt-4 fs-5 text-secondary">
-                        내 댓글 목록을 불러오는 중...
-                    </div>
-                    <style>{`
-                        @keyframes plane-fly {
-                            0% { transform: translateX(0) rotate(-6deg);}
-                            30% { transform: translateX(40px) rotate(-2deg);}
-                            50% { transform: translateX(80px) rotate(4deg);}
-                            80% { transform: translateX(50px) rotate(-3deg);}
-                            100% { transform: translateX(0) rotate(-6deg);}
-                        }
-                    `}</style>
+                        role="status"
+                    />
+                </div>
+                <div className="mt-2 fs-5 text-secondary">
+                    데이터를 불러오는 중...
                 </div>
             </div>
         );
@@ -72,7 +70,7 @@ const ChckMyCom = () => {
 
     // 2. 로딩이 끝나면, 댓글 목록 or "없음" 표시
     return (
-        <div className="container my-4">
+        <div className="container" style={{marginTop: "70px"}}>
             <div className="card shadow-sm border-1 rounded-4 mx-auto" style={{ maxWidth: 520, background: "#fafdffcc" }}>
                 <div className="card-body p-4">
                     {/* 타이틀, 댓글수, 평점수 한 줄에 정렬 */}

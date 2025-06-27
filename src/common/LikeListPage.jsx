@@ -5,6 +5,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import CommonApiClient from './service/CommonApiClient';
 
 import { Badge } from "react-bootstrap";
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 const LikeListPage = () => {
     const [boards, setBoards] = useState([]);
@@ -91,25 +92,28 @@ const LikeListPage = () => {
 
                 {/* 카드 리스트 */}
                 {loading ? (
-                    <div className="text-center py-5 fs-5" style={{ minHeight: 140 }}>
-                        <div style={{
-                            paddingRight: "100px",
-                            fontSize: 100,
-                            display: 'inline-block',
-                            animation: 'plane-fly 1.6s ease-in-out infinite'
-                        }}>
-                            🛫
+                    <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: 140 }}>
+                        {/* 아이콘 + 스피너 */}
+                        <div className="mb-3" style={{ position: "relative", width: 100, height: 100 }}>
+                            <FaMapMarkedAlt size={70} color="#6cb4f8" style={{ filter: "drop-shadow(0 4px 12px #aee7ff77)" }} />
+                            <div
+                                className="spinner-border"
+                                style={{
+                                    position: "absolute",
+                                    top: -10,
+                                    left: -15,
+                                    width: 100,
+                                    height: 100,
+                                    borderWidth: "6px",
+                                    opacity: 0.5,
+                                    color: "#6cb4f8"
+                                }}
+                                role="status"
+                            />
                         </div>
-                        <div className="mt-3">여행지로 이동 중...</div>
-                        <style>{`
-      @keyframes plane-fly {
-        0% { transform: translateX(0) rotate(-6deg);}
-        30% { transform: translateX(35px) rotate(-4deg);}
-        50% { transform: translateX(60px) rotate(2deg);}
-        80% { transform: translateX(40px) rotate(-3deg);}
-        100% { transform: translateX(0) rotate(-6deg);}
-      }
-    `}</style>
+                        <div className="mt-2 fs-5 text-secondary">
+                            데이터를 불러오는 중...
+                        </div>
                     </div>
                 ) : error ? (
                     <div className="text-danger text-center py-5">

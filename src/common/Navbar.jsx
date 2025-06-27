@@ -6,6 +6,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'bootstrap-icons/font/bootstrap-icons.css'; // 아이콘 사용을 위해 import
 import UserAuthentication from '../sign/service/UserAuthentication';
+import { toast } from 'react-toastify';
 
 const GRADIENT = "linear-gradient(90deg, #5C6BC0 0%, #283593 100%)";
 const BLUR = "backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);";
@@ -26,14 +27,11 @@ const Navbar = () => {
         if (res.ok) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('nickname');
-          setAlert({ show: true, message: "로그아웃 성공!", type: "danger" });
+          toast.info("로그아웃 되었습니다.")
           handleClose();
-          setTimeout(() => {
-            navigate("/");
-            setAlert({ show: false, message: '', type: '' }); // 필요시 alert 제거
-          }, 500);
+          navigate("/");
         } else {
-          setAlert({ show: true, message: "로그아웃 실패", type: "danger" });
+          toast.error("로그아웃에 실패했습니다.")
         }
       }
     );

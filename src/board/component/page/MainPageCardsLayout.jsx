@@ -2,6 +2,7 @@ import React from 'react';
 import MainPageCard from './MainPageCard/MainPageCard';
 import MainPageCard2 from './MainPageCard/MainPageCard2';
 import { AnimatePresence, motion } from 'framer-motion';
+import { FaMapMarkedAlt } from "react-icons/fa";
 
 
 
@@ -16,34 +17,27 @@ const MainPageCardsLayout = ({ top5Board }) => {
     // 데이터가 5개 미만이면 로딩 화면
     if (!top5Board || top5Board.length < 5) {
         return (
-            <div className="d-flex justify-content-center align-items-center" style={{ minHeight: `${mainCardHeight}px` }}>
-                <div style={{ textAlign: "center", width: "100%" }}>
-                    {/* 비행기 이모지 + 애니메이션 */}
-                    <div style={{
-                        paddingRight: "100px",
-
-                        fontSize: 100,
-                        display: 'inline-block',
-                        animation: 'plane-fly 1.7s ease-in-out infinite'
-                    }}>
-                        🛫
-                    </div>
-                    <div className="mt-4 fs-5 text-secondary">
-                        여행지 인기순위를 불러오는 중...
-                    </div>
-                    <div>
-                        <div className='text-start'>
-                            <style>{`
-@keyframes plane-fly {
-    0%   { transform: translateX(-30px) rotate(-6deg);}
-    30%  { transform: translateX(-6px) rotate(-2deg);}
-    50%  { transform: translateX(14px) rotate(4deg);}
-    80%  { transform: translateX(-4px) rotate(-3deg);}
-    100% { transform: translateX(-30px) rotate(-6deg);}
-}
-                    `}</style>
-                        </div>
-                    </div>
+            <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: `${mainCardHeight}px` }}>
+                {/* 아이콘 + 스피너 */}
+                <div className="mb-3" style={{ position: "relative", width: 100, height: 100 }}>
+                    <FaMapMarkedAlt size={70} color="#6cb4f8" style={{ filter: "drop-shadow(0 4px 12px #aee7ff77)" }} />
+                    <div
+                        className="spinner-border"
+                        style={{
+                            position: "absolute",
+                            top: -10,
+                            left: -15,
+                            width: 100,
+                            height: 100,
+                            borderWidth: "6px",
+                            opacity: 0.5,
+                            color: "#6cb4f8"
+                        }}
+                        role="status"
+                    />
+                </div>
+                <div className="mt-2 fs-5 text-secondary">
+                    여행지 인기순위를 불러오는 중...
                 </div>
             </div>
         );

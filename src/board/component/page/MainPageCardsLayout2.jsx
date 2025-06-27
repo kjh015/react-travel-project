@@ -1,5 +1,6 @@
 import React from 'react';
 import RankCard from './MainPageCard/RankCard';
+import { FaMapMarkedAlt } from 'react-icons/fa';
 // import MainPageCard2 from './MainPageCard/MainPageCard2'; // 필요시 사용
 
 const cardWidth = 240;
@@ -9,36 +10,27 @@ const MainPageCardsLayout2 = ({ top5Data }) => {
     // 데이터 없거나 5개 미만이면 로딩 애니메이션
     if (!top5Data || top5Data.length < 5) {
         return (
-            <div
-                className="d-flex justify-content-center align-items-center"
-                style={{
-                    width: "100%",
-                    minHeight: `${cardHeight + 80}px`,
-                }}
-            >
-                <div style={{ textAlign: "center", width: "100%" }}>
+            <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: `${cardHeight + 80}px` }}>
+                {/* 아이콘 + 스피너 */}
+                <div className="mb-3" style={{ position: "relative", width: 100, height: 100 }}>
+                    <FaMapMarkedAlt size={70} color="#6cb4f8" style={{ filter: "drop-shadow(0 4px 12px #aee7ff77)" }} />
                     <div
+                        className="spinner-border"
                         style={{
-                            paddingRight: "100px",
-                            fontSize: 100,
-                            display: 'inline-block',
-                            animation: 'plane-fly 1.6s ease-in-out infinite'
+                            position: "absolute",
+                            top: -10,
+                            left: -15,
+                            width: 100,
+                            height: 100,
+                            borderWidth: "6px",
+                            opacity: 0.5,
+                            color: "#6cb4f8"
                         }}
-                    >
-                        🛫
-                    </div>
-                    <div className="mt-4 fs-5 text-secondary">
-                        순위 데이터를 불러오는 중...
-                    </div>
-                    <style>{`
-                        @keyframes plane-fly {
-                            0% { transform: translateX(0) rotate(-6deg);}
-                            30% { transform: translateX(40px) rotate(-2deg);}
-                            50% { transform: translateX(80px) rotate(4deg);}
-                            80% { transform: translateX(50px) rotate(-3deg);}
-                            100% { transform: translateX(0) rotate(-6deg);}
-                        }
-                    `}</style>
+                        role="status"
+                    />
+                </div>
+                <div className="mt-2 fs-5 text-secondary">
+                    순위 데이터를 불러오는 중...
                 </div>
             </div>
         );
