@@ -52,9 +52,9 @@ const BoardList = () => {
   useEffect(() => {
     // setLoading(true);
     // setError(true);
-    setSearched(true);    
+    setSearched(true);
     getBoardList();
-    
+
   }, [location.search]);
 
   const goToWrite = () => {
@@ -84,7 +84,9 @@ const BoardList = () => {
     }
   };
 
-  // 검색/필터 게시판 (필요시 사용)
+  // 검색/필터 게시판
+  const [retryCount, setRetryCount] = useState(0);
+
   const getBoardList = async () => {
     setLoading(true);
     setError(null);
@@ -94,14 +96,35 @@ const BoardList = () => {
         const data = await res.json();
         setBoards(data.result);
         setDocCount(data.docCount);
+        setRetryCount(0); // 성공시 재시도 초기화
       } else {
-        setError(new Error("서버 응답 에러"));
+        throw new Error("서버 응답 에러");
       }
     } catch (e) {
       setError(e);
     } finally {
       setLoading(false);
     }
+  };
+
+  useEffect(() => {
+    if (error && retryCount < 2) {
+      const timer = setTimeout(() => {
+        setRetryCount(c => c + 1);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, [error, retryCount]);
+
+  useEffect(() => {
+    if (retryCount > 0 && retryCount <= 2) {
+      getBoardList();
+    }
+  }, [retryCount]);
+
+  const handleRetry = () => {
+    setRetryCount(0);
+    getBoardList();
   };
 
 
@@ -224,7 +247,12 @@ const BoardList = () => {
           </div>
         ) : error ? (
           <div className="text-danger text-center py-5">
-            에러 발생: {error.message}
+            에러 발생: {error.message}<br />
+            {retryCount < 2 ? (
+              <span>잠시 후 자동으로 다시 시도합니다... ({retryCount + 1}/3)</span>
+            ) : (
+              <button className="btn btn-outline-danger mt-3" onClick={handleRetry}>다시 시도</button>
+            )}
           </div>
         ) : boards.length === 0 ? (
           <div className="text-center text-secondary py-5 fs-5">
