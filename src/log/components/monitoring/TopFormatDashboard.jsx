@@ -64,9 +64,8 @@ const TopFormatDashboard = () => {
         FilterApiClient.getFormatKeys(1)
             .then(res => res.json())
             .then(data => {
-                // data가 배열이라고 가정
                 const options = data.map(format => ({
-                    label: `Top5 ${format}`,
+                    label: format,
                     value: format
                 }));
                 setDATA_OPTIONS(options);

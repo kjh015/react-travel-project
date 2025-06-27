@@ -40,6 +40,19 @@ const PERIOD_OPTIONS = [
     { label: '월별', value: 'month' },
 ];
 
+const formatLabel = (label, period) => {
+    if (period === 'hour') {
+        return label.slice(11, 16); // '14:00'
+    }
+    if (period === 'day') {
+        return label.slice(0, 10); // '2025-06-26'
+    }
+    if (period === 'month') {
+        return label.slice(0, 7); // '2025-06'
+    }
+    return label;
+};
+
 const PageVisitStatsDashboard = () => {
     const [period, setPeriod] = useState('day');
     const [chartData, setChartData] = useState(null);
@@ -56,7 +69,7 @@ const PageVisitStatsDashboard = () => {
             .then(res => res.json())
             .then(data => {
                 console.log(data);
-                const labels = data.map(item => item.period);
+                const labels = data.map(item => formatLabel(item.period, period));
                 const counts = data.map(item => item.count);
 
                 setChartData({

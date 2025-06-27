@@ -40,7 +40,7 @@ const MemberManagement = () => {
     }, []);
 
     return (
-        <div className="container py-4" style={{ marginTop: '80px' }}>
+        <div className="container" style={{ marginTop: '80px' }}>
             {/* Alert 메시지 */}
             {alert.show && (
                 <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
@@ -50,9 +50,7 @@ const MemberManagement = () => {
                 </div>
             )}
 
-
-
-            <h3 className="fw-bold" style={{ marginBottom: "3.5rem" }}>회원 관리</h3>
+            <h2 className="fw-bold" style={{ marginBottom: "3.5rem" }}>회원 관리</h2>
             <div className="table-responsive">
                 <table className="table table-hover align-middle">
                     <thead className="table-light">

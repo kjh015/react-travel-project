@@ -23,7 +23,8 @@ const BoardEditPage = () => {
         imagePaths: []
     });
 
-    const [images, setImages] = useState([]);
+    const [existingImages, setExistingImages] = useState([]);
+    const [newImages, setNewImages] = useState([]);
     const [imagePreviews, setImagePreviews] = useState([]);
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
@@ -41,8 +42,9 @@ const BoardEditPage = () => {
                 if (res.ok) {
                     res.json().then(data => {
                         setBoard(data);
-                        setImages(data.imagePaths);
-                        setImagePreviews(data.imagePaths);
+                        setExistingImages(data.imagePaths || []);
+                        setNewImages([]);
+                        setImagePreviews(data.imagePaths || []);
                     });
                 }
             }
@@ -100,20 +102,28 @@ const BoardEditPage = () => {
 
     const handleImageChange = (e) => {
         const files = Array.from(e.target.files);
-
-        // (옵션) 중복 파일 막기: 파일명 기준 예시
-        const newFiles = files.filter(f => !images.some(img => img.name === f.name));
-
-        setImages(prev => [...prev, ...newFiles]);
+        const allFilenames = new Set([
+            ...existingImages.map(path => path.split('/').pop()),
+            ...newImages.map(file => file.name),
+        ]);
+        const newFiles = files.filter(f => !allFilenames.has(f.name));
+        setNewImages(prev => [...prev, ...newFiles]);
         setImagePreviews(prev => [
             ...prev,
-            ...newFiles.map(file => URL.createObjectURL(file))
+            ...newFiles.map(file => URL.createObjectURL(file)),
         ]);
     };
 
-    const handleImageRemove = (idx) => {
-        setImages(prev => prev.filter((_, i) => i !== idx));
+    const handleExistingImageRemove = (idx) => {
+        setExistingImages(prev => prev.filter((_, i) => i !== idx));
         setImagePreviews(prev => prev.filter((_, i) => i !== idx));
+    };
+    const handleNewImageRemove = (idx) => {
+        setNewImages(prev => prev.filter((_, i) => i !== idx));
+        setImagePreviews(prev => {
+            const existLen = existingImages.length;
+            return prev.filter((_, i) => i !== (existLen + idx));
+        });
     };
 
     const handleSubmit = async (e) => {
@@ -122,15 +132,14 @@ const BoardEditPage = () => {
         const formData = new FormData();
         const boardBlob = new Blob([JSON.stringify(board)], { type: "application/json" });
         formData.append('board', boardBlob);
-        images.forEach((file) => {
-            formData.append('images', file);
-        });
+        formData.append('existingImages', JSON.stringify(existingImages));
+        newImages.forEach(file => formData.append('images', file));
 
         try {
             const response = await BoardApiClient.editBoard(formData);
             if (response.ok) {
                 setAlert({ show: true, message: "글 수정이 완료되었습니다.", type: "success" });
-                setTimeout(() => navigate('/board/list'), 500); // 0.5초 후 이동, 잔상 없음
+                setTimeout(() => navigate('/board/list'), 500);
             } else {
                 setAlert({ show: true, message: "글 수정에 실패하였습니다.", type: "danger" });
             }
@@ -258,15 +267,11 @@ const BoardEditPage = () => {
                                         className="form-control mb-3"
                                     />
                                     <div className="d-flex flex-wrap gap-3">
-                                        {imagePreviews.map((src, idx) => (
-                                            <div key={idx} style={{ position: 'relative' }}>
+                                        {existingImages.map((src, idx) => (
+                                            <div key={`exist-${idx}`} style={{ position: 'relative' }}>
                                                 <img
-                                                    src={
-                                                        src.startsWith('/images/')
-                                                            ? `http://14.63.178.161${src}`
-                                                            : src
-                                                    }
-                                                    alt={`preview-${idx}`}
+                                                    src={src.startsWith('/images/') ? `http://14.63.178.161${src}` : src}
+                                                    alt={`preview-exist-${idx}`}
                                                     style={{
                                                         width: 100,
                                                         height: 100,
@@ -282,7 +287,31 @@ const BoardEditPage = () => {
                                                     style={{
                                                         position: 'absolute', top: 5, right: 5, borderRadius: '50%', padding: '2px 7px', fontSize: "1.05rem"
                                                     }}
-                                                    onClick={() => handleImageRemove(idx)}
+                                                    onClick={() => handleExistingImageRemove(idx)}
+                                                >×</button>
+                                            </div>
+                                        ))}
+                                        {newImages.map((file, idx) => (
+                                            <div key={`new-${idx}`} style={{ position: 'relative' }}>
+                                                <img
+                                                    src={imagePreviews[existingImages.length + idx]}
+                                                    alt={`preview-new-${idx}`}
+                                                    style={{
+                                                        width: 100,
+                                                        height: 100,
+                                                        objectFit: 'cover',
+                                                        borderRadius: 14,
+                                                        border: '1px solid #eee',
+                                                        boxShadow: "0 2px 6px rgba(0,0,0,0.06)"
+                                                    }}
+                                                />
+                                                <button
+                                                    type="button"
+                                                    className="btn btn-danger btn-sm"
+                                                    style={{
+                                                        position: 'absolute', top: 5, right: 5, borderRadius: '50%', padding: '2px 7px', fontSize: "1.05rem"
+                                                    }}
+                                                    onClick={() => handleNewImageRemove(idx)}
                                                 >×</button>
                                             </div>
                                         ))}
@@ -298,7 +327,7 @@ const BoardEditPage = () => {
                                     id="content"
                                     rows="7"
                                     required
-                                    maxLength={1000}
+                                    maxLength={2000}
                                     placeholder="여행지에 대한 후기를 자유롭게 작성해 주세요 :)"
                                     value={board.content}
                                     onChange={handleChange}

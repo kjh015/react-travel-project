@@ -22,6 +22,9 @@ const titleGradient = {
     marginBottom: "30px"
 };
 
+// 비밀번호 보안 패턴 (8자 이상, 영문/숫자/특수문자)
+const passwordPattern = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]).{8,}$/;
+
 const PasswordChangePage = () => {
     const [curPwd, setCurrPwd] = useState('');
     const [newPwd, setNewPwd] = useState('');
@@ -29,6 +32,7 @@ const PasswordChangePage = () => {
     const [match, setMatch] = useState(true);
 
     const [alert, setAlert] = useState({ show: false, message: '', type: '' });
+    const [pwdValid, setPwdValid] = useState(null); // null | true | false
     const navigate = useNavigate();
 
     const handleConfirmPwdChange = (e) => {
@@ -41,6 +45,13 @@ const PasswordChangePage = () => {
         const value = e.target.value;
         setNewPwd(value);
         setMatch(value === confirmPwd);
+
+        // 실시간 패턴 체크
+        if (value.length === 0) {
+            setPwdValid(null);
+        } else {
+            setPwdValid(passwordPattern.test(value));
+        }
     };
 
     const handleSubmit = async (e) => {
@@ -48,6 +59,10 @@ const PasswordChangePage = () => {
         setAlert({ show: false, message: '', type: '' });
         if (!curPwd || !newPwd || !confirmPwd) {
             setAlert({ show: true, message: '모든 항목을 입력하세요.', type: 'danger' });
+            return;
+        }
+        if (!passwordPattern.test(newPwd)) {
+            setAlert({ show: true, message: '새 비밀번호가 보안 규칙에 맞지 않습니다.', type: 'danger' });
             return;
         }
         if (newPwd !== confirmPwd) {
@@ -66,7 +81,8 @@ const PasswordChangePage = () => {
                 setAlert({ show: true, message: '비밀번호가 변경되었습니다.', type: 'success' });
                 setTimeout(() => navigate('/'), 1300);
             } else {
-                setAlert({ show: true, message: '비밀번호 변경에 실패했습니다.', type: 'danger' });
+                const msg = await res.json();
+                setAlert({ show: true, message: msg.message, type: 'danger' });
             }
         } catch {
             setAlert({ show: true, message: '서버 오류가 발생했습니다.', type: 'danger' });
@@ -123,11 +139,19 @@ const PasswordChangePage = () => {
                             <label className="form-label">새 비밀번호</label>
                             <input
                                 type="password"
-                                className="form-control"
+                                className={`form-control ${newPwd.length > 0 ? (pwdValid ? 'is-valid' : 'is-invalid') : ''}`}
                                 value={newPwd}
                                 onChange={handleNewPwdChange}
                                 required
                             />
+                            {newPwd.length > 0 && (
+                                <div className={pwdValid ? "valid-feedback" : "invalid-feedback"}>
+                                    {pwdValid
+                                        ? "안전한 비밀번호입니다."
+                                        : "8자 이상, 영문/숫자/특수문자 각각 1개 이상 포함해야 합니다."
+                                    }
+                                </div>
+                            )}
                         </div>
                         <div className="mb-3">
                             <label className="form-label">새 비밀번호 확인</label>

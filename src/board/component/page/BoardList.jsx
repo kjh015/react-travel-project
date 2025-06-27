@@ -10,11 +10,11 @@ const BoardList = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searched, setSearched] = useState(false);
-  const [sort, setSort] = useState("popular");
-  const [sortName, setSortName] = useState("인기 순");
-  const [direction, setDirection] = useState("desc");
+  // const [sort, setSort] = useState("popular");
+  // const [sortName, setSortName] = useState("인기 순");
+  // const [direction, setDirection] = useState("desc");
   const [docCount, setDocCount] = useState(0);
-  const [page, setPage] = useState(0);
+  // const [page, setPage] = useState(0);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
   const categoryColors = {
     축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
@@ -24,12 +24,25 @@ const BoardList = () => {
     서울: "primary", 부산: "info", 제주: "success", 강원: "danger", 경기: "info", 기타: "warning",
     대구: "secondary", 인천: "dark", 전남: "secondary"
   };
+  const SORT_NAME_MAP = {
+    "popular-desc": "인기 순",
+    "ratingAvg-desc": "높은 평점 순",
+    "ratingAvg-asc": "낮은 평점 순",
+    "modifiedDate-desc": "최신 순",
+    "modifiedDate-asc": "오래된 순",
+    "viewCount-desc": "조회수 순",
+  };
+
 
   const location = useLocation();
   const params = new URLSearchParams(location.search);
   const category = params.get("category") || "";
   const region = params.get("region") || "";
   const keyword = params.get("keyword") || "";
+  const sort = params.get("sort") || "popular";
+  const direction = params.get("direction") || "desc";
+  const page = parseInt(params.get("page") || "0", 10);
+  const sortName = SORT_NAME_MAP[`${sort}-${direction}`] || "정렬";
   const navigate = useNavigate();
   const isLoggedIn = !!localStorage.getItem('accessToken');
   const pageCount = Math.ceil(docCount / 10);
@@ -40,7 +53,7 @@ const BoardList = () => {
     // setError(true);
     setSearched(true);
     getBoardList();
-  }, [location.search, sort, direction, page]);
+  }, [location.search]);
 
   const goToWrite = () => {
     if (isLoggedIn) {
@@ -103,17 +116,15 @@ const BoardList = () => {
   };
 
   const handleSort = ({ sort, direction, name }) => {
-    setDirection(direction);
-    setSort(sort);
-    setSortName(name);
-    setPage(0);
+    params.set("sort", sort);
+    params.set("direction", direction);
+    params.set("page", 0); // 정렬 바뀌면 1페이지로
+    navigate(`/board/list?${params.toString()}`);
   };
 
-  const handleNextPage = () => {
-    setPage(p => p + 1);
-  };
-  const handlePrevPage = () => {
-    setPage(p => (p > 0 ? p - 1 : 0));
+  const handlePage = (pageNum) => {
+    params.set("page", pageNum);
+    navigate(`/board/list?${params.toString()}`);
   };
 
   // 전체 페이지 배경색 + 내용 카드로 감싸기
@@ -210,13 +221,8 @@ const BoardList = () => {
                   boxShadow: "0 2px 10px 0 rgba(0,0,0,0.04)",
                   position: "relative"
                 }}
-                onClick={() => navigate(`/board/detail?no=${board.id}`)}
+                onClick={() => navigate(`/board/detail?no=${board.id}`, { state: { from: location.search } })}
                 tabIndex={0}
-                onKeyDown={e => {
-                  if (e.key === "Enter" || e.key === " ") {
-                    navigate(`/board/detail?no=${board.id}`);
-                  }
-                }}
               >
                 {/* 제목 + 날짜 우측 상단 */}
                 <div
@@ -258,12 +264,16 @@ const BoardList = () => {
                     <Badge bg={regionColors[board.region]} className="me-2">{board.region}</Badge>
                     <span style={{ color: "#222" }}>by {board.memberNickname}</span>
                   </div>
-                  <div>
-                    <span>조회수: {board.viewCount} </span>
-                    <span>별점: {board.ratingAvg}</span>
+                  <div className="d-flex align-items-center">
+                    <span className="badge text-dark d-flex align-items-center" style={{ fontSize: "1rem", fontWeight: 500 }}>
+                      <i className="bi bi-eye me-1" />
+                      {board.viewCount}
+                    </span>
+                    <span className="badge" style={{  color: "#ffc107", fontSize: "1rem", fontWeight: 500 }}>
+                      <i className="bi bi-star-fill me-1" />
+                      {board.ratingAvg ? board.ratingAvg.toFixed(1) : 0}
+                    </span>
                   </div>
-
-
                 </div>
               </div>
             ))}
@@ -275,7 +285,7 @@ const BoardList = () => {
           <button
             type="button"
             className="btn btn-outline-primary me-2 px-4"
-            onClick={handlePrevPage}
+            onClick={() => handlePage(page - 1)}
             disabled={page === 0}
           >
             이전
@@ -284,20 +294,22 @@ const BoardList = () => {
             <button
               key={num}
               className={`btn mx-1 px-3 ${page === num - 1 ? 'btn-primary' : 'btn-outline-primary'}`}
-              onClick={() => setPage(num - 1)}
+              onClick={() => handlePage(num - 1)}
               style={{ fontWeight: page === num - 1 ? 'bold' : undefined }}
             >
               {num}
             </button>
           ))}
+
           <button
             type="button"
             className="btn btn-outline-primary px-4"
-            onClick={handleNextPage}
+            onClick={() => handlePage(page + 1)}
             disabled={page === pageCount - 1 || pageCount === 0}
           >
             다음
           </button>
+
         </div>
       </div>
       <style>

@@ -19,7 +19,6 @@ class UserAuthentication {
         try {
             
             const payload = JSON.parse(atob(token.split('.')[1]));
-            console.log(payload);
             return payload.roles?.includes("ROLE_ADMIN");
         } catch (e) {
             console.error("토큰 디코딩 실패:", e);

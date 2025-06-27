@@ -35,10 +35,15 @@ const BoardDetailPage = () => {
   const [commentFlag, setCommentFlag] = useState(false);
 
   const [liked, setLiked] = useState(false);
-  const [shared, setShared] = useState(false);
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
 
-  const handleShare = () => setShared(prev => !prev);
+  const goToList = () => {
+    if (location.state && location.state.from) {
+      navigate(`/board/list${location.state.from}`);
+    } else {
+      navigate("/board/list");
+    }
+  };
 
   const handleLike = () => {
     const nickname = localStorage.getItem("nickname");
@@ -101,7 +106,7 @@ const BoardDetailPage = () => {
             setLiked(data);
           }
           else {
-            alert("Error");
+            setAlert({ show: true, message: "오류가 발생했습니다.", type: "danger" });
           }
         }
         )
@@ -187,13 +192,6 @@ const BoardDetailPage = () => {
         }}
       >
         <div className="container py-5 mt-5" style={{ minHeight: "100vh", maxWidth: "1600px" }}>
-          {/* 상단 게시판 목록 링크 */}
-          <div className="d-flex justify-content-center mb-3">
-            <Link to="/board/list" className="fw-bold text-dark text-decoration-none"
-              style={{ fontSize: "2rem", letterSpacing: "1px" }}>
-              여행지 목록
-            </Link>
-          </div>
 
           {/* 카드 전체를 크게, flexbox로 넓게 */}
           <div style={{
@@ -252,7 +250,7 @@ const BoardDetailPage = () => {
                 </div>
                 <div className="mb-2 text-muted" style={{ fontSize: "0.96rem" }}>
                   {/* 조회수 */}
-                  조회수: <span className="fw-semibold">{board.viewCount}</span> | 작성자: <span className="fw-semibold">{board.memberNickname}</span> |
+                  조회수: <span className="fw-semibold">{board.viewCount}</span> | 작성자: <span className="fw-semibold">{board.memberNickname ? board.memberNickname : 0}</span> |
 
 
                 </div>
@@ -297,11 +295,8 @@ const BoardDetailPage = () => {
                     style={{ textDecoration: "none" }}
                     aria-label={liked ? "찜 취소" : "찜하기"}
                   >
-                    <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"}>
-
-                      {/* 찜개수 */}
-                      <span className="fw-semibold">{board.favoriteCount}</span>
-                    </i>
+                    <i className={liked ? "bi bi-heart-fill" : "bi bi-heart"} />
+                    <span className="fw-semibold"> {board.favoriteCount ? board.favoriteCount : 0}</span>
                   </button>
 
 
@@ -335,6 +330,30 @@ const BoardDetailPage = () => {
             </Card>
           </div>
         </div>
+        {/* 페이지 우측 하단 고정 이동 버튼 */}
+        <button
+          onClick={goToList}
+          className="btn btn-lg btn-primary"
+          style={{
+            position: "fixed",
+            bottom: "36px",
+            right: "48px",
+            zIndex: 9999,
+            borderRadius: "50%",
+            width: "64px",
+            height: "64px",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            boxShadow: "0 6px 16px #0002",
+            fontSize: "2rem",
+          }}
+          title="목록으로 이동"
+        >
+          <i className="bi bi-list"></i>
+        </button>
+
+
       </div>
     </>
   );

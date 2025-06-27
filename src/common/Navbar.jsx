@@ -34,7 +34,6 @@ const Navbar = () => {
           }, 500);
         } else {
           setAlert({ show: true, message: "로그아웃 실패", type: "danger" });
-          console.log(res);
         }
       }
     );

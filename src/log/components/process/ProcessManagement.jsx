@@ -75,8 +75,17 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
             `}</style>
 
             <div className="d-flex align-items-center mb-4" style={{ minHeight: 40 }}>
-                <span style={{ color: "#34a853" }}>●</span>
-                <span style={{ marginLeft: "7px", fontSize: "1.25rem", fontWeight: 600, }}>프로세스 관리</span>
+                <h2 className="fw-bold" style={{ color: "#34a853", paddingBottom: "2px" }}>●</h2>
+                <h2 className="fw-bold" style={{ marginLeft: "7px" }}>프로세스 관리</h2>
+            </div>
+            <div className="d-flex justify-content-end  mb-3">
+                <button
+                    className="btn btn-success shadow-sm"
+                    style={{ borderRadius: "0.7rem", fontWeight: 600}}
+                    onClick={() => setShowModal(true)}
+                >
+                    + 프로세스 추가
+                </button>
             </div>
 
             {/* 중앙 상단 고정 경고창 */}
@@ -149,15 +158,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                     </tbody>
                 </table>
             </div>
-            <div className="d-flex justify-content-end">
-                <button
-                    className="btn btn-success shadow-sm"
-                    style={{ borderRadius: "0.7rem", fontWeight: 600, padding: "0.5rem 2rem" }}
-                    onClick={() => setShowModal(true)}
-                >
-                    + 프로세스 추가
-                </button>
-            </div>
+            
 
             {/* 모달 구조 */}
             {showModal && (

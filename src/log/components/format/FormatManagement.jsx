@@ -58,7 +58,7 @@ const FormatManagement = ({ processId, onMenuClick }) => {
                 }
             `}</style>
 
-            <h4 className="mb-4 fw-bold">포맷 목록</h4>
+            <h2 className="fw-bold mb-4">포맷 관리</h2>
 
             {/* 중앙 상단 고정 경고창 */}
             {alert && (

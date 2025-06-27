@@ -127,7 +127,7 @@ const MainPageCard = ({ boardId, score, rank }) => {
             {board.title}
           </div>
           <div className="d-flex justify-content-between align-items-center mt-2">
-            <small className="text-muted">분 전 · by <b>{board.memberNickname}</b></small>
+            <small className="text-muted">by <b>{board.memberNickname}</b></small>
           </div>
         </div>
       </div>

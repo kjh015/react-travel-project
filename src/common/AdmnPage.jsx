@@ -20,7 +20,7 @@ import UserAuthentication from '../sign/service/UserAuthentication';
 import { toast } from 'react-toastify';
 
 const AdmnPage = () => {
-  const [activeMenu, setActiveMenu] = useState('process');
+  const [activeMenu, setActiveMenu] = useState('board');
   const [processId, setProcessId] = useState(1);
   const navigate = useNavigate();
 

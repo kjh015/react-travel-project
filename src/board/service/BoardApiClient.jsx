@@ -16,6 +16,7 @@ class BoardApiClient {
     static getBoardListBySearch({ keyword, category, region, sort, direction, page }) {
         return fetch(BoardApiClient.SERVER_URL + BoardApiClient.GET_SEARCH + `?keyword=${keyword}&category=${category}&region=${region}&sort=${sort}&direction=${direction}&page=${page}`);
     }
+    
     static autoCompleteSearch({ keyword, signal }) {
         return fetch(
             BoardApiClient.SERVER_URL + BoardApiClient.GET_AUTOCOMPLETE + `?keyword=${encodeURIComponent(keyword)}`,

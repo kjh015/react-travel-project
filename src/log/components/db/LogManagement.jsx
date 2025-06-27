@@ -59,7 +59,7 @@ const LogManagement = ({ onMenuClick }) => {
     const nestedDedup = item => item.deduplication;
 
     return (
-        <div className="container mt-4" style={{ paddingTop: '50px' }}>
+        <div className="container" style={{ paddingTop: '80px' }}>
             {/* Alert 메시지 */}
             {alert.show && (
                 <div className={`alert alert-${alert.type} alert-dismissible fade show`} role="alert">
@@ -69,12 +69,12 @@ const LogManagement = ({ onMenuClick }) => {
                 </div>
             )}
 
-            <h1>결과 화면</h1>
+            <h2 className="fw-bold mb-4">결과 로그</h2>
 
             <div className="row">
                 <div className="col-12 mb-4">
                     <LogTable
-                        title="성공 로그"
+                        title="성공"
                         data={successList}
                         expandedRowId={expandedSuccessRowId}
                         setExpandedRowId={setExpandedSuccessRowId}
@@ -87,7 +87,7 @@ const LogManagement = ({ onMenuClick }) => {
                 </div>
                 <div className="col-12 mb-4">
                     <LogTable
-                        title="필터 실패 로그"
+                        title="필터 실패"
                         data={failFilterList}
                         expandedRowId={expandedFailFilterRowId}
                         setExpandedRowId={setExpandedFailFilterRowId}
@@ -100,7 +100,7 @@ const LogManagement = ({ onMenuClick }) => {
                 </div>
                 <div className="col-12 mb-4">
                     <LogTable
-                        title="중복제거 실패 로그"
+                        title="중복제거 실패"
                         data={failDedupList}
                         expandedRowId={expandedFailDedupRowId}
                         setExpandedRowId={setExpandedFailDedupRowId}

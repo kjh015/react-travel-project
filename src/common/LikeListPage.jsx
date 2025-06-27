@@ -16,6 +16,15 @@ const LikeListPage = () => {
     const navigate = useNavigate();
     const isLoggedIn = !!localStorage.getItem('accessToken');
 
+    const categoryColors = {
+        축제: "danger", 공연: "primary", 행사: "success", 체험: "warning",
+        쇼핑: "info", 자연: "success", 역사: "secondary", 가족: "dark", 음식: "warning",
+    };
+    const regionColors = {
+        서울: "primary", 부산: "info", 제주: "success", 강원: "danger", 경기: "info", 기타: "warning",
+        대구: "secondary", 인천: "dark", 전남: "secondary"
+    };
+
 
 
     useEffect(() => {
@@ -147,11 +156,22 @@ const LikeListPage = () => {
                                     </span>
                                 </div>
 
-                                {/* 지역/카테고리/작성자 */}
-                                <div className="d-flex align-items-center flex-wrap gap-2" style={{ fontSize: "0.97rem" }}>
-                                    <span style={{ color: "#222" }}>{board.memberNickname}</span>
-                                    <Badge bg="primary" className="me-1">{board.region}</Badge>
-                                    <Badge bg="secondary" className="me-2">{board.category}</Badge>
+                                <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between" style={{ fontSize: "0.97rem" }}>
+                                    <div>
+                                        <Badge bg={categoryColors[board.category]} className="me-1">{board.category}</Badge>
+                                        <Badge bg={regionColors[board.region]} className="me-2">{board.region}</Badge>
+                                        <span style={{ color: "#222" }}>by {board.memberNickname}</span>
+                                    </div>
+                                    <div className="d-flex align-items-center">
+                                        <span className="badge text-dark d-flex align-items-center" style={{ fontSize: "1rem", fontWeight: 500 }}>
+                                            <i className="bi bi-eye me-1" />
+                                            {board.viewCount}
+                                        </span>
+                                        <span className="badge" style={{ color: "#ffc107", fontSize: "1rem", fontWeight: 500 }}>
+                                            <i className="bi bi-star-fill me-1" />
+                                            {board.ratingAvg ? board.ratingAvg.toFixed(1) : 0}
+                                        </span>
+                                    </div>
                                 </div>
                             </div>
                         ))}

@@ -37,7 +37,7 @@ const CommentList = ({ comments = [], onRemoveComment, ratingAvg }) => {
                                     }}
                                 >★
                                 </span>
-                                <span className="fw-semibold"> {ratingAvg}</span>
+                                <span className="fw-semibold"> {ratingAvg ? ratingAvg.toFixed(1) : 0}</span>
                             </span>
                         </div>
                     </div>

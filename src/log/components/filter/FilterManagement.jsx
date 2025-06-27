@@ -72,7 +72,7 @@ const FilterManagement = ({ processId, onMenuClick }) => {
                 </div>
             )}
 
-            <h4 className="mb-4 fw-bold">필터링 목록</h4>
+            <h2 className="fw-bold mb-4">필터링 관리</h2>
 
             <div className="d-flex justify-content-end mb-3">
                 <button className="btn btn-primary me-2" onClick={() => setBuilderComp(true)}>

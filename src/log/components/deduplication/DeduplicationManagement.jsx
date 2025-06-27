@@ -82,7 +82,7 @@ const DeduplicationManagement = ({ processId, onMenuClick }) => {
                 }
       `}</style>
 
-      <h4 className="mb-4 fw-bold">중복 제거 목록</h4>
+      <h2 className="fw-bold mb-4">중복 제거 관리</h2>
 
       {/* 중앙 상단 고정 경고창 */}
       {alert && (

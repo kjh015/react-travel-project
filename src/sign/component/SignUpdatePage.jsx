@@ -84,10 +84,10 @@ const SignUpdatePage = () => {
                     navigate("/");
                 }, 500);
             } else {
-                setAlert({ show: true, message: "회원수정 실패", type: "danger" });
+                const msg = await res.json();
+                setAlert({ show: true, message: msg.message, type: "danger" });
             }
         } catch (error) {
-            console.error("에러 발생:", error);
             setAlert({ show: true, message: "에러가 발생했습니다.", type: "danger" });
         }
     }
@@ -160,42 +160,10 @@ const SignUpdatePage = () => {
                                 value={formData.email}
                                 onChange={handleChange}
                                 placeholder="you@example.com"
+                                disabled
                             />
                             <div className="invalid-feedback">유효한 이메일을 입력해주세요.</div>
-                        </div>
-                        {/* 성별 */}
-                        <div style={inputBoxStyle}>
-                            <label className="form-label fw-semibold mb-2">성별</label>
-                            <div>
-                                <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        id="gender-male"
-                                        value="남"
-                                        checked={formData.gender === "남"}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                    <label className="form-check-label" htmlFor="gender-male">남</label>
-                                </div>
-                                <div className="form-check form-check-inline">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="gender"
-                                        id="gender-female"
-                                        value="여"
-                                        checked={formData.gender === "여"}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                    <label className="form-check-label" htmlFor="gender-female">여</label>
-                                </div>
-                            </div>
-                            <div className="invalid-feedback">성별을 선택해주세요.</div>
-                        </div>
+                        </div>                        
                         <div className="d-flex gap-2">
                             <button
                                 type="button"

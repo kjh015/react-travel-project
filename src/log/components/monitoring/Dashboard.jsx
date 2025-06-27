@@ -43,17 +43,18 @@ const Dashboard = () => {
             <h2 className="text-center mb-5" style={{ fontWeight: 800, letterSpacing: '-1px', fontSize: 36, color: '#183153' }}>
                 주요 데이터 보기
             </h2>
-            <section style={sectionStyle}>
-                <div style={headlineStyle}>
-                    <span style={iconStyle}>🏆</span> 포맷별 Top5 인기 차트
-                </div>
-                <TopFormatDashboard />
-            </section>
+            
             <section style={sectionStyle}>
                 <div style={headlineStyle}>
                     <span style={iconStyle}>📈</span> 메인 페이지 방문자 현황 (시간/일/월)
                 </div>
                 <PageVisitStatsDashboard />
+            </section>
+            <section style={sectionStyle}>
+                <div style={headlineStyle}>
+                    <span style={iconStyle}>🏆</span> 포맷별 Top5 인기 차트
+                </div>
+                <TopFormatDashboard />
             </section>
         </div>
     );

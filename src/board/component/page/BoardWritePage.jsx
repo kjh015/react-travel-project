@@ -215,7 +215,7 @@ const BoardWritePage = () => {
                         {/* 사진 첨부 */}
                         <div className="mb-4">
                             <label className="form-label fw-semibold">
-                                사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(여러 장 첨부 가능)</span>
+                                사진 첨부 <span className="text-secondary" style={{ fontSize: "0.95em" }}>(필수)</span>
                             </label>
                             <div className="bg-light rounded-4 p-3 px-4 border">
                                 <input
@@ -262,7 +262,7 @@ const BoardWritePage = () => {
                                 id="content"
                                 rows="7"
                                 required
-                                maxLength={1000}
+                                maxLength={2000}
                                 placeholder="여행지에 대한 후기를 자유롭게 작성해 주세요 :)"
                                 value={board.content}
                                 onChange={handleChange}

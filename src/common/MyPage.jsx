@@ -15,7 +15,9 @@ const MyPage = () => {
     nickname: '',
     gender: '',
     roles: [],
-    regDate: ''
+    regDate: '',
+    birthDate: '',
+    age: ''
   });
   const navigate = useNavigate();
   const [alert, setAlert] = useState({ show: false, message: '', type: '' });
@@ -29,9 +31,7 @@ const MyPage = () => {
         setAlert({ show: false, message: '', type: '' });
         if (redirect) redirect();
       }, delay);
-
     }
-
   };
 
   // 회원 탈퇴 (모달에서 OK 클릭 시)
@@ -66,8 +66,18 @@ const MyPage = () => {
     getMember();
   }, []);
 
+  const formatDate = (isoString) => {
+    if (!isoString) return "";
+    return isoString.substring(0, 16).replace("T", " ");
+  };
+
   return (
-    <div style={{ background: 'linear-gradient(135deg,#eaf4fc 60%,#fff 100%)', minHeight: '100vh' }}>
+    <div style={{
+      background: 'linear-gradient(135deg,#eaf4fc 60%,#fff 100%)',
+      minHeight: '100vh',
+      paddingTop: 110,
+      paddingBottom: 36
+    }}>
       {/* Bootstrap Alert */}
       {alert.show && (
         <div className={`alert alert-${alert.type} text-center`}
@@ -103,71 +113,121 @@ const MyPage = () => {
         </div>
       )}
 
-      {/* 헤더 */}
-      <header className="container py-4 mb-3">
-        <span className="navbar-brand d-flex align-items-center text-primary fs-3 fw-bold justify-content-center">
-          <i className="bi bi-person-circle me-2 fs-2" />
-          My Page
-        </span>
-      </header>
-
-      {/* 메인 카드 */}
-      <main>
-        <div className="container d-flex justify-content-center align-items-center" >
-          <div className="card shadow rounded-4 p-4" style={{ maxWidth: 460, width: "100%", background: '#ffffffd9', border: 0 }}>
-            {/* 프로필 */}
-            <div className="d-flex flex-column align-items-center mb-4">
+      <div className="container mb-3">
+        <div className="row justify-content-center">
+          <div className="col-12 col-md-7 col-lg-5">
+            <div className="card shadow rounded-4 p-4 text-center border-0" style={{ background: "#fffdfcf2" }}>
+              {/* 프로필 이미지 + 닉네임 + 등급 */}
               <img
                 src={myPageImage}
                 alt="프로필"
-                className="rounded-circle shadow"
-                style={{ width: 112, height: 112, objectFit: 'cover', background: '#f4f6fa', border: '4px solid #dee7ee' }}
+                className="rounded-circle shadow-sm mx-auto d-block"
+                style={{
+                  width: 108, height: 108, objectFit: 'cover',
+                  background: '#f4f6fa', border: '4px solid #e3e8ee'
+                }}
               />
-              <div className="mt-3 text-center">
-
-                <h4 className="fw-bold mb-1" style={{ color: "#253e6b" }}>{member.nickname}</h4>
+              <h3 className="fw-bold mt-3 mb-1" style={{ color: "#274071", letterSpacing: "1px" }}>
+                {member.nickname || "-"}
+              </h3>
+              <div>
                 {member.roles?.includes("ROLE_ADMIN") ?
-                  <span className="badge rounded-pill bg-success-subtle text-success">관리자</span>
+                  <span className="badge rounded-pill bg-success-subtle text-success px-3">관리자</span>
                   :
-                  <span className="badge rounded-pill bg-primary-subtle text-primary">일반 회원</span>
+                  <span className="badge rounded-pill bg-primary-subtle text-primary px-3">일반 회원</span>
                 }
-                {/* 필요시 등급/이메일 등 표시 */}
-              </div >
-            </div >
+              </div>
 
-            {/* 버튼 영역 */}
-            < div className="d-flex justify-content-between mb-4" >
-              <Link to="/sign/update" className="btn btn-outline-primary rounded-pill w-100 me-2">
-                <i className="bi bi-pencil-square me-1" /> 정보수정
-              </Link>
-              <Link to="/board/favorite-list" className="btn btn-outline-danger rounded-pill w-100 mx-2">
-                <i className="bi bi-heart-fill me-1" /> 찜목록
-              </Link>
-              <Link to="/board/my-article" className="btn btn-outline-info rounded-pill w-100 ms-2 text-dark">
-                <i className="bi bi-geo-alt-fill me-1" /> 여행지관리
-              </Link>
-            </div >
+              {/* 회원 정보 */}
+              <div className="my-4">
+                <div className="row g-2 justify-content-center">
+                  <div className="col-12">
+                    <div className="d-flex align-items-center bg-light rounded-3 px-3 py-2 shadow-sm mb-2">
+                      <i className="bi bi-envelope-fill text-primary me-2" />
+                      <span className="text-secondary small fw-semibold me-2">이메일</span>
+                      <span
+                        className="fw-bold ms-auto text-dark"
+                        style={{
+                          overflow: 'hidden',
+                          whiteSpace: 'nowrap',
+                          textOverflow: 'ellipsis',
+                          display: 'block',
+                          textAlign: 'right'
+                        }}
+                        title={member.email}
+                      >
+                        {member.email || '-'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-12">
+                    <div className="d-flex align-items-center bg-light rounded-3 px-3 py-2 shadow-sm mb-2">
+                      <i className="bi bi-calendar-check-fill text-danger me-2" />
+                      <span className="text-secondary small fw-semibold me-2">가입일</span>
+                      <span className="ms-auto fw-bold">
+                        {member.regDate ? formatDate(member.regDate) : '-'}
+                      </span>
+                    </div>
+                  </div>
+                  <div className="col-6 col-sm-3">
+                    <div className="d-flex align-items-center bg-light rounded-3 px-3 py-2 shadow-sm mb-2">
+                      <i className="bi bi-gender-ambiguous text-info me-2" />
+                      <span className="text-secondary small fw-semibold me-2">성별</span>
+                      <span className="ms-auto fw-bold">{member.gender || '-'}</span>
+                    </div>
+                  </div>
+                  <div className="col-6 col-sm-3">
+                    <div className="d-flex align-items-center bg-light rounded-3 px-3 py-2 shadow-sm mb-2">
+                      <i className="bi bi-person-badge-fill text-warning me-2" />
+                      <span className="text-secondary small fw-semibold me-2">나이</span>
+                      <span className="ms-auto fw-bold">{member.age === -1 ? '-' : member.age}</span>
+                    </div>
+                  </div>
+                  <div className="col-12 col-sm-6">
+                    <div className="d-flex align-items-center bg-light rounded-3 px-3 py-2 shadow-sm mb-2">
+                      <i className="bi bi-calendar-date text-success me-2" />
+                      <span className="text-secondary small fw-semibold me-2">생년월일</span>
+                      <span className="ms-auto fw-bold">
+                        {member.birthDate ? member.birthDate.substring(0, 10) : '-'}
+                      </span>
+                    </div>
+                  </div>
 
-            {/* 작성글/댓글 등 추가 메뉴 */}
-            < div className="d-flex justify-content-center gap-2 mb-4" >
-              <Link to="/page/chckmycom" className="btn btn-light border rounded-pill px-3 shadow-sm">
-                <i className="bi bi-chat-text me-1" /> 작성 댓글
-              </Link>
-            </div >
+                </div>
+              </div>
+              {/* 주요 기능 버튼 카드 */}
+              <div className="d-flex justify-content-between mb-2 gap-3">
+                <Link to="/board/favorite-list" className="btn btn-outline-danger rounded-pill w-100">
+                  <i className="bi bi-heart-fill me-1" /> 찜 목록
+                </Link>
+                <Link to="/board/my-article" className="btn btn-outline-info rounded-pill w-100 text-dark">
+                  <i className="bi bi-geo-alt-fill me-1" /> 여행지 관리
+                </Link>
+                <Link to="/page/chckmycom" className="btn btn-light border rounded-pill w-100">
+                  <i className="bi bi-chat-text me-1" /> 작성 댓글
+                </Link>
+              </div>
+              <hr style={{ marginTop: "2rem" }} />
 
-            <hr className="my-3" />
+              {/* 정보수정/탈퇴 버튼 */}
+              <div className="gap-2 mt-3">
+                <Link to="/sign/update" className="btn btn-outline-primary rounded-pill px-3 shadow-sm me-2">
+                  <i className="bi bi-pencil-square me-1" /> 정보수정
+                </Link>
+                <button className="btn btn-outline-danger rounded-pill px-3 shadow-sm"
+                  onClick={() => setShowConfirm(true)}
+                >
+                  <i className="bi bi-person-x me-1" /> 회원 탈퇴
+                </button>
+              </div>
 
-            {/* 탈퇴/로그아웃 */}
-            <div className="d-flex flex-column gap-2">
-              <button className="btn btn-outline-danger rounded-pill" onClick={() => setShowConfirm(true)}>
-                <i className="bi bi-person-x me-1" /> 회원 탈퇴
-              </button>
 
             </div>
-          </div >
-        </div >
-      </main >
-    </div >
+          </div>
+        </div>
+      </div>
+
+    </div>
   );
 };
 
