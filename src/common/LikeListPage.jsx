@@ -121,7 +121,7 @@ const LikeListPage = () => {
                     </div>
                 ) : boards.length === 0 ? (
                     <div className="text-center text-secondary py-5 fs-5">
-                        게시글이 없습니다. 검색해주세요.
+                        게시글이 없습니다.
                     </div>
                 ) : (
                     <div className="d-flex flex-column gap-4">

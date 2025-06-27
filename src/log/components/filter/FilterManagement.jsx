@@ -33,8 +33,15 @@ const FilterManagement = ({ processId, onMenuClick }) => {
     }, [builderComp]);
 
     const filterDate = (isoString) => {
-        if (!isoString) return "-";
-        return isoString.substring(0, 16).replace("T", " ");
+        if (!isoString) return "";
+        const date = new Date(isoString + "+09:00");
+        return (
+            date.getFullYear() + "-" +
+            String(date.getMonth() + 1).padStart(2, "0") + "-" +
+            String(date.getDate()).padStart(2, "0") + " " +
+            String(date.getHours()).padStart(2, "0") + ":" +
+            String(date.getMinutes()).padStart(2, "0")
+        );
     };
 
     return (

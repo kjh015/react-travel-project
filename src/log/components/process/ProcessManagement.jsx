@@ -43,11 +43,18 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
 
     const processDate = (isoString) => {
         if (!isoString) return "";
-        return isoString.substring(0, 16).replace("T", " ");
+        const date = new Date(isoString + "+09:00");
+        return (
+            date.getFullYear() + "-" +
+            String(date.getMonth() + 1).padStart(2, "0") + "-" +
+            String(date.getDate()).padStart(2, "0") + " " +
+            String(date.getHours()).padStart(2, "0") + ":" +
+            String(date.getMinutes()).padStart(2, "0")
+        );
     };
 
     return (
-        <div  style={{ marginTop: '80px' }}>
+        <div style={{ marginTop: '80px' }}>
             <style>{`
                 .process-name-hover {
                     font-weight: bold;
@@ -81,7 +88,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
             <div className="d-flex justify-content-end  mb-3">
                 <button
                     className="btn btn-success shadow-sm"
-                    style={{ borderRadius: "0.7rem", fontWeight: 600}}
+                    style={{ borderRadius: "0.7rem", fontWeight: 600 }}
                     onClick={() => setShowModal(true)}
                 >
                     + 프로세스 추가
@@ -158,7 +165,7 @@ const ProcessManagement = ({ setPID, onMenuClick }) => {
                     </tbody>
                 </table>
             </div>
-            
+
 
             {/* 모달 구조 */}
             {showModal && (

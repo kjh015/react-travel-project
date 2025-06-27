@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import SignApiClient from '../sign/service/SignApiClient';
 import { useEffect, useState } from 'react';
 import UserAuthentication from '../sign/service/UserAuthentication';
+import { toast } from 'react-toastify';
 
 // 프로필 이미지 예시
 const myPageImage = "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png";
@@ -38,15 +39,13 @@ const MyPage = () => {
   const handleDelete = () => {
     setShowConfirm(false);
     SignApiClient.withdraw().then(res => {
-      res.text().then(message => {
-        if (res.ok) {
+      if (res.ok) {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('nickname');
-          showAlert(message, "success", 500, () => window.location.href = '/');
+          toast.info("회원 탈퇴가 완료되었습니다.");
         } else {
-          showAlert(message, "danger");
+          toast.error("회원 탈퇴에 실패하였습니다.")
         }
-      });
     });
   };
   const getMember = () => {

@@ -264,7 +264,7 @@ const Navbar = () => {
                       opacity: 0.7,
                       background: "rgba(100, 100, 180, 0.16)"
                     }}>
-                    <i className="bi bi-person-badge me-2"></i>ID: {curUser}
+                    <i className="bi bi-person-badge me-2"></i>닉네임: {curUser}
                   </span>
                 }
 
