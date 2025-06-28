@@ -69,7 +69,7 @@ const CommentList = ({ comments = [], onRemoveComment, ratingAvg }) => {
                                     }
 
                                     <div className="d-flex align-items mb-2">
-                                        <strong className="me-2">{c.nickname}</strong>
+                                        <strong className="me-2">{c.nickname || "(탈퇴한 회원)"}</strong>
                                         <span style={{ fontSize: "0.96rem", color: "#aaa" }}>
                                             {c.rating > 0 && (
                                                 <div className="mb-1">{renderStarsStatic(c.rating)}</div>
