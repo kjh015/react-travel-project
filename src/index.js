@@ -46,7 +46,7 @@ function insertMatomoScript() {
 
     // 데이터레이어에 userId 전달
     window._mtm = window._mtm || [];
-    window._mtm.push({ userId });
+    window._mtm.push({ userId, age: -1, role: "user" });
 
     // Matomo Tag Manager 스크립트 삽입
     const script = document.createElement('script');
