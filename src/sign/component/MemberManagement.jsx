@@ -73,8 +73,9 @@ const MemberManagement = () => {
                                 </td>
                             </tr>
                         )}
-                        {memberList.map((member, idx) => {
-                            member.id !== 10 &&
+                        {memberList
+                            .filter(member => member.id !== 10)
+                            .map((member, idx) => (
                                 <tr key={member.id}>
                                     <td>{idx + 1}</td>
                                     <td>{member.loginId}</td>
@@ -95,7 +96,7 @@ const MemberManagement = () => {
                                         </button>
                                     </td>
                                 </tr>
-                        })}
+                            ))}
                     </tbody>
                 </table>
             </div>
