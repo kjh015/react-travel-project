@@ -73,28 +73,29 @@ const MemberManagement = () => {
                                 </td>
                             </tr>
                         )}
-                        {memberList.map((member, idx) => (
-                            <tr key={member.id}>
-                                <td>{idx + 1}</td>
-                                <td>{member.loginId}</td>
-                                <td>{member.nickname}</td>
-                                <td>{member.email}</td>
-                                <td>{member.gender}</td>
-                                <td>{formatDate(member.regDate)}</td>
-                                <td>{member.roles?.includes("ROLE_ADMIN") ? "관리자" : "회원"}</td>
-                                <td className='text-center'>
-                                    <button
-                                        className="btn btn-sm btn-outline-success"
-                                        title="관리자 위임"                                        
-                                        onClick={() => delegateAdmin({ loginId: member.loginId })}
-                                        disabled={member.roles?.includes("ROLE_ADMIN")}
-                                        
-                                    >
-                                        <FaUserShield />
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                        {memberList.map((member, idx) => {
+                            member.id !== 10 &&
+                                <tr key={member.id}>
+                                    <td>{idx + 1}</td>
+                                    <td>{member.loginId}</td>
+                                    <td>{member.nickname}</td>
+                                    <td>{member.email}</td>
+                                    <td>{member.gender}</td>
+                                    <td>{formatDate(member.regDate)}</td>
+                                    <td>{member.roles?.includes("ROLE_ADMIN") ? "관리자" : "회원"}</td>
+                                    <td className='text-center'>
+                                        <button
+                                            className="btn btn-sm btn-outline-success"
+                                            title="관리자 위임"
+                                            onClick={() => delegateAdmin({ loginId: member.loginId })}
+                                            disabled={member.roles?.includes("ROLE_ADMIN")}
+
+                                        >
+                                            <FaUserShield />
+                                        </button>
+                                    </td>
+                                </tr>
+                        })}
                     </tbody>
                 </table>
             </div>
