@@ -178,14 +178,11 @@ const MainPage = () => {
 
 
       {/* 지역/카테고리별 */}
-      <div >
+      <div style={{maxWidth: "1400px",}}>
         <div style={{ marginTop: "8rem" }} >
           <h4 style={{
-            textAlign: "start",
-              width: "100%",
-              margin: "0 0 26px 0",
             paddingLeft: "7rem",
-            // textAlign: "left",
+            textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
             fontWeight: 700,

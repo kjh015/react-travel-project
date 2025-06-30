@@ -42,7 +42,7 @@ const MainPageCardsLayout2 = ({ top5Data }) => {
             className="d-flex justify-content-center align-items-center"
             style={{
                 width: "100%",
-                // maxWidth: "1400px",
+                maxWidth: "1400px",
                 margin: "0 auto",           // ★ 화면 가로 중앙
                 gap: "24px",                // 카드 사이 여백
                 overflowX: "auto",          // 스크롤
