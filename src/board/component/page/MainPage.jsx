@@ -180,7 +180,7 @@ const MainPage = () => {
       {/* 지역/카테고리별 */}
       <div >
         <div style={{ marginTop: "8rem" }} >
-          <h4 style={{
+          <h2 style={{
             paddingLeft: "7rem",
             width: "100%",
             textAlign: "start",
@@ -188,10 +188,11 @@ const MainPage = () => {
             color: "#b7aaff",
             fontWeight: 700,
             fontSize: "1.55rem",
+            margin: "0 0 26px 0",
             letterSpacing: "-0.03em",
             marginBottom: "1.4rem"
           }}
-            className="text-left mb-4">실시간 인기 카테고리</h4>
+            className="text-left mb-4">실시간 인기 카테고리</h2>
           <MainPageCardsLayout2 top5Data={top5Category} />
         </div>
         <div style={{ marginTop: "6rem" }}>
