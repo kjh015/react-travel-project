@@ -27,9 +27,6 @@ const MainPage = () => {
     evt.onmessage = (e) => {
 
       const data = JSON.parse(e.data);
-      console.log(e.data);
-      console.log(data);
-
       setTop5Board(data.top5Boards);       // 게시글 인기 Top5
       setTop5Region(data.top5Regions);
       setTop5Category(data.top5Categories); // 카테고리 인기 Top5
