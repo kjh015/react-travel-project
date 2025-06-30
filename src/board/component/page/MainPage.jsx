@@ -182,7 +182,7 @@ const MainPage = () => {
         <div style={{ marginTop: "8rem" }} >
           <h4 style={{
             paddingLeft: "7rem",
-            textAlign: "left",
+            textAlign: "start",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
             fontWeight: 700,
