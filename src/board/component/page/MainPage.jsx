@@ -179,7 +179,7 @@ const MainPage = () => {
 
       {/* 지역/카테고리별 */}
       <div >
-        <div style={{ marginTop: "8rem" }} >
+        <div style={{ marginTop: "8rem", marginLeft: "12rem" }} >
           <h4 style={{
             paddingLeft: "7rem",
             textAlign: "left",
