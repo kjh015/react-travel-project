@@ -181,6 +181,9 @@ const MainPage = () => {
       <div >
         <div style={{ marginTop: "8rem" }} >
           <h4 style={{
+            textAlign: "start",
+              width: "100%",
+              margin: "0 0 26px 0",
             paddingLeft: "7rem",
             textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
@@ -190,7 +193,7 @@ const MainPage = () => {
             letterSpacing: "-0.03em",
             marginBottom: "1.4rem"
           }}
-            className="text-left mb-4">실시간 인기 카테고리</h4>
+            >실시간 인기 카테고리</h4>
           <MainPageCardsLayout2 top5Data={top5Category} />
         </div>
         <div style={{ marginTop: "6rem"}}>
