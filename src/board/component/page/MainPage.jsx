@@ -181,7 +181,7 @@ const MainPage = () => {
       <div >
         <div style={{ marginTop: "8rem" }} >
           <h4 style={{            
-            paddingLeft: "18rem",
+            paddingLeft: "19rem",
             textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
@@ -195,7 +195,7 @@ const MainPage = () => {
         </div>
         <div style={{ marginTop: "6rem"}}>
           <h4 style={{
-            paddingLeft: "18rem",
+            paddingLeft: "19rem",
             textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
