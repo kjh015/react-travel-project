@@ -180,8 +180,8 @@ const MainPage = () => {
       {/* 지역/카테고리별 */}
       <div >
         <div style={{ marginTop: "8rem" }} >
-          <h4 style={{
-            paddingLeft: "7rem",
+          <h4 style={{            
+            paddingLeft: "12rem",
             textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
