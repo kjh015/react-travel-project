@@ -185,7 +185,7 @@ const MainPage = () => {
               width: "100%",
               margin: "0 0 26px 0",
             paddingLeft: "7rem",
-            textAlign: "left",
+            // textAlign: "left",
             fontFamily: "'Montserrat', 'Gowun Dodum', sans-serif",
             color: "#b7aaff",
             fontWeight: 700,
